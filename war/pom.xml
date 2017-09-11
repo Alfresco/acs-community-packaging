@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>5.3-SNAPSHOT</version>
+        <version>fix_MNT-18404_ImageMagick_fails_on_windows-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
