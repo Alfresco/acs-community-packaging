@@ -62,7 +62,6 @@
                             <type>jar</type>
                             <overWrite>false</overWrite>
                             <outputDirectory>${project.build.directory}/connector</outputDirectory>
-                            <destFileName>mysql.jar</destFileName>
                         </artifactItem>
                         <artifactItem>
                             <groupId>org.postgresql</groupId>
@@ -71,7 +70,6 @@
                             <type>jar</type>
                             <overWrite>false</overWrite>
                             <outputDirectory>${project.build.directory}/connector</outputDirectory>
-                            <destFileName>postgres.jar</destFileName>
                         </artifactItem>
                     </artifactItems>
                 </configuration>
