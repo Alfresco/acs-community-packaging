@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>6.0.b_fix_MNT-18275_bulk-SNAPSHOT</version>
+        <version>6.0.b_fix_MNT-18275_bulk-3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
