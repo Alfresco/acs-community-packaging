@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>6.0.1_feature_REPO-2908-jod-1</version>
+        <version>6.0.1_feature_REPO-2908-jod-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
