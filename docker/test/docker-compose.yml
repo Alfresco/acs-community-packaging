@@ -17,16 +17,13 @@ services:
                 -Dalfresco.restApi.basicAuthScheme=true
                 -Dimap.server.enabled=true
                 -Dftp.enabled=true
-                -Dftp.dataPortFrom=30000
-                -Dftp.dataPortTo=30099
                 "
         ports:
             - 8080:8080
             - 445:445
             - 143:143
-            - "20-21:20-21"
-            - "30000-30099:30000-30099"
-
+            - "21:21"
+ 
     postgres:
         image: docker.io/library/postgres:9.4.12
         environment:
