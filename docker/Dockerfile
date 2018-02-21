@@ -1,6 +1,6 @@
 FROM quay.io/alfresco/alfresco-base-repository:0.1.1
 
-RUN mkdir -p /usr/local/tomcat/shared/classes && \
+RUN mkdir -p /usr/local/tomcat/shared/classes/alfresco/extension && \
     mkdir /usr/local/tomcat/alfresco-mmt
 
 RUN touch /usr/local/tomcat/shared/classes/alfresco-global.properties
@@ -10,6 +10,7 @@ COPY target/connector/* /usr/local/tomcat/lib/
 COPY target/alfresco-mmt/* /usr/local/tomcat/alfresco-mmt/
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 COPY target/server-root/* /usr/local/tomcat/webapps
+COPY resources/extension/* /usr/local/tomcat/shared/classes/alfresco/extension/
 
 RUN sed -i "s/shared.loader=/shared.loader=\${catalina.base}\/shared\/classes/" /usr/local/tomcat/conf/catalina.properties
 

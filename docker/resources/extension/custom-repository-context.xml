@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!--
+      Override metadata extraction bean from action-services-context.xml to turn on the taggingService and enableStringTagging
+      This will allow keywords to get mapped to tags.
+   -->
+  <bean id="extract-metadata" class="org.alfresco.repo.action.executer.ContentMetadataExtracter" parent="action-executer">
+    <property name="nodeService">
+      <ref bean="NodeService" />
+    </property>
+    <property name="contentService">
+      <ref bean="ContentService" />
+    </property>
+    <property name="dictionaryService">
+      <ref bean="dictionaryService" />
+    </property>
+    <property name="taggingService">
+        <ref bean="TaggingService" />
+    </property>
+    <property name="metadataExtracterRegistry">
+      <ref bean="metadataExtracterRegistry" />
+    </property>
+    <property name="applicableTypes">
+      <list>
+        <value>{http://www.alfresco.org/model/content/1.0}content</value>
+      </list>
+    </property>
+    <property name="carryAspectProperties">
+      <value>true</value>
+    </property>
+    <property name="enableStringTagging">
+      <value>true</value>
+    </property>
+  </bean>
+
+  <bean id="extractor.auto" class="org.alfresco.repo.content.metadata.TikaAutoMetadataExtracter"
+        parent="baseMetadataExtracter">
+    <constructor-arg>
+      <ref bean="tikaConfig"/>
+    </constructor-arg>
+    <property name="inheritDefaultMapping">
+      <value>false</value>
+    </property>
+    <property name="mappingProperties">
+      <bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location">
+          <value>classpath:alfresco/extension/metadataExtracter.properties</value>
+        </property>
+      </bean>
+    </property>
+  </bean>
+</beans>
