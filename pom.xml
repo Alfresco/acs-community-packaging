@@ -42,7 +42,7 @@
 
         <dependency.alfresco-repository.version>spring5-rc2</dependency.alfresco-repository.version>
         <dependency.alfresco-remote-api.version>spring5-rc1</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-trashcan-cleaner.version>2.2</dependency.alfresco-trashcan-cleaner.version>
+        <dependency.alfresco-trashcan-cleaner.version>spring5-rc1</dependency.alfresco-trashcan-cleaner.version>
         <dependency.alfresco-core.version>spring5-rc8</dependency.alfresco-core.version>
         <dependency.alfresco-data-model.version>7.2</dependency.alfresco-data-model.version>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
