@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>6.0.4-SNAPSHOT</version>
+    <version>6.0.4-testRC2</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -46,7 +46,7 @@
         <connection>scm:git:git@github.com:Alfresco/acs-community-packaging.git</connection>
         <developerConnection>scm:git:git@github.com:Alfresco/acs-community-packaging.git</developerConnection>
         <url>https://github.com/Alfresco/acs-community-packaging</url>
-        <tag>HEAD</tag>
+        <tag>acs-community-packaging-6.0.4-testRC2</tag>
     </scm>
 
     <distributionManagement>
@@ -63,7 +63,7 @@
     <properties>
         <!-- Set to "Community Early Access" to add to the version.edition property in version.properties -->
         <version.edition>Community</version.edition>
-        <bamboo.tag.name></bamboo.tag.name>
+        <bamboo.tag.name />
 
         <dependency.alfresco-core.version>7.0</dependency.alfresco-core.version>
         <dependency.alfresco-data-model.version>8.0</dependency.alfresco-data-model.version>
