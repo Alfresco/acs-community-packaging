@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>6.0.5-SNAPSHOT</version>
+    <version>6.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -63,7 +63,7 @@
     <properties>
         <!-- Set to "Community Early Access" to add to the version.edition property in version.properties -->
         <version.edition>Community</version.edition>
-        <bamboo.tag.name />
+        <image.tag>local</image.tag>
 
         <dependency.alfresco-core.version>7.0</dependency.alfresco-core.version>
         <dependency.alfresco-data-model.version>8.0</dependency.alfresco-data-model.version>
