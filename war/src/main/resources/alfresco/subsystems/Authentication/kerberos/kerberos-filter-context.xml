@@ -151,44 +151,4 @@
          <value>${kerberos.authentication.sso.login.page.link}</value>
       </property>
    </bean>
-   
-   <bean id="sharepointAuthenticationHandler" class="org.alfresco.web.sharepoint.auth.kerberos.KerberosAuthenticationHandler">
-      <property name="active">
-         <value>${kerberos.authentication.sso.enabled}</value>
-      </property>
-      <property name="serverConfiguration">
-         <ref bean="fileServerConfiguration" />
-      </property>
-      <property name="authenticationService">
-         <ref bean="AuthenticationService" />
-      </property>
-      <property name="authenticationComponent">
-         <ref bean="AuthenticationComponent" />
-      </property>
-      <property name="authenticationListener">
-         <ref bean="sharepointAuthenticationListener" />
-      </property>
-      <property name="personService">
-         <ref bean="personService" />
-      </property>
-      <property name="nodeService">
-         <ref bean="NodeService" />
-      </property>
-      <property name="transactionService">
-         <ref bean="TransactionService" />
-      </property>
-      <property name="realm">
-         <value>${kerberos.authentication.realm}</value>
-      </property>
-      <property name="password">
-         <value>${kerberos.authentication.http.password}</value>
-      </property>
-      <property name="jaasConfigEntryName">
-         <value>${kerberos.authentication.http.configEntryName}</value>
-      </property>
-      <property name="stripKerberosUsernameSuffix">
-         <value>${kerberos.authentication.stripUsernameSuffix}</value>
-      </property>
-   </bean>
-   
 </beans>

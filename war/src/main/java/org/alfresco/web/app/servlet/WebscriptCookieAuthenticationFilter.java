@@ -35,11 +35,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.alfresco.repo.SessionUser;
 import org.alfresco.repo.web.filter.beans.DependencyInjectedFilter;
 import org.alfresco.repo.webdav.auth.BaseAuthenticationFilter;
-import org.alfresco.service.cmr.repository.NodeRef;
-import org.alfresco.web.bean.repository.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -83,16 +80,6 @@ public class WebscriptCookieAuthenticationFilter extends BaseAuthenticationFilte
         {
             chain.doFilter(sreq, sresp);
         }
-    }
-
-    @Override
-    protected SessionUser createUserObject(String userName, String ticket, NodeRef personNode, NodeRef homeSpaceRef)
-    {
-        // Create a web client user object
-        User user = new User( userName, ticket, personNode);
-        user.setHomeSpaceId( homeSpaceRef.getId());
-        
-        return user;
     }
     
     @Override

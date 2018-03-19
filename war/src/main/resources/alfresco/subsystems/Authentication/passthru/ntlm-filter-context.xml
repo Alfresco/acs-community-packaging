@@ -127,35 +127,4 @@
          <ref bean="passthru_SSOFallbackBasicAuthenticationDriver"/>
       </property>
    </bean>
-
-   <bean id="sharepointAuthenticationHandler" class="org.alfresco.web.sharepoint.auth.ntlm.NtlmAuthenticationHandler">
-      <property name="active">
-         <value>${ntlm.authentication.sso.enabled}</value>
-      </property>
-      <property name="serverConfiguration">
-         <ref bean="fileServerConfiguration" />
-      </property>
-      <property name="authenticationService">
-         <ref bean="AuthenticationService" />
-      </property>
-      <property name="authenticationComponent">
-         <ref bean="AuthenticationComponent" />
-      </property>
-      <property name="authenticationListener">
-         <ref bean="sharepointAuthenticationListener"/>
-      </property>
-      <property name="personService">
-         <ref bean="personService" />
-      </property>
-      <property name="nodeService">
-         <ref bean="NodeService" />
-      </property>
-      <property name="transactionService">
-         <ref bean="TransactionService" />
-      </property>
-      <property name="mapUnknownUserToGuest">
-         <value>${ntlm.authentication.mapUnknownUserToGuest}</value>
-      </property>
-   </bean>
-
 </beans>

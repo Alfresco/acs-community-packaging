@@ -26,18 +26,14 @@
 package org.alfresco.web.app.servlet;
 
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.alfresco.repo.SessionUser;
 import org.alfresco.repo.web.auth.WebCredentials;
 import org.alfresco.repo.webdav.auth.BaseKerberosAuthenticationFilter;
-import org.alfresco.service.cmr.repository.NodeRef;
-import org.alfresco.web.bean.repository.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -66,20 +62,6 @@ public class KerberosAuthenticationFilter extends BaseKerberosAuthenticationFilt
         setUserAttributeName(AuthenticationHelper.AUTHENTICATION_USER);
     }
 
-        
-    /* (non-Javadoc)
-     * @see org.alfresco.repo.webdav.auth.BaseAuthenticationFilter#createUserObject(java.lang.String, java.lang.String, org.alfresco.service.cmr.repository.NodeRef, org.alfresco.service.cmr.repository.NodeRef)
-     */
-    @Override
-    protected SessionUser createUserObject(String userName, String ticket, NodeRef personNode, NodeRef homeSpaceRef)
-    {
-		// Create a web client user object
-		User user = new User(userName, ticket, personNode);
-		user.setHomeSpaceId(homeSpaceRef.getId());
-		
-		return user;
-	}
-
     /*
      * (non-Javadoc)
      * @see org.alfresco.repo.webdav.auth.BaseSSOAuthenticationFilter#onValidate(javax.servlet.ServletContext,
@@ -89,7 +71,7 @@ public class KerberosAuthenticationFilter extends BaseKerberosAuthenticationFilt
    protected void onValidate(ServletContext sc, HttpServletRequest req, HttpServletResponse res, WebCredentials credentials)
    {
         super.onValidate(sc, req, res, credentials);
-        
+
         // Set the locale using the session
         AuthenticationHelper.setupThread(sc, req, res, !req.getServletPath().equals("/wcs") && !req.getServletPath().equals("/wcservice"));
     }
@@ -125,7 +107,17 @@ public class KerberosAuthenticationFilter extends BaseKerberosAuthenticationFilt
     protected void writeLoginPageLink(ServletContext context, HttpServletRequest req, HttpServletResponse resp)
             throws IOException
     {
-        BaseServlet.redirectToLoginPage(req, resp, context, false);
+        String redirectURL = req.getRequestURI();
+        resp.setContentType("text/html; charset=UTF-8");
+        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+        final PrintWriter out = resp.getWriter();
+        out.println("<html><head>");
+        // Remove the auto refresh to avoid refresh loop, MNT-16931
+//         out.println("<meta http-equiv=\"Refresh\" content=\"0; url=" + redirectURL + "\">");
+        out.println("</head><body><p>Please <a href=\"" + redirectURL + "\">log in</a>.</p>");
+        out.println("</body></html>");
+        out.close();
     }
 
     /* (non-Javadoc)

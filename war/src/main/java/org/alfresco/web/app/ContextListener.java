@@ -25,13 +25,13 @@
  */
 package org.alfresco.web.app;
 
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import javax.transaction.UserTransaction;
-
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.repo.security.authentication.AuthenticationContext;
 import org.alfresco.service.ServiceRegistry;
@@ -41,7 +41,6 @@ import org.alfresco.service.cmr.repository.StoreRef;
 import org.alfresco.service.cmr.search.SearchService;
 import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.transaction.TransactionService;
-import org.alfresco.web.bean.repository.Repository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
@@ -94,13 +93,13 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
          authenticationContext.setSystemUserAsCurrentUser();
 
          // get and setup the initial store ref and root path from config
-         StoreRef storeRef = Repository.getStoreRef(servletContext);
+         StoreRef storeRef = getStoreRef(servletContext);
          
          // get root path
          String rootPath = Application.getRootPath(servletContext);
 
          // Extract company space id and store it in the Application object
-         companySpaceNodeRef = Repository.getCompanyRoot(nodeService, searchService, namespaceService, storeRef, rootPath);
+         companySpaceNodeRef = getCompanyRoot(nodeService, searchService, namespaceService, storeRef, rootPath);
          Application.setCompanyRootId(companySpaceNodeRef.getId());
          
          // commit the transaction
@@ -157,4 +156,47 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
       if (logger.isDebugEnabled())
          logger.debug("HTTP session destroyed: " + event.getSession().getId());
    }
+
+    /**
+     * Returns a store reference object.
+     * This method is used to setup the cached value by the ContextListener initialisation methods
+     *
+     * @return The StoreRef object
+     */
+    private static StoreRef getStoreRef(ServletContext context)
+    {
+        return  Application.getRepositoryStoreRef(context);
+    }
+
+    /**
+     * Returns a company root node reference object.
+     *
+     * @return The NodeRef object
+     */
+    private static NodeRef getCompanyRoot(NodeService nodeService, SearchService searchService, NamespaceService namespaceService, StoreRef storeRef, String rootPath)
+    {
+        // check the repository exists, create if it doesn't
+        if (nodeService.exists(storeRef) == false)
+        {
+            throw new AlfrescoRuntimeException("Store not created prior to application startup: " + storeRef);
+        }
+
+        // get hold of the root node
+        NodeRef rootNodeRef = nodeService.getRootNode(storeRef);
+
+        // see if the company home space is present
+        if (rootPath == null)
+        {
+            throw new AlfrescoRuntimeException("Root path has not been configured");
+        }
+
+        List<NodeRef> nodes = searchService.selectNodes(rootNodeRef, rootPath, null, namespaceService, false);
+        if (nodes.size() == 0)
+        {
+            throw new AlfrescoRuntimeException("Root path not created prior to application startup: " + rootPath);
+        }
+
+        // return company root
+        return nodes.get(0);
+    }
 }
