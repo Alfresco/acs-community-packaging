@@ -244,25 +244,27 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${image.name}:${image.tag}</name>
+                                    <name>${image.name}:${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
                                 </image>
+                                <!-- Commented out push to dockerhub.
                                 <image>
-                                    <name>${image.name}:${image.tag}</name>
+                                    <name>${image.name}:${project.version}</name>
                                     <registry>${public.image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
                                 </image>
+                                -->
                             </images>
                         </configuration>
                         <executions>
                             <execution>
                                 <id>build-push-image</id>
-                                <phase>install</phase>
+                                <phase>deploy</phase>
                                 <goals>
                                     <goal>build</goal>
                                     <goal>push</goal>
