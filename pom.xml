@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>6.0.4-SNAPSHOT</version>
+    <version>6.0.4-IDENTITY-SERVICE-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -65,8 +65,8 @@
 
         <dependency.alfresco-core.version>7.1</dependency.alfresco-core.version>
         <dependency.alfresco-data-model.version>8.2</dependency.alfresco-data-model.version>
-        <dependency.alfresco-repository.version>6.36</dependency.alfresco-repository.version>
-        <dependency.alfresco-remote-api.version>6.21</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>6.37-TOKEN-AUTH</dependency.alfresco-repository.version>
+        <dependency.alfresco-remote-api.version>6.21-TOKEN-AUTH</dependency.alfresco-remote-api.version>
         <dependency.alfresco-hb-data-sender.version>1.0.6</dependency.alfresco-hb-data-sender.version>
 
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
