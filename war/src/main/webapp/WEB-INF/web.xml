@@ -284,11 +284,6 @@
       <listener-class>org.alfresco.web.app.ContextLoaderListener</listener-class>
    </listener>
 
-   <!-- Web Application Context listener - session create/destroy debugging and bootstrap Spring init -->
-   <listener>
-      <listener-class>org.alfresco.web.app.ContextListener</listener-class>
-   </listener>
-
    <!-- WebDAV session listener - ensures that no locked resources is left after session expires -->
    <listener>
       <listener-class>org.alfresco.repo.webdav.WebDAVSessionListener</listener-class>

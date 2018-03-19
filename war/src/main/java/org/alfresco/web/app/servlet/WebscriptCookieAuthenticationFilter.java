@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.alfresco.repo.web.filter.beans.DependencyInjectedFilter;
+import org.alfresco.repo.webdav.auth.AuthenticationDriver;
 import org.alfresco.repo.webdav.auth.BaseAuthenticationFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,7 +57,7 @@ public class WebscriptCookieAuthenticationFilter extends BaseAuthenticationFilte
     
     public WebscriptCookieAuthenticationFilter()
     {
-        setUserAttributeName(AuthenticationHelper.AUTHENTICATION_USER);
+        setUserAttributeName(AuthenticationDriver.AUTHENTICATION_USER);
     }
 
     
@@ -70,11 +71,7 @@ public class WebscriptCookieAuthenticationFilter extends BaseAuthenticationFilte
         // Allow propagation of manual logins to the session user
         if (API_LOGIN.equals(req.getPathInfo()) && req.getMethod().equalsIgnoreCase("POST"))
         {
-            if (handleLoginForm(req, res));
-            {
-               // Establish the session locale using request headers rather than web client preferences
-               AuthenticationHelper.setupThread(context, req, res, false);
-            }
+            handleLoginForm(req, res);
         }
         else
         {

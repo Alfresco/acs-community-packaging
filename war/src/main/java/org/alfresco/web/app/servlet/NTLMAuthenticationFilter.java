@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.alfresco.repo.web.auth.WebCredentials;
+import org.alfresco.repo.webdav.auth.AuthenticationDriver;
 import org.alfresco.repo.webdav.auth.BaseNTLMAuthenticationFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,19 +61,7 @@ public class NTLMAuthenticationFilter extends BaseNTLMAuthenticationFilter
         super.init();
         
         // Use the web client user attribute name
-        setUserAttributeName(AuthenticationHelper.AUTHENTICATION_USER);        
-    }
-
-    /* (non-Javadoc)
-     * @see org.alfresco.repo.webdav.auth.BaseSSOAuthenticationFilter#onValidate(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void onValidate(ServletContext sc, HttpServletRequest req, HttpServletResponse res, WebCredentials credentials)
-    {
-        super.onValidate(sc, req, res, credentials);
-
-        // Set the locale using the session
-        AuthenticationHelper.setupThread(sc, req, res, !req.getServletPath().equals("/wcs") && !req.getServletPath().equals("/wcservice"));
+        setUserAttributeName(AuthenticationDriver.AUTHENTICATION_USER);
     }
     
     /* (non-Javadoc)
