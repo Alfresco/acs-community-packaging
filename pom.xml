@@ -68,7 +68,7 @@
         <dependency.alfresco-core.version>7.1</dependency.alfresco-core.version>
         <dependency.alfresco-data-model.version>8.2</dependency.alfresco-data-model.version>
         <dependency.alfresco-repository.version>6.36-repo1294-2</dependency.alfresco-repository.version>
-        <dependency.alfresco-remote-api.version>6.25-repo-1294</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-remote-api.version>6.25-repo1294</dependency.alfresco-remote-api.version>
 
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <dependency.alfresco-pdf-renderer.version>1.1</dependency.alfresco-pdf-renderer.version>
