@@ -64,7 +64,7 @@
 
         <dependency.alfresco-core.version>json-replace-rc2</dependency.alfresco-core.version>
         <dependency.alfresco-data-model.version>json-replace-rc2</dependency.alfresco-data-model.version>
-        <dependency.alfresco-repository.version>json-replace-rc8</dependency.alfresco-repository.version>
+        <dependency.alfresco-repository.version>json-replace-rc9</dependency.alfresco-repository.version>
         <dependency.alfresco-remote-api.version>json-replace-rc3</dependency.alfresco-remote-api.version>
         <dependency.alfresco-hb-data-sender.version>1.0.7</dependency.alfresco-hb-data-sender.version>
 
