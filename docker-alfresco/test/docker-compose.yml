@@ -29,13 +29,29 @@ services:
                 -Dftp.dataPortTo=30099
                 -Dcifs.enabled=true
                 -Dshare.host=localhost
+                -Dalfresco.port=8082
+                -Dimap.server.enabled=true
+                -Dimap.server.port=1143
+                -Dimap.server.imaps.port=1143
+                -Dimap.server.host=0.0.0.0
+                -Dmail.protocol=smtp
+                -Dmail.port=465
+                -Dmail.host=smtp.gmail.com
+                -Demail.inbound.unknownUser=admin@alfresco.com
+                -Demail.inbound.enabled=true
+                -Demail.server.enabled=true
+                -Demail.server.port=1126
+                -Dcsrf.filter.enabled=false
                 "
         ports:
             - 8082:8080
             - 8000:8000
-            - 445:445
+            - 446:445
             - 143:143
             - "21:21"
+            - 1143:1143
+            - 1126:1126
+            - 1125:1125
             - "30000-30099:30000-30099"
 
     share:
