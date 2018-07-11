@@ -7,7 +7,7 @@ version: "3"
 
 services:
     alfresco:
-        image: quay.io/alfresco/alfresco-content-repository-community-test:feature-repo-3160_email_tests-6.0.8-SNAPSHOT
+        image: alfresco/alfresco-content-repository-community-test:${ALFRESCO_TAG}
         environment:
             CATALINA_OPTS : "
                 -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
