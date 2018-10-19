@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>6.1.1-SNAPSHOT</version>
+        <version>6.1.1-REPO-3918_java_11-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -214,6 +214,7 @@
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
                 <!-- This allows overlays to be prepared on the FS for minification and faster run -->
                 <executions>
                     <execution>
