@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>6.1.1-REPO-3918_java_11-SNAPSHOT</version>
+    <version>6.1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
