@@ -3,7 +3,6 @@
     <artifactId>content-services-community</artifactId>
     <name>Alfresco Content Services Community WAR</name>
     <packaging>war</packaging>
-    <version>6.1.2-SNAPSHOT</version>
 
     <parent>
         <groupId>org.alfresco</groupId>
