@@ -293,7 +293,7 @@
 
    <servlet>
       <servlet-name>apiServlet</servlet-name>
-      <servlet-class>org.springframework.extensions.webscripts.servlet.WebScriptServlet</servlet-class>
+      <servlet-class>org.alfresco.repo.web.scripts.AlfrescoWebScriptServlet</servlet-class>
       <init-param>
          <param-name>authenticator</param-name>
          <param-value>webscripts.authenticator.remoteuser</param-value>
@@ -302,7 +302,7 @@
    
    <servlet>
       <servlet-name>wcapiServlet</servlet-name>
-      <servlet-class>org.springframework.extensions.webscripts.servlet.WebScriptServlet</servlet-class>
+      <servlet-class>org.alfresco.repo.web.scripts.AlfrescoWebScriptServlet</servlet-class>
       <init-param>
          <param-name>authenticator</param-name>
          <param-value>webscripts.authenticator.remoteuser</param-value>
