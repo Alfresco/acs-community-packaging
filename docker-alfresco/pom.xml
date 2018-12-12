@@ -146,7 +146,7 @@
                                     <type>war</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/vti-bin</outputDirectory>
-                                    <destFileName>_vti-bin.war</destFileName>
+                                    <destFileName>_vti_bin.war</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

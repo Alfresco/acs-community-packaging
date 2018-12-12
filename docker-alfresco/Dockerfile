@@ -114,8 +114,8 @@ RUN yum install -y fontconfig-2.13.0-4.3.el7 \
                    dejavu-sans-fonts-2.33-6.el7 && \
     yum clean all
 
-# Unpack _vti-bin.war
-RUN mkdir /usr/local/tomcat/webapps/_vti-bin && cd /usr/local/tomcat/webapps/_vti-bin && jar -xvf /usr/local/tomcat/webapps/_vti-bin.war && rm -f /usr/local/tomcat/webapps/_vti-bin.war
+# Unpack _vti_bin.war
+RUN mkdir /usr/local/tomcat/webapps/_vti_bin && cd /usr/local/tomcat/webapps/_vti_bin && jar -xvf /usr/local/tomcat/webapps/_vti_bin.war && rm -f /usr/local/tomcat/webapps/_vti_bin.war
 
 # To remote debug into this image add: EXPOSE 8000
 # Changes are also required to the docker-compose/docker-compose.yml file.
