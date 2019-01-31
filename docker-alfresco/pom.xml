@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-content-services-distribution</artifactId>
+            <artifactId>alfresco-content-services-community-distribution</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -94,7 +94,7 @@
                                 <!-- Extract licenses directory from distribution jar -->
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-content-services-distribution</artifactId>
+                                    <artifactId>alfresco-content-services-community-distribution</artifactId>
                                     <includes>licenses/**</includes>
                                 </artifactItem>
                             </artifactItems>
