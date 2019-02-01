@@ -19,11 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-content-services-community-distribution</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.alfresco</groupId>
             <artifactId>content-services-community</artifactId>
             <version>${project.version}</version>
             <type>war</type>
@@ -80,26 +75,33 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                   <execution>
+                      <id>copy-licenses</id>
+                      <phase>process-resources</phase>
+                      <goals>
+                          <goal>copy-resources</goal>
+                      </goals>
+                      <configuration>
+                          <resources>
+                              <resource>
+                                  <!-- Extract licenses directory -->
+                                  <directory>../distribution/src/main/resources/licenses</directory>
+                                  <filtering>false</filtering>
+                              </resource>
+                          </resources>
+                          <outputDirectory>${project.build.directory}/licenses</outputDirectory>
+                      </configuration>
+                   </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.0.2</version>
                 <executions>
-                    <execution>
-                        <id>extract-licenses</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <!-- Extract licenses directory from distribution jar -->
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-content-services-community-distribution</artifactId>
-                                    <includes>licenses/**</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>unpack-war-files</id>
                         <phase>process-resources</phase>
