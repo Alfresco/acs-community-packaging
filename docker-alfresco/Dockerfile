@@ -61,7 +61,7 @@ COPY target/alfresco-mmt/* /usr/local/tomcat/alfresco-mmt/
 
 # Copy Licenses to the root of the Docker image
 RUN mkdir /licenses
-COPY ${resource_path}/licenses/ /licenses/
+COPY target/licenses/ /licenses/
 
 # Change the value of the shared.loader= property to the following:
 # shared.loader=${catalina.base}/shared/classes
