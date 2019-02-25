@@ -141,7 +141,7 @@
          <param-name>cors.maxAge</param-name>
          <param-value>3600</param-value>
       </init-param>
-   </filter>
+   </filter>-->
    <!-- CORS Filter End -->
 
    <!-- Enterprise filter placeholder -->
