@@ -30,6 +30,7 @@ services:
                 -Dshare.host=localhost
                 -Daos.baseUrlOverwrite=http://localhost:8082/alfresco/aos
                 -Dmessaging.broker.url=\"failover:(tcp://activemq:61616)?timeout=3000&jms.useCompression=true\"
+                -Dimap.server.port=1143
                 "
         ports:
             - 8082:8080
