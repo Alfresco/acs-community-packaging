@@ -126,7 +126,7 @@ RUN yum install -y fontconfig-2.13.0-4.3.el7 \
 
 # The standard configuration is to have all Tomcat files owned by root with group GROUPNAME and whilst owner has read/write privileges, 
 # group only has restricted permissions and world has no permissions.
-RUN mkdir -p ${TOMCAT_DIR}/conf/Catalina && \
+RUN mkdir -p ${TOMCAT_DIR}/conf/Catalina/localhost && \
     mkdir -p ${TOMCAT_DIR}/alf_data && \
     groupadd -g ${GROUPID} ${GROUPNAME} && \
     useradd -u ${USERID} -G ${GROUPNAME} ${USERNAME} && \
@@ -137,7 +137,7 @@ RUN mkdir -p ${TOMCAT_DIR}/conf/Catalina && \
     find ${TOMCAT_DIR}/webapps -type d -exec chmod 0750 {} \; && \
     find ${TOMCAT_DIR}/webapps -type f -exec chmod 0640 {} \; && \
     chmod -R g+r ${TOMCAT_DIR}/webapps && \
-    chmod g+rwx ${TOMCAT_DIR}/conf/Catalina && \
+    chmod g+r ${TOMCAT_DIR}/conf/Catalina && \
     chmod g+rwx ${TOMCAT_DIR}/alf_data && \
     chmod g+rwx ${TOMCAT_DIR}/logs && \
     chmod g+rwx ${TOMCAT_DIR}/temp && \
