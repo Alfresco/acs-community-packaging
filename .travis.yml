@@ -22,7 +22,7 @@ matrix:
       if: fork = false
       jdk: openjdk11
       install:
-        - travis_retry travis_wait 20 mvn -q install -Dbuild-number=${TRAVIS_BUILD_NUMBER} -Dbuild-key=${TRAVIS_COMMIT} -Dbuild-name="${TRAVIS_BUILD_WEB_URL}" -Dscm-path=${TRAVIS_REPO_SLUG} "-Dversion.edition=${VERSION_EDITION}" "-Dimage.tag=${DOCKER_IMAGE_TAG}" -Dimage.registry=${DOCKER_IMAGE_REGISTRY} "-Dimage.name=${ALFRESCO_IMAGE_NAME}" -Dmaven.javadoc.skip=true -PfullBuild
+        - travis_retry travis_wait 20 mvn -q install -Dbuild-number=${TRAVIS_BUILD_NUMBER} "-Dbuild-key=${TRAVIS_COMMIT}" "-Dbuild-name=${TRAVIS_BUILD_WEB_URL}" "-Dscm-path=${TRAVIS_REPO_SLUG}" "-Dversion.edition=${VERSION_EDITION}" "-Dimage.tag=${DOCKER_IMAGE_TAG}" -Dimage.registry=${DOCKER_IMAGE_REGISTRY} "-Dimage.name=${ALFRESCO_IMAGE_NAME}" -Dmaven.javadoc.skip=true -PfullBuild
       script:
         # Download the latest version of WhiteSource FS Agent
         - curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar
