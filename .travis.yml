@@ -16,6 +16,15 @@ env:
     - DOCKER_COMPOSE_VERSION=1.23.2
     - ALFRESCO_IMAGE_NAME=alfresco/alfresco-content-repository-community
 
+branches:
+  only:
+    - master
+    - /support\/.*/
+
+# This should not be required on community build
+before_install:
+  - "cp .travis.settings.xml $HOME/.m2/settings.xml"
+
 matrix:
   include:
     - name: "WhiteSource scan"
