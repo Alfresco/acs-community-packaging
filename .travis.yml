@@ -19,7 +19,6 @@ env:
 branches:
   only:
     - master
-    - /support\/.*/
 
 # This should not be required on community build
 before_install:
@@ -28,7 +27,8 @@ before_install:
 matrix:
   include:
     - name: "WhiteSource scan"
-      if: fork = false
+      # only on master and if it is not a PR
+      if: fork = false AND branch = master AND type != pull_request
       jdk: openjdk11
       install:
         - travis_retry travis_wait 40 mvn -q install -Dbuild-number=${TRAVIS_BUILD_NUMBER} "-Dbuild-key=${TRAVIS_COMMIT}" "-Dbuild-name=${TRAVIS_BUILD_WEB_URL}" "-Dscm-path=${TRAVIS_REPO_SLUG}" "-Dversion.edition=${VERSION_EDITION}" "-Dimage.tag=${DOCKER_IMAGE_TAG}" -Dimage.registry=${DOCKER_IMAGE_REGISTRY} "-Dimage.name=${ALFRESCO_IMAGE_NAME}" -PcommunityDocker
