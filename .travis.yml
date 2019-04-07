@@ -28,7 +28,7 @@ matrix:
   include:
     - name: "WhiteSource scan"
       # only on master and if it is not a PR
-      if: fork = false
+      if: fork = false AND branch = master AND type != pull_request
       jdk: openjdk11
       install:
         - travis_retry travis_wait 40 mvn -q install -Dbuild-number=${TRAVIS_BUILD_NUMBER} "-Dbuild-key=${TRAVIS_COMMIT}" "-Dbuild-name=${TRAVIS_BUILD_WEB_URL}" "-Dscm-path=${TRAVIS_REPO_SLUG}" "-Dversion.edition=${VERSION_EDITION}" -f war/pom.xml
