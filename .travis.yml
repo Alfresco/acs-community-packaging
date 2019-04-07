@@ -33,8 +33,7 @@ matrix:
       install:
         - travis_retry travis_wait 40 mvn -q install -Dbuild-number=${TRAVIS_BUILD_NUMBER} "-Dbuild-key=${TRAVIS_COMMIT}" "-Dbuild-name=${TRAVIS_BUILD_WEB_URL}" "-Dscm-path=${TRAVIS_REPO_SLUG}" "-Dversion.edition=${VERSION_EDITION}" "-Dimage.tag=${DOCKER_IMAGE_TAG}" -Dimage.registry=${DOCKER_IMAGE_REGISTRY} "-Dimage.name=${ALFRESCO_IMAGE_NAME}" -PcommunityDocker
       script:
-        - cd war
         # Download the latest version of WhiteSource FS Agent
         - curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar
         # Run WhiteSource FS Agent
-        - java -jar whitesource-fs-agent.jar -apiKey ${WHITESOURCE_API_KEY} -c .whitesource-fs-agent.config
+        - java -jar whitesource-fs-agent.jar -apiKey ${WHITESOURCE_API_KEY} -c .whitesource-fs-agent.config -d ./war
