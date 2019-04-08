@@ -20,10 +20,6 @@ branches:
   only:
     - master
 
-# This should not be required on community build
-before_install:
-  - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-
 matrix:
   include:
     - name: "WhiteSource scan"
