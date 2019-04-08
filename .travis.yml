@@ -4,10 +4,6 @@ language: java
 services:
   - docker
 
-cache:
-  directories:
-    - $HOME/.m2
-
 env:
   global:
     - VERSION_EDITION=Community
