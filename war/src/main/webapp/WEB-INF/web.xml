@@ -225,6 +225,20 @@
       <url-pattern>/wcs/admin/*</url-pattern>
    </filter-mapping>
 
+   <!-- CORS filter -->
+   <filter>
+      <filter-name>ServletCORSFilter</filter-name>
+      <filter-class>org.alfresco.repo.web.filter.beans.BeanProxyFilter</filter-class>
+      <init-param>
+         <param-name>beanName</param-name>
+         <param-value>CORSFilter</param-value>
+      </init-param>
+   </filter>
+   <filter-mapping>
+      <filter-name>ServletCORSFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+
    <!-- Enterprise filter-mapping placeholder -->
    
    <!-- Spring Context Loader listener - can disable loading of context if runtime config changes are needed -->

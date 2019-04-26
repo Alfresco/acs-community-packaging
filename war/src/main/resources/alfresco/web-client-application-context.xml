@@ -129,5 +129,15 @@
    </bean>
 
    <bean id="PublicAPIAuthenticationFilter" class="org.alfresco.repo.web.filter.beans.NullFilter" />
+
+   <bean id="CORSFilter" class="org.alfresco.repo.web.scripts.cors.CORSFilter">
+      <property name="corsEnabled" value="${cors.enabled}"/>
+      <property name="corsAllowedOrigins" value="${cors.allowed.origins}"/>
+      <property name="corsAllowedMethods" value="${cors.allowed.methods}"/>
+      <property name="corsAllowedHeaders" value="${cors.allowed.headers}"/>
+      <property name="corsExposedHeaders" value="${cors.exposed.headers}"/>
+      <property name="corsSupportCredentials" value="${cors.support.credentials}"/>
+      <property name="corsPreflightMaxAge" value="${cors.preflight.maxage}"/>
+   </bean>
    
 </beans>
