@@ -237,11 +237,6 @@
       <listener-class>org.alfresco.repo.webdav.WebDAVSessionListener</listener-class>
    </listener>
 
-   <!-- CORS session listener - enables and configures CORS -->
-   <listener>
-      <listener-class>org.alfresco.web.app.servlet.CORSContextListener</listener-class>
-   </listener>
-
    <!-- Enterprise listener placeholder -->
 
    <servlet>
