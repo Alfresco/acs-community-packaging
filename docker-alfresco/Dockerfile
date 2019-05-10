@@ -29,6 +29,17 @@ RUN chgrp -R ${GROUPNAME} ${TOMCAT_DIR}/webapps ${TOMCAT_DIR}/amps ${TOMCAT_DIR}
     find ${TOMCAT_DIR}/webapps -type d -exec chmod 0750 {} \; && \
     find ${TOMCAT_DIR}/webapps -type f -exec chmod 0640 {} \; && \
     chmod -R g+r ${TOMCAT_DIR}/webapps && \
-    chmod 664 ${TOMCAT_DIR}/amps/*
+    chmod 664 ${TOMCAT_DIR}/amps/* && \
+    mkdir -p ${TOMCAT_DIR}/shared/classes/alfresco && \
+    chown -R ${IMAGEUSERNAME}:${GROUPNAME} ${TOMCAT_DIR}/shared/classes && \
+    find ${TOMCAT_DIR}/shared/ -type d -exec chmod 0750 {} \; && \
+    sed -i -e "s_log4j.appender.File.File\=alfresco.log_log4j.appender.File.File\=${TOMCAT_DIR}/logs\/alfresco.log_" \ 
+        ${TOMCAT_DIR}/webapps/alfresco/WEB-INF/classes/log4j.properties
+
+COPY entrypoint.sh ${TOMCAT_DIR}/shared/classes/alfresco
+RUN chown ${IMAGEUSERNAME}:${GROUPNAME} ${TOMCAT_DIR}/shared/classes/alfresco/entrypoint.sh && \
+    chmod 0750 ${TOMCAT_DIR}/shared/classes/alfresco/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/tomcat/shared/classes/alfresco/entrypoint.sh", "catalina.sh run"]
 
 USER ${IMAGEUSERNAME}
