@@ -28,7 +28,7 @@ public class GetTaskFormModelTests extends RestTest
         adminUser = dataUser.getAdminUser();
         userModel = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(userModel).usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
     }
 
     @Test(groups = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS, TestGroup.SANITY })

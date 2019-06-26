@@ -32,9 +32,9 @@ public class GetProcessTasksCoreTests extends RestTest
         anotherAssignee = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userWhoStartsProcess).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
-        document1 = dataContent.usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
-        document2 = dataContent.usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(userWhoStartsProcess).usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        document1 = dataContent.usingUser(userWhoStartsProcess).usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        document2 = dataContent.usingUser(userWhoStartsProcess).usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         process = dataWorkflow.usingUser(userWhoStartsProcess).usingSite(siteModel).usingResource(document)
                 .createSingleReviewerTaskAndAssignTo(assignee);
         group = dataGroup.createRandomGroup();

@@ -32,7 +32,7 @@ public class GetProcessVariablesSanityTests extends RestTest
         userWhoStartsTask = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userWhoStartsTask).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(userWhoStartsTask).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         dataWorkflow.usingUser(userWhoStartsTask).usingSite(siteModel).usingResource(document).createNewTaskAndAssignTo(assignee);
     }
 

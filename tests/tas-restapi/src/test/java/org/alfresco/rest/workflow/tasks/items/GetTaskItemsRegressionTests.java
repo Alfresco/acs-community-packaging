@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  */
 public class GetTaskItemsRegressionTests extends RestTest
 {
-    private UserModel  userWhoStartsTask, assignee;
+    private UserModel  userWhoStartsTask, assignee, adminUser;
     private SiteModel siteModel;
     private FileModel fileModel;
     private TaskModel taskModel;
@@ -37,10 +37,11 @@ public class GetTaskItemsRegressionTests extends RestTest
     @BeforeClass(alwaysRun=true)
     public void dataPreparation() throws Exception
     {
+        adminUser = dataUser.getAdminUser();
         userWhoStartsTask = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userWhoStartsTask).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
     }
 
     @TestRail(section = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS }, executionType = ExecutionType.REGRESSION,

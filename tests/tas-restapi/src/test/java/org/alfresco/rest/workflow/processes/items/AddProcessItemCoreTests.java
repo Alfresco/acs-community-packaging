@@ -36,8 +36,8 @@ public class AddProcessItemCoreTests extends RestTest
         userWhoStartsProcess = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(adminUser).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
-        document2 = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        document2 = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         dataWorkflow.usingUser(userWhoStartsProcess).usingSite(siteModel).usingResource(document).createNewTaskAndAssignTo(assignee);
     }
 

@@ -31,7 +31,7 @@ public class AddTaskItemTestsBulk1 extends RestTest
     {
         userModel = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(userModel).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         userWhoStartsTask = dataUser.createRandomTestUser();
         assigneeUser = dataUser.createRandomTestUser();
         taskModel = dataWorkflow.usingUser(userWhoStartsTask).usingSite(siteModel).usingResource(fileModel).createNewTaskAndAssignTo(assigneeUser);

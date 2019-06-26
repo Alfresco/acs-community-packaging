@@ -3,7 +3,6 @@ package org.alfresco.rest.people.activities;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.rest.RestTest;
 import org.alfresco.rest.model.RestActivityModelsCollection;
-import org.alfresco.rest.model.RestErrorModel;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.model.SiteModel;
@@ -32,7 +31,7 @@ public class GetPeopleActivitiesSanityTests extends RestTest
     {
         userModel = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        dataContent.usingUser(userModel).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         usersWithRoles = dataUser.addUsersWithRolesToSite(siteModel, UserRole.SiteManager, UserRole.SiteCollaborator, UserRole.SiteConsumer,
                 UserRole.SiteContributor);
         unauthenticatedUser = dataUser.usingAdmin().createRandomTestUser();

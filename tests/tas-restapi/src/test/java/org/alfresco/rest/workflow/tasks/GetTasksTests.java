@@ -34,7 +34,7 @@ public class GetTasksTests extends RestTest
         userModel = dataUser.createRandomTestUser();
         userNotInvolved = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(userModel).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
 
         assigneeUser = dataUser.createRandomTestUser();
         dataWorkflow.usingUser(userModel).usingSite(siteModel).usingResource(fileModel).createNewTaskAndAssignTo(assigneeUser);

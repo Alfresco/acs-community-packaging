@@ -33,7 +33,7 @@ public class DeleteFavoriteTests extends RestTest
         siteModel = dataSite.usingUser(adminUserModel).createPublicRandomSite();
         siteModel.setGuid(restClient.authenticateUser(adminUserModel).withCoreAPI().usingSite(siteModel).getSite().getGuid());
 
-        fileModel = dataContent.usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(adminUserModel).usingSite(siteModel).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         folderModel = dataContent.usingSite(siteModel).usingUser(adminUserModel).createFolder();
         
         usersWithRoles = dataUser.addUsersWithRolesToSite(siteModel, UserRole.SiteManager, UserRole.SiteCollaborator, UserRole.SiteConsumer,

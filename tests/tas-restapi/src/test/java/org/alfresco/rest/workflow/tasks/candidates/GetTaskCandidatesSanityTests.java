@@ -35,7 +35,7 @@ public class GetTaskCandidatesSanityTests extends  RestTest
     {
         userModel = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(userModel).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         user = dataUser.createRandomTestUser();
         userModel1 = dataUser.createRandomTestUser();
         userModel2 = dataUser.createRandomTestUser();

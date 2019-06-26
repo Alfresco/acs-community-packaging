@@ -32,7 +32,7 @@ public class DeleteProcessItemSanityTests extends RestTest
         userWhoStartsTask = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(adminUser).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         dataWorkflow.usingUser(userWhoStartsTask).usingSite(siteModel).usingResource(document).createNewTaskAndAssignTo(assignee);
     }
 

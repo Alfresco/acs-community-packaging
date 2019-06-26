@@ -37,7 +37,7 @@ public class AddTaskVariablesTestsBulk3 extends RestTest
         userWhoStartsTask = dataUser.createRandomTestUser();
         assigneeUser = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(adminUser).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         taskModel = dataWorkflow.usingUser(userWhoStartsTask).usingSite(siteModel).usingResource(fileModel).createNewTaskAndAssignTo(assigneeUser);
    
         taskId = taskModel.getId();

@@ -1,9 +1,5 @@
 package org.alfresco.rest.workflow.tasks;
 
-import java.util.HashMap;
-
-import javax.json.JsonObject;
-
 import org.alfresco.dataprep.CMISUtil;
 import org.alfresco.dataprep.CMISUtil.DocumentType;
 import org.alfresco.rest.RestTest;
@@ -13,13 +9,7 @@ import org.alfresco.rest.model.RestErrorModel;
 import org.alfresco.rest.model.RestProcessDefinitionModel;
 import org.alfresco.rest.model.RestTaskModel;
 import org.alfresco.rest.model.RestVariableModelsCollection;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.GroupModel;
-import org.alfresco.utility.model.ProcessModel;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.TaskModel;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.*;
 import org.alfresco.utility.report.Bug;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
@@ -28,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.json.JsonObject;
+import java.util.HashMap;
 
 public class UpdateTaskTests extends RestTest
 {
@@ -48,7 +41,7 @@ public class UpdateTaskTests extends RestTest
         anyUser = dataUser.createRandomTestUser();
         assigneeUser = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(adminUser).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         activitiReviewProcessDefinition = restClient.authenticateUser(adminUser).withWorkflowAPI().getAllProcessDefinitions().getProcessDefinitionByKey("activitiReviewPooled");
     }
 

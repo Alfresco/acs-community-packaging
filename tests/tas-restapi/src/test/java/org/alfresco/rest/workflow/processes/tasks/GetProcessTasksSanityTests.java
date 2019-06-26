@@ -36,7 +36,7 @@ public class GetProcessTasksSanityTests extends RestTest
         assignee2 = dataUser.createRandomTestUser();
         assignee3 = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(userModel).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         process = dataWorkflow.usingUser(userModel).usingSite(siteModel).usingResource(document)
                 .createMoreReviewersWorkflowAndAssignTo(assignee1, assignee2, assignee3);
     }

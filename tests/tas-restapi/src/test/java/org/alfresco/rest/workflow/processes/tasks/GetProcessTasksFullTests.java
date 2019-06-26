@@ -31,7 +31,7 @@ public class GetProcessTasksFullTests extends RestTest
         assignee2 = dataUser.createRandomTestUser("B_2");
         assignee3 = dataUser.createRandomTestUser("C_3");
         publicSite = dataSite.usingUser(userWhoStartsProcess).createPublicRandomSite();
-        document = dataContent.usingSite(publicSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(userWhoStartsProcess).usingSite(publicSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         processWithSingleTask = dataWorkflow.usingUser(userWhoStartsProcess).usingSite(publicSite).usingResource(document)
                 .createSingleReviewerTaskAndAssignTo(assignee1);
         processWithMultipleTasks = dataWorkflow.usingUser(userWhoStartsProcess).usingSite(publicSite).usingResource(document)

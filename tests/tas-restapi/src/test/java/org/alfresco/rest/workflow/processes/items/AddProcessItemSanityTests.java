@@ -37,7 +37,7 @@ public class AddProcessItemSanityTests extends RestTest
         userWhoStartsTask = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(adminUser).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(DocumentType.XML);
+        document = dataContent.usingUser(adminUser).usingSite(siteModel).createContent(DocumentType.XML);
         dataWorkflow.usingUser(userWhoStartsTask).usingSite(siteModel).usingResource(document).createNewTaskAndAssignTo(assignee);
     }
 

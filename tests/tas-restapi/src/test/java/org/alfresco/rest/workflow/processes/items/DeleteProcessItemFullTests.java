@@ -34,7 +34,7 @@ public class DeleteProcessItemFullTests extends RestTest
         userWhoStartsProcess = dataUser.createRandomTestUser();
         assignee = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userWhoStartsProcess).createPublicRandomSite();
-        document = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        document = dataContent.usingUser(userWhoStartsProcess).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
     }
     
     @TestRail(section = { TestGroup.REST_API, TestGroup.WORKFLOW,TestGroup.PROCESSES }, executionType = ExecutionType.REGRESSION, 

@@ -28,7 +28,7 @@ public class RemoveTaskItemTests extends RestTest
         adminUser = dataUser.getAdminUser();
         userWhoStartsTask = dataUser.createRandomTestUser();
         siteModel = dataSite.usingUser(userWhoStartsTask).createPublicRandomSite();
-        fileModel = dataContent.usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
+        fileModel = dataContent.usingUser(userWhoStartsTask).usingSite(siteModel).createContent(DocumentType.TEXT_PLAIN);
         assigneeUser = dataUser.createRandomTestUser();
     }
 

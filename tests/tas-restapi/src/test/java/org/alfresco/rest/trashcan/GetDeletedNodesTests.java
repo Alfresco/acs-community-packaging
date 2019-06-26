@@ -190,6 +190,7 @@ public class GetDeletedNodesTests extends RestTest
 
         // Create rendition and delete file3 to be moved in trashcan
         restClient.withCoreAPI().usingNode(file3).createNodeRendition("pdf");
+        restClient.withCoreAPI().usingNode(file3).createNodeRendition("doclib");
         restClient.assertStatusCodeIs(HttpStatus.ACCEPTED);
         dataContent.usingUser(adminUserModel).usingResource(file3).deleteContent();
 

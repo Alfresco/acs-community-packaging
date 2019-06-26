@@ -1,24 +1,19 @@
 package org.alfresco.rest.people.preferences;
 
-import java.nio.file.Paths;
-
 import org.alfresco.rest.RestTest;
 import org.alfresco.rest.model.RestErrorModel;
 import org.alfresco.rest.model.RestPreferenceModel;
 import org.alfresco.utility.Utility;
 import org.alfresco.utility.constants.PreferenceName;
-import org.alfresco.utility.model.FileModel;
-import org.alfresco.utility.model.FileType;
-import org.alfresco.utility.model.FolderModel;
-import org.alfresco.utility.model.SiteModel;
-import org.alfresco.utility.model.TestGroup;
-import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.model.*;
 import org.alfresco.utility.report.Bug;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
 import org.springframework.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.nio.file.Paths;
 
 public class GetPeoplePreferenceFullTests extends RestTest
 {
@@ -84,7 +79,7 @@ public class GetPeoplePreferenceFullTests extends RestTest
     public void validateIdElementInGetFilePreferenceResponse() throws Exception
     {
         FileModel fileFavorite = new FileModel("favoriteFile", FileType.TEXT_PLAIN);
-        fileFavorite = dataContent.usingSite(siteModel).createContent(fileFavorite);
+        fileFavorite = dataContent.usingUser(userModel).usingSite(siteModel).createContent(fileFavorite);
         dataContent.getContentActions().setFileAsFavorite(userModel.getUsername(), userModel.getPassword(), siteModel.getId(), fileFavorite.getName());
 
         restPreferenceModel = restClient.authenticateUser(userModel).withCoreAPI().usingAuthUser()

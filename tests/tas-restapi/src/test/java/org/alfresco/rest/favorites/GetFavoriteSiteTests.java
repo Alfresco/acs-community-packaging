@@ -246,7 +246,7 @@ public class GetFavoriteSiteTests extends RestTest
             description = "Verify invalid request returns status 404 when providing file name instead of site id")
     public void getFavoriteSiteUsingFile() throws Exception
     {
-        FileModel file = dataContent.usingSite(siteModel1).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        FileModel file = dataContent.usingUser(userModel).usingSite(siteModel1).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         SiteModel siteFolder = new SiteModel(file.getName());
         restSiteModel = restClient.authenticateUser(userModel).withCoreAPI().usingMe().getFavoriteSite(siteFolder);
         restClient.assertStatusCodeIs(HttpStatus.NOT_FOUND).assertLastError()
