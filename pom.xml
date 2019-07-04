@@ -68,24 +68,24 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-core.version>7.11</dependency.alfresco-core.version>
-        <dependency.alfresco-data-model.version>8.32</dependency.alfresco-data-model.version>
-        <dependency.alfresco-repository.version>7.62</dependency.alfresco-repository.version>
-        <dependency.alfresco-remote-api.version>7.55</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-hb-data-sender.version>1.0.10</dependency.alfresco-hb-data-sender.version>
-        <dependency.alfresco-spring-webscripts.version>7.1</dependency.alfresco-spring-webscripts.version>
+        <dependency.alfresco-core.version>7.17</dependency.alfresco-core.version>
+        <dependency.alfresco-data-model.version>8.41</dependency.alfresco-data-model.version>
+        <dependency.alfresco-repository.version>7.74</dependency.alfresco-repository.version>
+        <dependency.alfresco-remote-api.version>7.60</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-hb-data-sender.version>1.0.11</dependency.alfresco-hb-data-sender.version>
+        <dependency.alfresco-spring-webscripts.version>7.2</dependency.alfresco-spring-webscripts.version>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <dependency.alfresco-pdf-renderer.version>1.1</dependency.alfresco-pdf-renderer.version>
         <dependency.alfresco-trashcan-cleaner.version>2.3</dependency.alfresco-trashcan-cleaner.version>
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-server-root.version>6.0.1</dependency.alfresco-server-root.version>
-        <dependency.alfresco-messaging-repo.version>1.2.9</dependency.alfresco-messaging-repo.version>
+        <dependency.alfresco-messaging-repo.version>1.2.13</dependency.alfresco-messaging-repo.version>
         <dependency.alfresco-api-explorer.version>6.1.0</dependency.alfresco-api-explorer.version>
 
-        <dependency.spring.version>5.1.6.RELEASE</dependency.spring.version>
+        <dependency.spring.version>5.1.8.RELEASE</dependency.spring.version>
         <dependency.fabric8.version>3.5.37</dependency.fabric8.version>
-        <dependency.jackson.version>2.9.8</dependency.jackson.version>
-        <dependency.cxf.version>3.3.1</dependency.cxf.version>
+        <dependency.jackson.version>2.9.9</dependency.jackson.version>
+        <dependency.cxf.version>3.3.2</dependency.cxf.version>
 
         <!-- Alfresco Share version -->
         <alfresco.share.version>6.1.0</alfresco.share.version>
@@ -241,7 +241,7 @@
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.10</version>
+                <version>2.10.2</version>
             </dependency>
             <dependency>
                 <groupId>commons-httpclient</groupId>
@@ -292,12 +292,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.8</version>
+                <version>4.5.9</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient-cache</artifactId>
-                <version>4.5.8</version>
+                <version>4.5.9</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
@@ -493,12 +493,12 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
-                <version>1.61</version>
+                <version>1.62</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcmail-jdk15on</artifactId>
-                <version>1.61</version>
+                <version>1.62</version>
             </dependency>
             <!-- upgrade dependency from TIKA -->
             <dependency>
@@ -510,7 +510,7 @@
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>1.11.3</version>
+                <version>1.12.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
