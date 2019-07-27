@@ -113,7 +113,7 @@ public class AvailableRenditionTests extends RenditionIntegrationTests
         file.setNodeRef(fileNode.getId());
         restClient.withCoreAPI().usingNode(file).createNodeRendition(renditionId);
 
-        Assert.assertEquals(restClient.getStatusCode(), HttpStatus.BAD_REQUEST.toString(),
+        Assert.assertEquals(Integer.valueOf(restClient.getStatusCode()).intValue(), HttpStatus.BAD_REQUEST.value(),
                 "Expected to see the rendition rejected. [" + sourceFile + ", " + renditionId + "] [source file, rendition ID] ");
     }
 
