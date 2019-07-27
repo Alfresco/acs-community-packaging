@@ -68,12 +68,12 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-core.version>7.17</dependency.alfresco-core.version>
-        <dependency.alfresco-data-model.version>8.41</dependency.alfresco-data-model.version>
-        <dependency.alfresco-repository.version>7.74</dependency.alfresco-repository.version>
-        <dependency.alfresco-remote-api.version>7.60</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-core.version>7.19</dependency.alfresco-core.version>
+        <dependency.alfresco-data-model.version>8.45</dependency.alfresco-data-model.version>
+        <dependency.alfresco-repository.version>7.89</dependency.alfresco-repository.version>
+        <dependency.alfresco-remote-api.version>7.71</dependency.alfresco-remote-api.version>
         <dependency.alfresco-hb-data-sender.version>1.0.11</dependency.alfresco-hb-data-sender.version>
-        <dependency.alfresco-spring-webscripts.version>7.2</dependency.alfresco-spring-webscripts.version>
+        <dependency.alfresco-spring-webscripts.version>7.8</dependency.alfresco-spring-webscripts.version>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <dependency.alfresco-pdf-renderer.version>1.1</dependency.alfresco-pdf-renderer.version>
         <dependency.alfresco-trashcan-cleaner.version>2.3</dependency.alfresco-trashcan-cleaner.version>
@@ -83,7 +83,7 @@
         <dependency.alfresco-api-explorer.version>6.1.0</dependency.alfresco-api-explorer.version>
 
         <dependency.spring.version>5.1.8.RELEASE</dependency.spring.version>
-        <dependency.fabric8.version>3.5.37</dependency.fabric8.version>
+        <dependency.fabric8.version>4.1.0</dependency.fabric8.version>
         <dependency.jackson.version>2.9.9</dependency.jackson.version>
         <dependency.cxf.version>3.3.2</dependency.cxf.version>
 
@@ -101,7 +101,7 @@
         <alfresco.package.name>alfresco-community</alfresco.package.name>
         <alfresco.distribution.name>${alfresco.package.name}-distribution</alfresco.distribution.name>
 
-        <dependency.postgresql.version>42.2.5</dependency.postgresql.version>
+        <dependency.postgresql.version>42.2.6</dependency.postgresql.version>
 
         <dependency.tas-utility.version>2.0.25</dependency.tas-utility.version>
         <dependency.rest-assured.version>3.3.0</dependency.rest-assured.version>
@@ -241,7 +241,7 @@
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.10.2</version>
+                <version>2.10.3</version>
             </dependency>
             <dependency>
                 <groupId>commons-httpclient</groupId>
@@ -261,7 +261,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.12</version>
+                <version>1.13</version>
             </dependency>
             <dependency>
                 <groupId>commons-collections</groupId>
