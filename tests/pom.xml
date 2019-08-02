@@ -13,6 +13,7 @@
 
     <modules>
         <module>tas-restapi</module>
+        <module>tas-cmis</module>
     </modules>
 
     <dependencyManagement>
@@ -39,6 +40,12 @@
                 <groupId>org.alfresco.tas</groupId>
                 <artifactId>restapi</artifactId>
                 <version>${dependency.tas-restapi.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.tas</groupId>
+                <artifactId>cmis</artifactId>
+                <version>${dependency.tas-cmis.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
