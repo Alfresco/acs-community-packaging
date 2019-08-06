@@ -86,7 +86,6 @@
         <dependency.fabric8.version>4.1.0</dependency.fabric8.version>
         <dependency.jackson.version>2.9.9</dependency.jackson.version>
         <dependency.cxf.version>3.3.2</dependency.cxf.version>
-        <dependency.javax.mail.version>1.5.1</dependency.javax.mail.version>
 
         <!-- Alfresco Share version -->
         <alfresco.share.version>6.1.0</alfresco.share.version>

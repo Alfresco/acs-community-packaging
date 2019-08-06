@@ -44,7 +44,7 @@ matrix:
         - cd ../..
         - ./tests/scripts/start-compose.sh ./docker-alfresco/test
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-restapi/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+        - travis_wait 40 mvn install -q -f tests/tas-restapi/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "CMIS TAS tests"
       jdk: openjdk11
       install:
@@ -54,7 +54,7 @@ matrix:
         - cd ../..
         - ./tests/scripts/start-compose.sh ./docker-alfresco/test
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+        - travis_wait 40 mvn install -q -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "Email TAS tests"
       jdk: openjdk11
       install:
@@ -64,7 +64,7 @@ matrix:
         - cd ../..
         - ./tests/scripts/start-compose.sh ./docker-alfresco/test
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+        - travis_wait 40 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "WebDAV TAS tests"
       jdk: openjdk11
       install:
@@ -74,7 +74,7 @@ matrix:
         - cd ../..
         - ./tests/scripts/start-compose.sh ./docker-alfresco/test
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+        - travis_wait 40 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "Integration TAS tests"
       jdk: openjdk11
       install:
@@ -84,4 +84,4 @@ matrix:
         - cd ../..
         - ./tests/scripts/start-compose.sh ./docker-alfresco/test
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+        - travis_wait 40 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false

@@ -25,6 +25,8 @@
 
     <properties>
         <suiteXmlFile>${project.basedir}/src/test/resources/acs-community-integration-suite.xml</suiteXmlFile>
+        <dependency.groovy.version>2.5.5</dependency.groovy.version>
+        <dependency.javax.mail.version>1.5.1</dependency.javax.mail.version>
         <test.exclude />
         <test.include />
     </properties>
@@ -72,6 +74,12 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>${dependency.javax.mail.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>${dependency.groovy.version}</version>
         </dependency>
 
         <!-- FTP -->
