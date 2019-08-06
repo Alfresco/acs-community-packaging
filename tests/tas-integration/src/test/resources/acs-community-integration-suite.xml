@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Integration" preserve-order="true">
+	<listeners>
+		<listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+		<listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"></listener>
+		<listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
+	</listeners>
+
+	<!--
+	<suite-files>
+        <suite-file path="src/test/resources/extension-point-suite.xml"></suite-file>
+     </suite-files>
+     -->
+
+	<test name="ACS Community Integration Core Tests">
+		<groups>
+			<run>
+				<include name="core"></include>
+				<exclude name="demo"></exclude>
+				<exclude name="unit"></exclude>
+				<exclude name="require-jmx"></exclude>
+				<exclude name="networks"></exclude>
+				<exclude name="aos"></exclude>
+				<exclude name="sanity"></exclude>
+				<exclude name="full"></exclude>
+				<exclude name="enterprise"></exclude>
+			</run>
+		</groups>
+		<packages>
+			<package name="org.alfresco.tas.integration.*"></package>
+		</packages>
+	</test>
+
+	<test name="ACS Community Integration Full Tests">
+		<groups>
+			<run>
+				<include name="full"></include>
+				<exclude name="demo"></exclude>
+				<exclude name="unit"></exclude>
+				<exclude name="require-jmx"></exclude>
+				<exclude name="networks"></exclude>
+				<exclude name="aos"></exclude>
+				<exclude name="core"></exclude>
+				<exclude name="sanity"></exclude>
+				<exclude name="enterprise"></exclude>
+			</run>
+		</groups>
+		<packages>
+			<package name="org.alfresco.tas.integration.*"></package>
+		</packages>
+	</test>
+	
+	<test name="ACS Community Integration Sanity Tests">
+		<groups>
+			<run>
+				<include name="sanity"></include>
+				<exclude name="demo"></exclude>
+				<exclude name="unit"></exclude>
+				<exclude name="require-jmx"></exclude>
+				<exclude name="networks"></exclude>
+				<exclude name="aos"></exclude>
+				<exclude name="core"></exclude>
+				<exclude name="full"></exclude>
+				<exclude name="enterprise"></exclude>
+			</run>
+		</groups>
+		<packages>
+			<package name="org.alfresco.tas.integration.*"></package>
+		</packages>
+	</test>
+
+</suite> <!-- Suite -->

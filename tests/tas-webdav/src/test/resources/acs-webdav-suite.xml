@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="WEBDAV API" preserve-order="true">
+	<listeners>
+		<listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
+		<listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"></listener>
+		<listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
+	</listeners>
+
+	<test name="Sanity">
+		<groups>
+			<run>
+				<include name="sanity" />
+				<include name="core" />
+				<include name="full" />
+				<exclude name="demo"></exclude>
+				<exclude name="unit"></exclude>
+				<!-- networks is related to tenant tests -->
+				<exclude name="networks"></exclude>
+			</run>
+		</groups>
+		<packages>
+			<package name="org.alfresco.webdav.*"></package>
+		</packages>
+	</test>
+
+</suite> <!-- Suite -->
+

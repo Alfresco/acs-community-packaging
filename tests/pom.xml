@@ -14,6 +14,9 @@
     <modules>
         <module>tas-restapi</module>
         <module>tas-cmis</module>
+        <module>tas-email</module>
+        <module>tas-webdav</module>
+        <module>tas-integration</module>
     </modules>
 
     <dependencyManagement>
@@ -46,6 +49,24 @@
                 <groupId>org.alfresco.tas</groupId>
                 <artifactId>cmis</artifactId>
                 <version>${dependency.tas-cmis.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.tas</groupId>
+                <artifactId>email</artifactId>
+                <version>${dependency.tas-email.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.tas</groupId>
+                <artifactId>webdav</artifactId>
+                <version>${dependency.tas-webdav.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.tas</groupId>
+                <artifactId>ftp</artifactId>
+                <version>${dependency.tas-ftp.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
