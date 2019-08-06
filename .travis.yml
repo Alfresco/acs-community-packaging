@@ -60,7 +60,7 @@ matrix:
         - ./tests/scripts/start-compose.sh ./docker-alfresco/test
       script:
         - travis_wait 40 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
-    - name: "Email WebDAV tests"
+    - name: "WebDAV TAS tests"
       jdk: openjdk11
       install:
         - travis_retry travis_wait 40 mvn install -q -Dbuild-number=${TRAVIS_BUILD_NUMBER} -Dbuild-key=${TRAVIS_COMMIT} -Dbuild-name="${TRAVIS_BUILD_WEB_URL}" -Dscm-path=${TRAVIS_REPO_SLUG} "-Dversion.edition=${VERSION_EDITION}" "-Dimage.tag=${DOCKER_IMAGE_TAG}" -Dimage.registry=${DOCKER_IMAGE_REGISTRY} -Dimage.name=${ALFRESCO_IMAGE_NAME} -Dmaven.javadoc.skip=true -PcommunityDocker
