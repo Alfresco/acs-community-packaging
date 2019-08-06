@@ -19,7 +19,7 @@ public class ImapMessageFlagsTests extends EmailTest
     {
         testUser = dataUser.createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createIMAPSite();
-        FileModel fileModel = dataContent.usingSite(testSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        FileModel fileModel = dataContent.usingUser(testUser).usingSite(testSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         imapProtocol.authenticateUser(testUser).usingResource(fileModel).assertThat().existsInRepo()
                 .and().assertThat().existsInImap()
                 .and().withMessage().setAnsweredFlag().setSeenFlag().updateFlags()
@@ -33,7 +33,7 @@ public class ImapMessageFlagsTests extends EmailTest
     {
         testUser = dataUser.createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createIMAPSite();
-        FileModel fileModel = dataContent.usingSite(testSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        FileModel fileModel = dataContent.usingUser(testUser).usingSite(testSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         imapProtocol.authenticateUser(testUser).usingResource(fileModel).assertThat().existsInRepo()
                 .and().assertThat().existsInImap()
                 .and().withMessage().setFlags(Flags.Flag.ANSWERED, Flags.Flag.SEEN).updateFlags()
@@ -47,7 +47,7 @@ public class ImapMessageFlagsTests extends EmailTest
     {
         testUser = dataUser.createRandomTestUser();
         testSite = dataSite.usingUser(testUser).createIMAPSite();
-        FileModel fileModel = dataContent.usingSite(testSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
+        FileModel fileModel = dataContent.usingUser(testUser).usingSite(testSite).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
         imapProtocol.authenticateUser(testUser).usingResource(fileModel).assertThat().existsInRepo()
                 .and().assertThat().existsInImap()
                 .and().withMessage().setFlags(Flags.Flag.ANSWERED, Flags.Flag.SEEN).updateFlags()
