@@ -433,6 +433,7 @@ public class AddFavoritesTests extends RestTest
                 .stackTraceIs(RestErrorModel.STACKTRACE);
     }
 
+    @Bug(id = "REPO-4000")
     @TestRail(section = { TestGroup.REST_API, TestGroup.FAVORITES }, executionType = ExecutionType.REGRESSION,
             description = "Verify the response of favorite a sie with empty body at request")
     @Test(groups = { TestGroup.REST_API, TestGroup.FAVORITES, TestGroup.REGRESSION })

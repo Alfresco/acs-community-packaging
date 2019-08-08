@@ -28,6 +28,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.report.Bug;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
 import org.springframework.http.HttpStatus;
@@ -180,6 +181,7 @@ public class GetDeletedNodesTests extends RestTest
         restClient.onResponse().getResponse().body().asString().contains("Sample text.");
     }
 
+    @Bug(id = "REPO-4484")
     @TestRail(section = { TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.REQUIRE_SOLR }, executionType = ExecutionType.SANITY,
               description = "Sanity tests for GET /deleted-nodes/{nodeId}/renditions, GET /deleted-nodes/{nodeId}/renditions/{renditionId}, GET /deleted-nodes/{nodeId}/renditions/{renditionId}/content")
     @Test(groups = { TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.SANITY })

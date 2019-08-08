@@ -210,6 +210,7 @@ public class NodesContentAndVersioningTests extends RestTest
         assertFalse(initialNode.getIsLocked());
     }
 
+    @Bug(id = "REPO-4050")
     @Test(groups = { TestGroup.REST_API, TestGroup.NODES, TestGroup.SANITY })
     @TestRail(section = { TestGroup.REST_API,
             TestGroup.NODES }, executionType = ExecutionType.SANITY, description = "Test retrieving node versions, a specific version and version content.")
