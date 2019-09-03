@@ -80,7 +80,9 @@
 
         <dependency.spring.version>5.1.8.RELEASE</dependency.spring.version>
         <dependency.fabric8.version>4.2.0</dependency.fabric8.version>
-        <dependency.jackson.version>2.9.9.3</dependency.jackson.version>
+        <dependency.jackson.version>2.9.9</dependency.jackson.version>
+        <dependency.jackson-databind.version>2.9.9.3</dependency.jackson-databind.version>
+
         <dependency.cxf.version>3.3.2</dependency.cxf.version>
 
         <!-- Alfresco Share version -->
@@ -363,7 +365,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${dependency.jackson.version}</version>
+                <version>${dependency.jackson-databind.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
