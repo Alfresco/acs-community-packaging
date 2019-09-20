@@ -95,16 +95,17 @@ public class DeleteTaskVariableTests extends RestTest
                 .       assertThat().entriesListDoesNotContain("name", variableModel.getName());
     }
 
-    @TestRail(section = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS }, executionType = ExecutionType.REGRESSION,
-            description = "Delete task variable with invalid name")
-    @Test(groups = {TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS, TestGroup.REGRESSION })
-    public void deleteTaskVariableInvalidName() throws Exception
-    {
-        restClient.authenticateUser(userModel);
-        RestVariableModel variableModel = new RestVariableModel("local", "<>.,;/|-+=%", "d:text", "invalid name");
-        restClient.withWorkflowAPI().usingTask(taskModel).deleteTaskVariable(variableModel);
-        restClient.assertStatusCodeIs(HttpStatus.BAD_REQUEST);
-    }
+//    The reason the test is not valid is because of `/` malforming the path so that it actually can't land on the URL of the webscript. The request with <>.,;|-+=% (without /) actually is parsed and 404 is thrown (no entity with id  <>.,;|-+=% is found)
+//    @TestRail(section = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS }, executionType = ExecutionType.REGRESSION,
+//            description = "Delete task variable with invalid name")
+//    @Test(groups = {TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS, TestGroup.REGRESSION })
+//    public void deleteTaskVariableInvalidName() throws Exception
+//    {
+//        restClient.authenticateUser(userModel);
+//        RestVariableModel variableModel = new RestVariableModel("local", "<>.,;/|-+=%", "d:text", "invalid name");
+//        restClient.withWorkflowAPI().usingTask(taskModel).deleteTaskVariable(variableModel);
+//        restClient.assertStatusCodeIs(HttpStatus.BAD_REQUEST);
+//    }
 
     @TestRail(section = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.TASKS }, executionType = ExecutionType.REGRESSION,
             description = "Create, update, delete task variable with any user")
