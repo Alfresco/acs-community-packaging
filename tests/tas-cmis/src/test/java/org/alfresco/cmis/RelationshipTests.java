@@ -116,13 +116,12 @@ public class RelationshipTests extends CmisTest
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify that site manager is able to create relationship between documents with CMIS")
     @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
-    public void siteManagerCanCreateRelationshipInRepository() throws Exception
+    public void siteManagerCanCreateRelationshipInPrivateSite() throws Exception
     {
         sourceFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
         targetFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
-        FolderModel userHome = FolderModel.getUserHomesFolderModel();
         cmisApi.authenticateUser(dataUser.getAdminUser())
-            .usingResource(userHome)
+            .usingSite(privateSite)
                 .createFile(targetFile).and().assertThat().existsInRepo()
                 .createFile(sourceFile).and().assertThat().existsInRepo()
                 .then().authenticateUser(siteManager)
@@ -148,20 +147,6 @@ public class RelationshipTests extends CmisTest
     }
 
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
-            description = "Verify site manager is not able to create relationship between a source file and a target folder with CMIS")
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS}, expectedExceptions = CmisConstraintException.class, expectedExceptionsMessageRegExp = "^.*The association target type is incorrect.*$")
-    public void siteManagerCannotCreateRelBetweenSourceFileAndTargetFolder() throws Exception
-    {
-        sourceFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
-        targetFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
-        FolderModel targetFolder = FolderModel.getRandomFolderModel();
-        cmisApi.authenticateUser(siteManager).usingSite(publicSite)
-            .createFolder(targetFolder).assertThat().existsInRepo()
-            .createFile(sourceFile).assertThat().existsInRepo()
-            .then().createRelationshipWith(targetFolder);
-    }
-
-    @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify admin is able to create relationship between a source folder and a target file with CMIS")
     @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     public void adminCreatesRelBetweenSourceFolderAndTargetFile() throws Exception
@@ -177,9 +162,9 @@ public class RelationshipTests extends CmisTest
     }
 
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
-            description = "Verify contributor is able to create relationship between a source object and a target object in DocumentLibrary with CMIS")
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
-    public void contributorCanCreateRelationship() throws Exception
+            description = "Verify contributor is not able to create relationship between a source object and a target object in DocumentLibrary with CMIS")
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS},expectedExceptions={CmisPermissionDeniedException.class, CmisUnauthorizedException.class})
+    public void contributorCannotCreateRelationship() throws Exception
     {
         sourceFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
         targetFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
@@ -207,9 +192,9 @@ public class RelationshipTests extends CmisTest
     }
 
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
-            description = "Verify consumer is able to create relationship between a source object and a target object in DocumentLibrary with CMIS")
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
-    public void consumerCanCreateRelationship() throws Exception
+            description = "Verify consumer is not able to create relationship between a source object and a target object in DocumentLibrary with CMIS")
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS},expectedExceptions={CmisPermissionDeniedException.class, CmisUnauthorizedException.class})
+    public void consumerCannotCreateRelationship() throws Exception
     {
         sourceFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
         targetFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN);
