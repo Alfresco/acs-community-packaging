@@ -184,7 +184,7 @@ public class GetDeletedNodesTests extends RestTest
     @Bug(id = "REPO-4484")
     @TestRail(section = { TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.REQUIRE_SOLR }, executionType = ExecutionType.SANITY,
               description = "Sanity tests for GET /deleted-nodes/{nodeId}/renditions, GET /deleted-nodes/{nodeId}/renditions/{renditionId}, GET /deleted-nodes/{nodeId}/renditions/{renditionId}/content")
-    @Test(groups = { TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.SANITY })
+    @Test(groups = { TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.SANITY, TestGroup.REQUIRE_TRANSFORMATION })
     public void testGetDeletedNodesRenditions() throws Exception
     {
         // Create file3 based on existing resource
@@ -223,7 +223,7 @@ public class GetDeletedNodesTests extends RestTest
 
     @TestRail(section = {TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.REQUIRE_SOLR}, executionType = ExecutionType.SANITY,
             description = "Sanity test to verify Range request header on GET /deleted-nodes/{nodeId}/renditions/{renditionId}/content endpoint")
-    @Test(groups = {TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.SANITY})
+    @Test(groups = {TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.SANITY, TestGroup.REQUIRE_TRANSFORMATION})
     public void testGetDeletedNodesRenditionsandVerifyRangeRequestheader() throws Exception
     {
         // Create file4 based on existing resource

@@ -19,6 +19,7 @@
 				<exclude name="networks"></exclude>
 				<exclude name="all_amps"></exclude>
 				<exclude name="renditions-regression"></exclude>
+                <exclude name="renditions"></exclude>
 			</run>
 		</groups>
 		<packages>
@@ -33,6 +34,8 @@
 				<include name="regression" />
 				<exclude name="demo"></exclude>
 				<exclude name="unit"></exclude>
+                <exclude name="require-transformation"></exclude>
+                <exclude name="renditions"></exclude>
 				<exclude name="require-share"></exclude>
 				<exclude name="require-jmx"></exclude>
 				<exclude name="require-solr" />
