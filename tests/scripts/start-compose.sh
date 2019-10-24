@@ -10,9 +10,8 @@ fi
 
 echo "Starting ACS stack in ${DOCKER_COMPOSE_PATH}"
 
-cd ${DOCKER_COMPOSE_PATH}
-
-docker-compose up -d
+# .env files are picked up from project directory correctly on docker-compose 1.23.0+
+docker-compose --file "${DOCKER_COMPOSE_PATH}" --project-directory $(dirname "${DOCKER_COMPOSE_PATH}") up -d
 
 if [ $? -eq 0 ]
 then
@@ -20,26 +19,4 @@ then
 else
   echo "Docker Compose failed to start" >&2
   exit 1
-fi
-
-WAIT_INTERVAL=1
-COUNTER=0
-TIMEOUT=300
-t0=`date +%s`
-
-echo "Waiting for alfresco to start"
-until $(curl --output /dev/null --silent --head --fail http://localhost:8082/alfresco) || [ "$COUNTER" -eq "$TIMEOUT" ]; do
-   printf '.'
-   sleep $WAIT_INTERVAL
-   COUNTER=$(($COUNTER+$WAIT_INTERVAL))
-done
-
-if (("$COUNTER" < "$TIMEOUT")) ; then
-   t1=`date +%s`
-   delta=$((($t1 - $t0)/60))
-   echo "Alfresco Started in $delta minutes"
-else
-   echo "Waited $COUNTER seconds"
-   echo "Alfresco Could not start in time."
-   exit 1
 fi
