@@ -1,0 +1,113 @@
+version: "3"
+
+# The acs-deployment project contains the product version of docker-compose.
+#
+# This version is for testing and development use. For testing and debug we need to have a more open version.
+# For remote debug we need the CATALINA_OPTS and to expose port 8000.
+
+# Add the following environment variable to CATALINA_OPTS to activate YourKit profiling agent on tomcat
+#-agentpath:/usr/local/YourKit-JavaProfiler-2018.04/bin/linux-x86-64/libyjpagent.so=delay=200000,listen=all,sessionname=$$HOSTNAME,dir=/tmp/Alfresco/yourkit,onexit=snapshot,periodicperf=600,periodicmem=600,probe_off=*
+
+services:
+    alfresco:
+        image: alfresco/alfresco-content-repository:latest
+        environment:
+            CATALINA_OPTS : "
+                -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
+                "
+            JAVA_OPTS : "
+                -Dalfresco.port=8082
+                -Daos.baseUrlOverwrite=http://localhost:8082/alfresco/aos
+                -Ddb.driver=org.postgresql.Driver
+                -Ddb.username=alfresco
+                -Ddb.password=alfresco
+                -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+                -Dalfresco.restApi.basicAuthScheme=true
+                -Dmessaging.broker.url=\"failover:(tcp://activemq:61616)?timeout=3000&jms.useCompression=true\"
+                
+                -Dtransform.service.enabled=false
+
+                -Dlocal.transform.service.enabled=false
+
+                -Dlegacy.transform.service.enabled=true
+                -Dalfresco-pdf-renderer.url=http://alfresco-pdf-renderer:8090/
+                -Djodconverter.url=http://libreoffice:8090/
+                -Dimg.url=http://imagemagick:8090/
+                -Dtika.url=http://tika:8090/
+                -Dtransform.misc.url=http://transform-misc:8090/
+                "
+        ports:
+            - 8082:8080
+            - 8000:8000
+
+    postgres:
+        image: library/postgres:${POSTGRES_TAG}
+        environment:
+            - POSTGRES_PASSWORD=alfresco
+            - POSTGRES_USER=alfresco
+            - POSTGRES_DB=alfresco
+        ports:
+            - 5432:5432
+
+    activemq:
+        image: alfresco/alfresco-activemq:${ACTIVEMQ_TAG}
+        ports:
+            - 8161:8161 # Web Console
+            - 5672:5672 # AMQP
+            - 61616:61616 # OpenWire
+            - 61613:61613 # STOMP
+    
+    alfresco-pdf-renderer:
+        image: alfresco/alfresco-pdf-renderer:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8090:8090
+
+    imagemagick:
+        image: alfresco/alfresco-imagemagick:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8091:8090
+
+    libreoffice:
+        image: alfresco/alfresco-libreoffice:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8092:8090
+
+    tika:
+        image: alfresco/alfresco-tika:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+        ports:
+            - 8093:8090
+    
+    transform-misc:
+        image: alfresco/alfresco-transform-misc:${TRANSFORMERS_TAG}
+        environment:
+            JAVA_OPTS: " -Xms256m -Xmx256m"
+            ACTIVEMQ_URL: "nio://activemq:61616"
+            ACTIVEMQ_USER: "admin"
+            ACTIVEMQ_PASSWORD: "admin"
+            FILE_STORE_URL: "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file"
+        ports:
+            - 8094:8090

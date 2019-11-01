@@ -72,3 +72,32 @@ matrix:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 40 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    # In ACS 6.2 existing LOCAL transformers were renamed to LEGACY
+    # The below will not be required and should be removed in ACS < 6.2
+    - name:  "Transformation Validation tests: Legacy Transformers only" 
+      jdk: openjdk11
+      install:
+        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-legacy-transforms-only.yml
+        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+      script:
+        - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+    - name: "Transformation Validation tests: Local Transformers only"  
+      jdk: openjdk11
+      install:
+        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}        
+        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-local-transforms-only.yml
+        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+      script:
+        - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
+    - name: "Transformation Validation tests: Transfrom service only"
+      jdk: openjdk11
+      install:
+        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}        
+        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-transform-service-only.yml
+        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+      script:
+        - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
