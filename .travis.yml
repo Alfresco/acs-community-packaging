@@ -78,7 +78,7 @@ matrix:
     - name:  "Transformation Validation tests: Legacy Transformers only" 
       jdk: openjdk11
       install:
-        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
         - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-legacy-transforms-only.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -87,7 +87,7 @@ matrix:
     - name: "Transformation Validation tests: Local Transformers only"  
       jdk: openjdk11
       install:
-        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
         - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}        
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-local-transforms-only.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -96,7 +96,7 @@ matrix:
     - name: "Transformation Validation tests: Transfrom service only"
       jdk: openjdk11
       install:
-        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
         - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}        
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-transform-service-only.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
