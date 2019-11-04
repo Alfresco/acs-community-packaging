@@ -23,63 +23,62 @@ branches:
 
 matrix:
   include:
-    - name: "WhiteSource scan"
-      # only on master and if it is not a PR
-      if: fork = false AND branch = master AND type != pull_request
-      install:
-        - travis_retry travis_wait 30 mvn -q install "-Dversion.edition=${VERSION_EDITION}" -f war/pom.xml
-      script:
-        # Download the latest version of WhiteSource Unified Agent
-        - curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.jar
-        # Run WhiteSource Unified Agent
-        - java -jar wss-unified-agent.jar -apiKey ${WHITESOURCE_API_KEY} -c .wss-unified-agent.config -d ./war
-    - name: "REST API TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
-        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
-      script:
-        - travis_wait 40 mvn install -q -f tests/tas-restapi/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
-    - name: "CMIS TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
-        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
-      script:
-        - travis_wait 40 mvn install -q -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
-    - name: "Email TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
-        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
-      script:
-        - travis_wait 40 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
-    - name: "WebDAV TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
-        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
-      script:
-        - travis_wait 40 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
-    - name: "Integration TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
-        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
-      script:
-        - travis_wait 40 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    # - name: "WhiteSource scan"
+    #   # only on master and if it is not a PR
+    #   if: fork = false AND branch = master AND type != pull_request
+    #   install:
+    #     - travis_retry travis_wait 30 mvn -q install "-Dversion.edition=${VERSION_EDITION}" -f war/pom.xml
+    #   script:
+    #     # Download the latest version of WhiteSource Unified Agent
+    #     - curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss-unified-agent.jar
+    #     # Run WhiteSource Unified Agent
+    #     - java -jar wss-unified-agent.jar -apiKey ${WHITESOURCE_API_KEY} -c .wss-unified-agent.config -d ./war
+    # - name: "REST API TAS tests"
+    #   jdk: openjdk11
+    #   install:
+    #     - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+    #     - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
+    #     - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+    #   script:
+    #     - travis_wait 40 mvn install -q -f tests/tas-restapi/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    # - name: "CMIS TAS tests"
+    #   jdk: openjdk11
+    #   install:
+    #     - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+    #     - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
+    #     - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+    #   script:
+    #     - travis_wait 40 mvn install -q -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    # - name: "Email TAS tests"
+    #   jdk: openjdk11
+    #   install:
+    #     - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+    #     - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
+    #     - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+    #   script:
+    #     - travis_wait 40 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    # - name: "WebDAV TAS tests"
+    #   jdk: openjdk11
+    #   install:
+    #     - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+    #     - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
+    #     - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+    #   script:
+    #     - travis_wait 40 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    # - name: "Integration TAS tests"
+    #   jdk: openjdk11
+    #   install:
+    #     - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+    #     - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
+    #     - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+    #   script:
+    #     - travis_wait 40 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     # In ACS 6.2 existing LOCAL transformers were renamed to LEGACY
     # The below will not be required and should be removed in ACS < 6.2
     - name:  "Transformation Validation tests: Legacy Transformers only" 
       jdk: openjdk11
       install:
         - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-legacy-transforms-only.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
@@ -88,17 +87,7 @@ matrix:
       jdk: openjdk11
       install:
         - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}        
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-local-transforms-only.yml
-        - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
-      script:
-        - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
-    - name: "Transformation Validation tests: Transfrom service only"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
-        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}        
-        - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-transform-service-only.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
