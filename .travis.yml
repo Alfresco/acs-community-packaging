@@ -19,6 +19,7 @@ env:
 branches:
   only:
     - master
+    - feature/REPO-4745-Update-acs-community-packaging-transformation-tests
 
 matrix:
   include:
