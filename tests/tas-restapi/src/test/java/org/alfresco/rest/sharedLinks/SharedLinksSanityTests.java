@@ -199,7 +199,7 @@ public class SharedLinksSanityTests extends RestTest
     }
 
     @TestRail(section = { TestGroup.REST_API, TestGroup.SHAREDLINKS }, executionType = ExecutionType.REGRESSION, description = "Verify get sharedLink/content and get/renditions")
-    @Test(groups = { TestGroup.REST_API, TestGroup.SHAREDLINKS, TestGroup.REGRESSION, TestGroup.REQUIRE_TRANSFORMATION })
+    @Test(groups = { TestGroup.REST_API, TestGroup.SHAREDLINKS, TestGroup.REGRESSION, TestGroup.RENDITIONS })
     public void testCreateWithExpiryDateAndGetSharedLinkRendition() throws Exception
     {
         sharedLink5 = restClient.authenticateUser(testUser1).withCoreAPI().includePath().usingSharedLinks().createSharedLinkWithExpiryDate(file5, expiryDate);
@@ -213,7 +213,7 @@ public class SharedLinksSanityTests extends RestTest
     }
 
     @TestRail(section = { TestGroup.REST_API, TestGroup.SHAREDLINKS }, executionType = ExecutionType.SANITY, description = "Sanity tests for GET /renditions, GET /renditions/{renditionId} and GET /renditions/{renditionId}/content endpoints")
-    @Test(groups = { TestGroup.REST_API, TestGroup.SHAREDLINKS, TestGroup.SANITY, TestGroup.REQUIRE_TRANSFORMATION })
+    @Test(groups = { TestGroup.REST_API, TestGroup.SHAREDLINKS, TestGroup.SANITY, TestGroup.RENDITIONS })
     public void testGetSharedLinkRendition() throws Exception
     {
         sharedLink7 = restClient.authenticateUser(testUser1).withCoreAPI().usingSharedLinks().createSharedLink(file7);
@@ -249,7 +249,7 @@ public class SharedLinksSanityTests extends RestTest
     }
 
     @TestRail(section = { TestGroup.REST_API, TestGroup.SHAREDLINKS }, executionType = ExecutionType.SANITY, description = "Sanity tests for Range reuest header on   GET shared-links/{sharedId}/renditions/{renditionId}/content endpoints")
-    @Test(groups = { TestGroup.REST_API, TestGroup.SHAREDLINKS, TestGroup.SANITY, TestGroup.REQUIRE_TRANSFORMATION })
+    @Test(groups = { TestGroup.REST_API, TestGroup.SHAREDLINKS, TestGroup.SANITY, TestGroup.RENDITIONS })
     public void testGetVerifyRangeReguestOnSharedLinks() throws Exception
     {
         sharedLink8 = restClient.authenticateUser(testUser1).withCoreAPI().usingSharedLinks().createSharedLink(file8);

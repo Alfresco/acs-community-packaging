@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
  * @author Cristina Axinte
  *
  */
-@Test(groups = {TestGroup.REQUIRE_TRANSFORMATION})
+@Test(groups = {TestGroup.RENDITIONS})
 public class GetRenditionTests extends RestTest
 {
     private UserModel user;
@@ -43,7 +43,7 @@ public class GetRenditionTests extends RestTest
     }
 
     @Bug(id = "REPO-2449", status = Status.FIXED)
-    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.SANITY })
+    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.SANITY, TestGroup.NOT_SUPPORTED_BY_ATS })
     @TestRail(section = { TestGroup.REST_API, TestGroup.RENDITIONS }, executionType = ExecutionType.SANITY, 
         description = "Verify that ZIP document preview is rendered")
     public void verifyPreviewOfZipFile() throws Exception
@@ -72,7 +72,7 @@ public class GetRenditionTests extends RestTest
     }
     
     @Bug(id = "REPO-2485", status = Status.FIXED)
-    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.SANITY })
+    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.SANITY, TestGroup.NOT_SUPPORTED_BY_ATS })
     @TestRail(section = { TestGroup.REST_API, TestGroup.RENDITIONS }, executionType = ExecutionType.SANITY, 
         description = "Verify that ZIP document thumbnail is rendered")
     public void verifyThumbnailOfZipFile() throws Exception
@@ -106,8 +106,8 @@ public class GetRenditionTests extends RestTest
      * GET /nodes/{nodeId}/renditions/{renditionId}/content
      * @throws Exception
      */
-    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.SANITY })
-    @TestRail(section = { TestGroup.REST_API, TestGroup.RENDITIONS }, executionType = ExecutionType.SANITY, 
+    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.SANITY, TestGroup.NOT_SUPPORTED_BY_ATS })
+    @TestRail(section = { TestGroup.REST_API, TestGroup.RENDITIONS }, executionType = ExecutionType.SANITY,
         description = "Verify that the rendition content can be downloaded using GET /nodes/{nodeId}/renditions/{renditionId}/content")
     public void getRenditionContent() throws Exception
     {

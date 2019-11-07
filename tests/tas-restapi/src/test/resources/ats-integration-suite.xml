@@ -7,10 +7,11 @@
         <listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"/>
 	</listeners>
 
-	<test name="Tests that require renditions">
+	<test name="Tests that require renditions excluding the ones don't run on ATS">
         <groups>
             <run>
                 <include name="renditions"/>
+                <exclude name="not-supported-by-ats"/>
             </run>
         </groups>
 		<packages>
