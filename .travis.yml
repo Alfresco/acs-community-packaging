@@ -87,7 +87,7 @@ matrix:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-local-transforms-only.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082<<<<<<< HEAD
+        - travis_wait 40 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-tas-renditions-integration-tests -Denvironment=default -DrunBugs=false -Dalfresco.port=8082
     - name: "Transformation Rendition Validation tests: Transform service only"
       jdk: openjdk11
       install:
