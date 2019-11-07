@@ -2,20 +2,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="REST API RENDITION INTEGRATION TEST SUITE" preserve-order="true">
 	<listeners>
-		<listener class-name="org.alfresco.utility.report.HtmlReportListener"></listener>
-		<listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"></listener>
-		<listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"></listener>
+        <listener class-name="org.alfresco.utility.report.HtmlReportListener"/>
+        <listener class-name="org.alfresco.utility.testrail.TestRailExecutorListener"/>
+        <listener class-name="org.alfresco.utility.testng.OSTestMethodSelector"/>
 	</listeners>
 
 	<test name="Sanity">
-		<groups>
-			<run>
-				<include name="renditions-regression" />
-			</run>
-		</groups>
 		<packages>
-			<package name="org.alfresco.rest.renditions"></package>
+            <package name="org.alfresco.rest.renditions"/>
 		</packages>
 	</test>
 
-</suite> <!-- Suite -->
+</suite>
