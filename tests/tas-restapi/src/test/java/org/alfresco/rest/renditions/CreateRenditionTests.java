@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * @author Cristina Axinte
  *
  */
-@Test(groups = {TestGroup.REQUIRE_TRANSFORMATION})
+@Test(groups = {TestGroup.RENDITIONS})
 public class CreateRenditionTests  extends RestTest
 {
     private UserModel adminUser, user;
@@ -72,9 +72,9 @@ public class CreateRenditionTests  extends RestTest
     }
     
     @Bug(id = "REPO-2042", description = "Should fail only on MAC OS System and Linux", status = Status.FIXED )
-    @TestRail(section = { TestGroup.REST_API, TestGroup.RENDITIONS }, executionType = ExecutionType.REGRESSION, 
+    @TestRail(section = { TestGroup.REST_API, TestGroup.RENDITIONS }, executionType = ExecutionType.REGRESSION,
             description = "Verify user that created the document can also creates 'doclib' rendition for it with Rest API and status code is 202")
-    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.REGRESSION })
+    @Test(groups = { TestGroup.REST_API, TestGroup.RENDITIONS, TestGroup.REGRESSION, TestGroup.NOT_SUPPORTED_BY_ATS })
     public void userThatCreatedFileCanCreateDoclibRenditionForIt() throws JsonToModelConversionException, Exception
     {
         FolderModel folder = dataContent.usingUser(user).usingSite(site).createFolder();

@@ -25,7 +25,7 @@ import java.util.List;
  * Tests upload files and then request renditions for those files. <br>
  * Renditions are requested based on supported renditions according to GET '/nodes/{nodeId}/renditions'. <br>
  */
-@Test(groups = {TestGroup.REQUIRE_TRANSFORMATION, TestGroup.RENDITIONS_REGRESSION})
+@Test(groups = {TestGroup.RENDITIONS})
 public class AvailableRenditionTests extends RenditionIntegrationTests
 {
     /** List of parameters used as an input to supportedRenditionTest - fileName, nodeId, renditionId, expectedMimeType **/

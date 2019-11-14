@@ -28,7 +28,7 @@ public class GetProcessDefinitionImageSanityTests extends RestTest
 
     @TestRail(section = { TestGroup.REST_API,  TestGroup.WORKFLOW, TestGroup.PROCESS_DEFINITION }, executionType = ExecutionType.SANITY, 
             description = "Verify Any user gets a specific process definition image for non-network deployments using REST API and status code is OK (200)")
-    @Test(groups = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.PROCESS_DEFINITION, TestGroup.SANITY, TestGroup.REQUIRE_TRANSFORMATION })
+    @Test(groups = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.PROCESS_DEFINITION, TestGroup.SANITY, TestGroup.RENDITIONS })
     public void anyUserGetsProcessDefinitionImage() throws Exception
     {
         restClient.authenticateUser(testUser);
@@ -39,7 +39,7 @@ public class GetProcessDefinitionImageSanityTests extends RestTest
 
     @TestRail(section = { TestGroup.REST_API,  TestGroup.WORKFLOW, TestGroup.PROCESS_DEFINITION }, executionType = ExecutionType.SANITY, 
             description = "Verify Admin user gets a specific process definition image for non-network deployments using REST API and status code is OK (200)")
-    @Test(groups = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.PROCESS_DEFINITION, TestGroup.SANITY, TestGroup.REQUIRE_TRANSFORMATION })
+    @Test(groups = { TestGroup.REST_API, TestGroup.WORKFLOW, TestGroup.PROCESS_DEFINITION, TestGroup.SANITY, TestGroup.RENDITIONS })
     public void adminGetsProcessDefinitionImage() throws Exception
     {
         restClient.withWorkflowAPI().usingProcessDefinitions(randomProcessDefinition).getProcessDefinitionImage()
