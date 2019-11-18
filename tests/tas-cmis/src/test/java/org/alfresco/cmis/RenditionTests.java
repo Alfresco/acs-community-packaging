@@ -16,6 +16,7 @@ import org.apache.chemistry.opencmis.commons.exceptions.CmisUnauthorizedExceptio
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+@Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.RENDITIONS})
 public class RenditionTests extends CmisTest
 {
     SiteModel testSite;
@@ -37,7 +38,7 @@ public class RenditionTests extends CmisTest
             .createFile(testFile).assertThat().existsInRepo();
     }
     
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify admin can get renditions for valid Document object")
     public void adminShouldGetRenditionsForDocument() throws Exception
@@ -60,7 +61,7 @@ public class RenditionTests extends CmisTest
                 .assertThat().thumbnailRenditionIsAvailable();
     }
     
-    @Test(groups = { TestGroup.SANITY, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.SANITY, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.SANITY,
             description = "Verify site manager can get renditions for valid Document")
     public void managerGetRenditionsForDocument() throws Exception
@@ -70,7 +71,7 @@ public class RenditionTests extends CmisTest
                 .assertThat().thumbnailRenditionIsAvailable();
     }
     
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify site collaborator can get renditions for valid Document")
     public void collaboratorGetRenditionsForDocument() throws Exception
@@ -80,7 +81,7 @@ public class RenditionTests extends CmisTest
                 .assertThat().thumbnailRenditionIsAvailable();
     }
     
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify site contributor can get renditions for valid Document")
     public void contributorGetRenditionsForDocument() throws Exception
@@ -90,7 +91,7 @@ public class RenditionTests extends CmisTest
                 .assertThat().thumbnailRenditionIsAvailable();
     }
     
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify site consumer can get renditions for valid Document")
     public void consumerGetRenditionsForDocument() throws Exception
@@ -100,7 +101,7 @@ public class RenditionTests extends CmisTest
                 .assertThat().thumbnailRenditionIsAvailable();
     }
     
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify site manager can get renditions for checked out document")
     public void managerGetRenditionsForCheckedOutDocument() throws Exception
@@ -113,7 +114,7 @@ public class RenditionTests extends CmisTest
                             .assertThat().thumbnailRenditionIsAvailable();
     }
     
-    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS, TestGroup.REQUIRE_TRANSFORMATION})
+    @Test(groups = { TestGroup.REGRESSION, TestGroup.CMIS})
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
             description = "Verify non invited user can get renditions in public site")
     public void nonInvitedUserGetRenditionsInPublicSite() throws Exception
