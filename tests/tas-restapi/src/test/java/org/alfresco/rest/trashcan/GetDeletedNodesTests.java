@@ -221,6 +221,7 @@ public class GetDeletedNodesTests extends RestTest
         Assert.assertTrue(restClient.onResponse().getResponse().body().asInputStream().available() > 0);
     }
 
+    @Bug(id = "REPO-4778")
     @TestRail(section = {TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.REQUIRE_SOLR}, executionType = ExecutionType.SANITY,
             description = "Sanity test to verify Range request header on GET /deleted-nodes/{nodeId}/renditions/{renditionId}/content endpoint")
     @Test(groups = {TestGroup.REST_API, TestGroup.TRASHCAN, TestGroup.SANITY, TestGroup.RENDITIONS})
