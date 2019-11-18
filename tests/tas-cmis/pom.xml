@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.alfresco.tas</groupId>
-    <artifactId>acs-community-cmis-test</artifactId>
-    <name>acs-community-cmis-test</name>
+    <artifactId>content-repository-community-cmis-test</artifactId>
+    <name>content-repository-community-cmis-test</name>
     <version>6.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.alfresco</groupId>
-        <artifactId>acs-community-packaging-tas-tests-parent</artifactId>
+        <artifactId>content-repository-tas-tests-parent</artifactId>
         <version>6.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -24,29 +24,8 @@
     </developers>
 
     <properties>
-        <suiteXmlFile>${project.basedir}/src/test/resources/cmis-acs-community-suite.xml</suiteXmlFile>
-        <test.exclude />
-        <test.include />
+        <suiteXmlFile>${project.basedir}/src/test/resources/cmis-suite.xml</suiteXmlFile>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>run-tas-cmis-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-                            </suiteXmlFiles>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -65,12 +44,6 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <excludedGroups>
-                        ${test.exclude}
-                    </excludedGroups>
-                    <groups>
-                        ${test.include}
-                    </groups>
                     <argLine>
                         --illegal-access=warn
                     </argLine>

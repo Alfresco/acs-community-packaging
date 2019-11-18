@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.alfresco.tas</groupId>
-    <artifactId>acs-community-integration-test</artifactId>
-    <name>acs-community-integration-test</name>
+    <artifactId>content-repository-community-integration-test</artifactId>
+    <name>content-repository-community-integration-test</name>
     <version>6.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.alfresco</groupId>
-        <artifactId>acs-community-packaging-tas-tests-parent</artifactId>
+        <artifactId>content-repository-community-tas-tests-parent</artifactId>
         <version>6.3.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -24,31 +24,10 @@
     </developers>
 
     <properties>
-        <suiteXmlFile>${project.basedir}/src/test/resources/acs-community-integration-suite.xml</suiteXmlFile>
+        <suiteXmlFile>${project.basedir}/src/test/resources/integration-suite.xml</suiteXmlFile>
         <dependency.groovy.version>2.5.5</dependency.groovy.version>
         <dependency.javax.mail.version>1.5.1</dependency.javax.mail.version>
-        <test.exclude />
-        <test.include />
     </properties>
-
-    <profiles>
-        <profile>
-            <id>run-tas-integration-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-                            </suiteXmlFiles>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -133,12 +112,6 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <excludedGroups>
-                        ${test.exclude}
-                    </excludedGroups>
-                    <groups>
-                        ${test.include}
-                    </groups>
                     <argLine>
                         --illegal-access=warn
                     </argLine>
