@@ -820,44 +820,6 @@ public class IntegrationCoreTests extends IntegrationTest
         cmisAPI.authenticateUser(testUser1).usingResource(file3).delete()
                 .assertThat().doesNotExistInRepo();        
     }
-    
-    /**
-     * Scenario 36
-     * 1. Authenticate as admin user and get all deployments
-     * 2. Add new deployment using extension point
-     * 3. Get for the deployment added details: id, deployedAt and name
-     * 4. Get deployment information - invalidID
-     */
-    @Test(groups = { TestGroup.INTEGRATION, TestGroup.REQUIRE_JMX, TestGroup.CORE, TestGroup.EXTENTION_POINTS })
-    @TestRail(section = { TestGroup.INTEGRATION, TestGroup.WORKFLOW }, executionType = ExecutionType.REGRESSION,
-    description = "Admin get deployment information - for new deployment added")
-    public void adminGetsDeploymentInformationForNewDeployment() throws Exception
-    {                     
-        STEP("1. Authenticate as admin user and get all deployments");
-        dataContent.assertExtensionAmpExists("alfresco-workflow-extension");
-        RestDeploymentModelsCollection deployments = restAPI.authenticateUser(dataUser.getAdminUser()).withWorkflowAPI()
-                                                     .getDeployments();      
-        restAPI.assertStatusCodeIs(HttpStatus.OK);
-        
-        STEP("2. Add new deployment using extension point");
-        // The deployment with name "customWorkflowExtentionForRest.bpmn" is created by Workflow Extention Point
-        deployments.assertThat().entriesListContains("name", "customWorkflowExtentionForRest.bpmn");
-        RestDeploymentModel deployment = deployments.getDeploymentByName("customWorkflowExtentionForRest.bpmn");
-        
-        STEP("3. Get for the deployment added details: id, deployedAt and name");
-        RestDeploymentModel actualDeployment = restAPI.withWorkflowAPI().usingDeployment(deployment).getDeployment();
-        restAPI.assertStatusCodeIs(HttpStatus.OK);  
-        
-        actualDeployment.assertThat().field("deployedAt").isNotEmpty()
-                 .and().field("name").is("customWorkflowExtentionForRest.bpmn")
-                 .and().field("id").is(deployment.getId());
-        
-        STEP("4. Get deployment information - invalidID");
-        actualDeployment.setId("invalidId");        
-        restAPI.withWorkflowAPI().usingDeployment(actualDeployment).getDeployment();
-        restAPI.assertStatusCodeIs(HttpStatus.NOT_FOUND)
-                .assertLastError().containsSummary(String.format(RestErrorModel.ENTITY_NOT_FOUND, "invalidId"));
-    }
 
     /**
      * Scenario 37
@@ -1002,66 +964,6 @@ public class IntegrationCoreTests extends IntegrationTest
         STEP("7. Verify if the size of the document is increased");
         cmisAPI.usingResource(cmisTestFile).assertThat().contentLengthIs(17)
                 .usingResource(webDAVTestFile).assertThat().contentLengthIs(19);
-    }
-
-    /**
-     * Scenario 39
-     * 1. Using CMIS create one test user: U1
-     * 2. Using CMIS U1 creates a public test site
-     * 3. Using CMIS U1 creates a new document in Share
-     * 4. Using CMIS U1 creates folder1 in public site document library.
-     * 5. Using SMTP U1 creates a new document in folder1
-     * 6. Using WebDAV U1 deletes contents of the previously created documents
-     * 7. Verify if only first document's version is increased using CMIS
-     * 8. Verify if content is deleted using WebDAV
-     */
-    @Test(groups = { TestGroup.INTEGRATION, TestGroup.REQUIRE_JMX, TestGroup.CORE })
-    @TestRail(section = { TestGroup.INTEGRATION, TestGroup.CONTENT }, executionType = ExecutionType.REGRESSION, description = "Verify document versioning after deleting content using WebDav.")
-    public void checkDocumentVersionAfterDeletingContent() throws Exception
-    {
-        STEP("1. Using CMIS create one test user: U1");
-        testUser1 = dataUser.createRandomTestUser();
-
-        STEP("2. Using CMIS U1 creates a public test site");
-        testSitePublic = dataSite.usingUser(testUser1).createPublicRandomSite();
-
-        STEP("3. Using CMIS U1 creates a new document in Share");
-        FileModel cmisTestFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "file 1 content");
-        cmisAPI.authenticateUser(testUser1)
-                .usingShared().createFile(cmisTestFile)
-                .assertThat().existsInRepo();
-
-        STEP("4. Using CMIS U1 creates folder1 in public site document library.");
-        testFolder1 =  dataContent.usingUser(testUser1).usingSite(testSitePublic).createFolder();
-
-        STEP("5. Using SMTP U1 creates a new document in folder1");
-        FileModel smtpTestFile = FileModel.getRandomFileModel(FileType.TEXT_PLAIN, "file 2 content");
-
-        String alias = dataContent.usingResource(testFolder1).addEmailAlias("alias" + System.currentTimeMillis());
-        dataGroup.usingUser(testUser1).addUserToGroup(GroupModel.getEmailContributorsGroup());
-        smtpProtocol.withJMX().updateSmtpUnknownUser(testUser1.getUsername());
-        smtpProtocol.authenticateUser(testUser1)
-                .and()
-                .composeMessage()
-                .withRecipients(alias + "@tas-alfresco.com")
-                .withSubject(smtpTestFile.getName())
-                .withBody(smtpTestFile.getContent())
-                .sendMail();
-
-        smtpTestFile.setCmisLocation(Utility.buildPath(testFolder1.getCmisLocation(), smtpTestFile.getName()));
-
-        STEP("6. Using WebDAV U1 deletes contents of the previously created documents");
-        webDavProtocol.authenticateUser(testUser1).usingResource(cmisTestFile).update("")
-                .usingResource(smtpTestFile).update("");
-
-        STEP("7. Verify if only first document's version is increased using CMIS");
-        cmisAPI.usingResource(cmisTestFile).assertThat().documentHasVersion(1.1)
-                .usingResource(smtpTestFile).assertThat().documentHasVersion(1.0);
-
-        STEP("8. Verify if content is deleted using WebDAV");
-        webDavProtocol.authenticateUser(testUser1)
-                .usingResource(cmisTestFile).assertThat().contentIs("")
-                .usingResource(smtpTestFile).assertThat().contentIs("");
     }
 
     /**
@@ -1275,88 +1177,6 @@ public class IntegrationCoreTests extends IntegrationTest
         STEP("5. Using CMIS U1 creates a relationship between documents. 6. Verify if relationship is created");
         cmisAPI.authenticateUser(testUser1).usingResource(sourceFile).createRelationshipWith(targetFile)
                 .assertThat().objectHasRelationshipWith(targetFile);
-    }
-
-    /**
-     * Scenario 45
-     * 1. Using CMIS create two test users: U1 and U2
-     * 2. Using RestAPI U1 creates a private test site and adds U2 as manager to his site
-     * 3. Using WebDAV U1 creates folder1 in User Home
-     * 4. Using WebDAV U2 creates parentFolder in private site document library.
-     * 5. Using FTP U1 creates a subfolder in parentFolder
-     * 6. Using SMTP U2 creates a document in the subfolder created above
-     * 7. Using CMIS U1 adds document to folder1
-     * 8. Using CMIS get document parents
-     * 9. Using CMIS get subfolder parents
-     * 10. Using CMIS get folder tree for parentFolder
-     * 11. Using CMIS get descendants of parentFolder
-     * 12. Using CIFWebDAVS U2 deletes subfolder
-     * 13. Using CMIS get descendants of parentFolder
-     */
-    @Test(groups = { TestGroup.INTEGRATION, TestGroup.REQUIRE_JMX, TestGroup.CORE })
-    @TestRail(section = { TestGroup.INTEGRATION, TestGroup.CONTENT }, executionType = ExecutionType.REGRESSION, description = "Verify parents list for an object using CMIS.")
-    public void checkParents() throws Exception
-    {
-        STEP("1. Using CMIS create 2 test users: U1 and U2");
-        testUser1 = dataUser.createRandomTestUser();
-        testUser2 = dataUser.createRandomTestUser();
-
-        STEP("2. Using RestAPI U1 creates a private test site and adds U2 as manager to his site");
-        testSitePrivate = dataSite.usingUser(testUser1).createPrivateRandomSite();
-        testUser2.setUserRole(UserRole.SiteManager);
-        restAPI.authenticateUser(testUser1).withCoreAPI().usingSite(testSitePrivate).addPerson(testUser2);
-
-        STEP("3. Using WebDAV U1 creates folder1 in User Home");
-        testFolder1 = FolderModel.getRandomFolderModel();
-        webDavProtocol.authenticateUser(testUser1).usingUserHome()
-                .createFolder(testFolder1).assertThat().existsInRepo();
-
-        STEP("4. Using WebDAV U2 creates folder2 in private site document library.");
-        FolderModel parentFolder = FolderModel.getRandomFolderModel();
-        webDavProtocol.authenticateUser(testUser2).usingSite(testSitePrivate)
-                .createFolder(parentFolder).assertThat().existsInRepo();
-
-        STEP("5. Using CMIS U1 creates a subfolder in parentFolder");
-        FolderModel subFolder = dataContent.usingUser(testUser1).usingSite(testSitePrivate).usingResource(parentFolder).createFolder();
-
-        STEP("6. Using SMTP U1 creates a document in the subfolder created above");
-        testFile1 = FileModel.getRandomFileModel(FileType.PDF, "file content");
-        String alias = dataContent.usingResource(subFolder).addEmailAlias("alias" + System.currentTimeMillis());
-        dataGroup.usingUser(testUser1).addUserToGroup(GroupModel.getEmailContributorsGroup());
-        smtpProtocol.withJMX().updateSmtpUnknownUser(testUser1.getUsername());
-        smtpProtocol.authenticateUser(testUser1)
-                .and()
-                .composeMessage()
-                .withRecipients(alias + "@tas-alfresco.com")
-                .withSubject(testFile1.getName())
-                .withBody(testFile1.getContent())
-                .sendMail();
-
-        testFile1.setCmisLocation(Utility.buildPath(subFolder.getCmisLocation(), testFile1.getName()));
-
-        STEP("7. Using CMIS U1 adds document to folder1");
-        cmisAPI.authenticateUser(testUser1).usingResource(testFile1).addDocumentToFolder(testFolder1, true);
-
-        STEP("8. Using CMIS get document parents");
-        cmisAPI.usingResource(testFile1).assertThat().hasParents(testFolder1.getName(), subFolder.getName());
-
-        STEP("9. Using CMIS get subfolder parents");
-        cmisAPI.usingResource(subFolder).assertThat().hasParents(parentFolder.getName());
-
-        STEP("10. Using CMIS get folder tree for parentFolder");
-        cmisAPI.usingResource(parentFolder).assertThat().hasFolderTree(1, subFolder);
-
-        STEP("11. Using CMIS get descendants of parentFolder");
-        cmisAPI.usingResource(parentFolder).assertThat().hasDescendants(2, subFolder, testFile1);
-
-        STEP("12. Using WebDAV U2 deletes subfolder");
-        webDavProtocol.authenticateUser(testUser2)
-                .usingResource(subFolder).delete()
-                .assertThat().doesNotExistInWebdav().and()
-                .assertThat().doesNotExistInRepo();
-
-        STEP("13. Using CMIS get descendants of parentFolder");
-        cmisAPI.usingResource(parentFolder).assertThat().doesNotHaveDescendants(1);
     }
 
     /**

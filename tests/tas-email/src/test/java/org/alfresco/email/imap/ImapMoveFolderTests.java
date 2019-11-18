@@ -143,20 +143,4 @@ public class ImapMoveFolderTests extends EmailTest
                 .delete()
                 .moveTo(moveToFolder);
     }
-
-    @Bug(id = "ACE-4115")
-    @TestRail(section = { TestGroup.PROTOCOLS, TestGroup.IMAP }, executionType = ExecutionType.REGRESSION,
-            description = "Verify that tenant user can move folder")
-    @Test(groups = { TestGroup.PROTOCOLS, TestGroup.IMAP, TestGroup.FULL, TestGroup.NETWORKS })
-    public void tenantUserCanMoveFolder() throws Exception
-    {
-        UserModel tenantAdmin = tenantConsole.createRandomTenant();
-        SiteModel tenantSite = dataSite.usingUser(tenantAdmin).createIMAPSite();
-        FolderModel testFolder = dataContent.usingUser(tenantAdmin).usingSite(tenantSite).createFolder();
-        FolderModel moveToFolder = dataContent.usingUser(tenantAdmin).usingSite(tenantSite).createFolder();
-
-        imapProtocol.authenticateUser(tenantAdmin).usingSite(tenantSite).usingResource(testFolder).moveTo(moveToFolder)
-                .assertThat().existsInRepo()
-                .usingSite(tenantSite).assertThat().contains(moveToFolder);
-    }
 }

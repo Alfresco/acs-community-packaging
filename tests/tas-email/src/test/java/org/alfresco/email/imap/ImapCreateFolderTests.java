@@ -214,19 +214,4 @@ public class ImapCreateFolderTests extends EmailTest
     {
         imapProtocol.authenticateUser(testUser).usingSite(imapSite).disconnect().then().createFolder(FolderModel.getRandomFolderModel());
     }
-
-    @Bug(id = "ACE-4115")
-    @TestRail(section = { TestGroup.PROTOCOLS, TestGroup.IMAP }, executionType = ExecutionType.REGRESSION,
-            description = "Verify that folder created with a tenant cannot be viewed by another tenant")
-    @Test(groups = { TestGroup.PROTOCOLS, TestGroup.IMAP, TestGroup.FULL, TestGroup.NETWORKS }, expectedExceptions = FolderNotFoundException.class)
-    public void verifyFolderCreatedByTenantCannotBeViewedByAnotherTenant() throws Exception
-    {
-        UserModel adminTenant1 = tenantConsole.createRandomTenant();
-        UserModel adminTenant2 = tenantConsole.createRandomTenant();
-        SiteModel tenantSite = dataSite.usingUser(adminTenant1).createIMAPSite();
-        FolderModel folderModel = FolderModel.getRandomFolderModel();
-
-        imapProtocol.authenticateUser(adminTenant1).usingSite(tenantSite).createFolder(folderModel).disconnect();
-        imapProtocol.authenticateUser(adminTenant2).usingSite(tenantSite).assertThat().doesNotContain(folderModel);
-    }
 }

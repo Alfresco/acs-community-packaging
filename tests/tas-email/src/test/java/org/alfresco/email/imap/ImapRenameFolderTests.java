@@ -224,23 +224,6 @@ public class ImapRenameFolderTests extends EmailTest
                     .and().assertThat().doesNotContain(new FolderModel(newFolderName));
     }
 
-    @Bug(id = "ACE-4115")
-    @TestRail(section = { TestGroup.PROTOCOLS, TestGroup.IMAP }, executionType = ExecutionType.REGRESSION,
-            description = "Verify that tenant user can rename folder")
-    @Test(groups = { TestGroup.PROTOCOLS, TestGroup.IMAP, TestGroup.FULL, TestGroup.NETWORKS })
-    public void tenantUserCanRenameFolder() throws Exception
-    {
-        UserModel tenantAdmin = tenantConsole.createRandomTenant();
-        SiteModel tenantSite = dataSite.usingUser(tenantAdmin).createIMAPSite();
-        FolderModel testFolder = dataContent.usingUser(tenantAdmin).usingSite(tenantSite).createFolder();
-        String newFolderName = RandomData.getRandomName("Folder");
-
-        imapProtocol.authenticateUser(tenantAdmin).usingSite(tenantSite).usingResource(testFolder).rename(newFolderName)
-                .then().usingSite(tenantSite)
-                .assertThat().contains(new FolderModel(newFolderName))
-                .assertThat().doesNotContain(testFolder);
-    }
-
     @TestRail(section = { TestGroup.PROTOCOLS, TestGroup.IMAP }, executionType = ExecutionType.REGRESSION,
             description = "Verify renaming folder fails when it was deleted by another user")
     @Test(groups = { TestGroup.PROTOCOLS, TestGroup.IMAP, TestGroup.FULL }, expectedExceptions = FolderNotFoundException.class)

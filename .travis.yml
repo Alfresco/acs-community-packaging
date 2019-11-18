@@ -14,7 +14,6 @@ cache:
 env:
   global:
     - VERSION_EDITION=Community
-    - DOCKER_COMPOSE_VERSION=1.23.2
 
 branches:
   only:

@@ -152,23 +152,6 @@ public class ImapDeleteFolderTests extends EmailTest
                 .delete();
     }
 
-    @Bug(id = "ACE-4115")
-    @TestRail(section = { TestGroup.PROTOCOLS, TestGroup.IMAP }, executionType = ExecutionType.REGRESSION,
-            description = "Verify that folder can be deleted by tenant")
-    @Test(groups = { TestGroup.PROTOCOLS, TestGroup.IMAP, TestGroup.FULL, TestGroup.NETWORKS })
-    public void verifyDeleteFolderByTenant() throws Exception
-    {
-        UserModel adminTenant = tenantConsole.createRandomTenant();
-        SiteModel tenantSite = dataSite.usingUser(adminTenant).createIMAPSite();
-        testFolder = FolderModel.getRandomFolderModel();
-        imapProtocol.authenticateUser(adminTenant).usingSite(tenantSite).createFolder(testFolder)
-            .assertThat().existsInImap()
-            .assertThat().existsInRepo()
-            .delete()
-            .assertThat().doesNotExistInRepo()
-            .usingSite(tenantSite).assertThat().doesNotContain(testFolder);
-    }
-
     @TestRail(section = { TestGroup.PROTOCOLS, TestGroup.IMAP }, executionType = ExecutionType.REGRESSION,
             description = "Verify deleting folder that contains messages by COLLABORATOR user")
     @Test(groups = { TestGroup.PROTOCOLS, TestGroup.IMAP, TestGroup.FULL })
