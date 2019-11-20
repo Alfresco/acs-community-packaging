@@ -17,6 +17,7 @@ import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.report.Bug;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class QueriesTest extends RestTest
             }
         };
 
-        Utility.sleep(100, 100000, op);// Allow indexing to complete.
+        Utility.sleep(300, 100000, op);// Allow indexing to complete.
 
     }
 
@@ -92,7 +93,7 @@ public class QueriesTest extends RestTest
             }
         };
 
-        Utility.sleep(100, 100000, op);// Allow indexing to complete.
+        Utility.sleep(300, 100000, op);// Allow indexing to complete.
 
     }
 
@@ -102,31 +103,32 @@ public class QueriesTest extends RestTest
     public void getOnQueriesNodesRoute() throws Exception
     {
         restClient.authenticateUser(dataContent.getAdminUser())
-                  .withCoreAPI()                 
-                  .usingQueries().findNodes();
+                .withCoreAPI()
+                .usingQueries().findNodes();
         restClient.assertStatusCodeIs(HttpStatus.BAD_REQUEST);
-        
+
         restClient.assertLastError()
-                        .containsErrorKey("Query 'term' not specified")
-                        //and assert on summary too if you want
-                        .containsSummary("Query 'term' not specified");
-        
-        restClient.withCoreAPI()                 
-                  .usingQueries()
-                  .usingParams("term=ab")
-                  .findNodes();
+                .containsErrorKey("Query 'term' not specified")
+                //and assert on summary too if you want
+                .containsSummary("Query 'term' not specified");
+
+        restClient.withCoreAPI()
+                .usingQueries()
+                .usingParams("term=ab")
+                .findNodes();
         restClient.assertStatusCodeIs(HttpStatus.BAD_REQUEST);
-        
+
         restClient.assertLastError()
-                        .containsErrorKey("Query 'term' is too short");
-        
+                .containsErrorKey("Query 'term' is too short");
+
         /*
-         * now making the correct call with a valid term value 
+         * now making the correct call with a valid term value
          */
         restClient.withCoreAPI().usingQueries().usingParams("term=name").findNodes();
         restClient.assertStatusCodeIs(HttpStatus.OK);
     }
-    
+
+    @Bug(id="REPO-4784")
     @TestRail(section = { TestGroup.REST_API,
             TestGroup.QUERIES }, executionType = ExecutionType.REGRESSION, description = "Verify GET queries on queries/nodes return success status code")
     @Test(groups = { TestGroup.REST_API, TestGroup.RATINGS, TestGroup.CORE })
@@ -136,9 +138,9 @@ public class QueriesTest extends RestTest
         UserModel userModel = dataUser.createRandomTestUser();
         SiteModel siteModel = dataSite.usingUser(userModel).createPublicRandomSite();
         /*
-         * Create the following file structure for preconditions : 
+         * Create the following file structure for preconditions :
          * |- folder
-         *      |--find123.txt 
+         *      |--find123.txt
          *      |-- find123 find.txt
          */
         restClient.authenticateUser(userModel).withCoreAPI().usingNode(ContentModel.my()).defineNodes();
@@ -158,10 +160,10 @@ public class QueriesTest extends RestTest
         cm.setName(folder.getName());
         dataContent.usingUser(userModel).usingSite(siteModel).usingResource(cm).createContent(file1);
         dataContent.usingUser(userModel).usingSite(siteModel).usingResource(cm).createContent(file2);
-        
+
         RetryOperation op = new RetryOperation(){
-                public void execute() throws Exception{
-                        RestNodeModelsCollection nodesChildTerm = restClient.withCoreAPI().usingQueries().usingParams("term=" + childTerm).findNodes();
+            public void execute() throws Exception{
+                RestNodeModelsCollection nodesChildTerm = restClient.withCoreAPI().usingQueries().usingParams("term=" + childTerm).findNodes();
                 // check if the search returns all nodes which contain that query term
                 assertEquals(2, nodesChildTerm.getEntries().size());
                 RestNodeModelsCollection nodesChildTermWS = restClient.withCoreAPI().usingQueries().usingParams("term=" + childTermWS).findNodes();
@@ -172,7 +174,7 @@ public class QueriesTest extends RestTest
             }
 
         };
-       Utility.sleep(10, 3500, op);// Allow indexing to complete.
+        Utility.sleep(300, 100000, op);// Allow indexing to complete.
 
     }
 }
