@@ -18,7 +18,6 @@ env:
 branches:
   only:
     - master
-    - feature/REPO-4745-Update-acs-community-packaging-transformation-tests
 
 matrix:
   include:
@@ -39,7 +38,7 @@ matrix:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-restapi/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 60 mvn install -q -f tests/tas-restapi/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "CMIS TAS tests"
       jdk: openjdk11
       install:
@@ -55,7 +54,7 @@ matrix:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 30 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "WebDAV TAS tests"
       jdk: openjdk11
       install:
@@ -63,7 +62,7 @@ matrix:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 30 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - name: "Integration TAS tests"
       jdk: openjdk11
       install:
@@ -71,4 +70,4 @@ matrix:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
