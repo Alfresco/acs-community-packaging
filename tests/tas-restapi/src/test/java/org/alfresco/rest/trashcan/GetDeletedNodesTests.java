@@ -197,7 +197,11 @@ public class GetDeletedNodesTests extends RestTest
         dataContent.usingUser(adminUserModel).usingResource(file3).deleteContent();
 
         // GET /deleted-nodes/{nodeId}/renditions
+<<<<<<< HEAD
         Utility.sleep(1000, 30000, () ->
+=======
+        Utility.sleep(500, 60000, () ->
+>>>>>>> 75919a8a7... REPO-4785 Performance improvements to REST API TAS tests (#628)
         {
             nodeRenditionInfoCollection = restClient.authenticateUser(adminUserModel).withCoreAPI().usingTrashcan().getDeletedNodeRenditions(file3);
             restClient.assertStatusCodeIs(HttpStatus.OK);
@@ -236,7 +240,11 @@ public class GetDeletedNodesTests extends RestTest
         dataContent.usingUser(adminUserModel).usingResource(file4).deleteContent();
 
         // GET /deleted-nodes/{nodeId}/renditions/{id}/content and verify range request header
+<<<<<<< HEAD
         Utility.sleep(1000, 30000, () ->
+=======
+        Utility.sleep(500, 60000, () ->
+>>>>>>> 75919a8a7... REPO-4785 Performance improvements to REST API TAS tests (#628)
         {
             restClient.configureRequestSpec().addHeader("content-range", "bytes=1-10");
             restClient.authenticateUser(adminUserModel).withCoreAPI().usingTrashcan().getDeletedNodeRenditionContent(file4, "pdf");
