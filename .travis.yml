@@ -43,7 +43,7 @@ matrix:
     - name: "REST API TAS tests part2"
       jdk: openjdk11
       install:
-        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
@@ -51,7 +51,7 @@ matrix:
     - name: "REST API TAS tests part3"
       jdk: openjdk11
       install:
-        - travis_retry travis_wait 40 mvn install -q -PenterpriseDocker
+        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
