@@ -111,13 +111,8 @@ public class CheckInTests extends CmisTest
                 .checkIn().refreshResource()
             .and().assertThat().documentIsNotCheckedOut()
             .then().assertThat().documentHasVersion(2.0);
-<<<<<<< HEAD
-        Utility.waitToLoopTime(5);
-        cmisApi.assertThat().contentIs(newContent);
-=======
         Utility.sleep(100, 5000, () ->
                 cmisApi.assertThat().contentIs(newContent));
->>>>>>> 75919a8a7... REPO-4785 Performance improvements to REST API TAS tests (#628)
     }
 
     @TestRail(section = {"cmis-api"}, executionType= ExecutionType.REGRESSION,
