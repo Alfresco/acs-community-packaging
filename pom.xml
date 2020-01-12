@@ -68,10 +68,10 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-remote-api.version>8.73</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-repository.version>8.61</dependency.alfresco-repository.version>
-        <dependency.alfresco-data-model.version>8.75</dependency.alfresco-data-model.version>
-        <dependency.alfresco-core.version>8.12</dependency.alfresco-core.version>
+        <dependency.alfresco-remote-api.version>8.82</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>8.83</dependency.alfresco-repository.version>
+        <dependency.alfresco-data-model.version>8.84</dependency.alfresco-data-model.version>
+        <dependency.alfresco-core.version>8.18</dependency.alfresco-core.version>
 
         <dependency.alfresco-hb-data-sender.version>1.0.12</dependency.alfresco-hb-data-sender.version>
         <dependency.alfresco-spring-webscripts.version>8.1</dependency.alfresco-spring-webscripts.version>
@@ -81,7 +81,7 @@
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-server-root.version>6.0.1</dependency.alfresco-server-root.version>
         <dependency.alfresco-messaging-repo.version>1.2.15</dependency.alfresco-messaging-repo.version>
-        <dependency.alfresco-api-explorer.version>6.2.1</dependency.alfresco-api-explorer.version>
+        <dependency.alfresco-api-explorer.version>6.3.0</dependency.alfresco-api-explorer.version>
         <dependency.alfresco-log-sanitizer.version>0.2</dependency.alfresco-log-sanitizer.version>
 
         <dependency.spring.version>5.2.2.RELEASE</dependency.spring.version>
