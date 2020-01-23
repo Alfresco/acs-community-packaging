@@ -108,5 +108,6 @@ jobs:
       # only on master branch
       if: branch = master AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
+      install: skip
       script:
         - travis_wait 30 echo "This is the Copy to S3 Release stage"
