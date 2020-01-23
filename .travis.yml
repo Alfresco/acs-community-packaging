@@ -20,8 +20,14 @@ branches:
     - master
     - develop
 
-matrix:
+stages:
+  - test
+  - release
+  - deploy  
+
+jobs:
   include:
+    - stage: test
     - name: "WhiteSource scan"
       # only on develop and if it is not a PR
       if: fork = false AND branch = develop AND type != pull_request
