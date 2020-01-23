@@ -24,12 +24,13 @@ branches:
 stages:
   - test
   - release
-  - deploy  
+  - name: deploy
+    if: branch = master|develop
 
 jobs:
   include:
     - stage: test
-    - name: "WhiteSource scan"
+      name: "WhiteSource scan"
       # only on develop and if it is not a PR
       if: fork = false AND branch = develop AND type != pull_request
       install:
