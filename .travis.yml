@@ -23,10 +23,9 @@ branches:
 
 stages:
   - test
-  - release
-  - name: deploy
-    if: branch = master|develop
-
+  - engineering release
+  - company release
+  
 jobs:
   include:
     - stage: test
@@ -96,3 +95,18 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+    - stage: engineering release
+      # only on develop or master branch
+      if: branch =~ ^(master|develop)$ AND commit_message !~ /\[no-release\]/
+      name: "Maven release"
+      script:
+        - travis_wait 30 echo "This is the Maven relase stage"
+    - name: Push to S3
+      script:
+        - travis_wait 30 echo "This is the Push to S3 stage"
+    - stage: "company release"
+      # only on master branch
+      if: branch = master AND commit_message !~ /\[no-release\]/
+      name: "Copy to S3 Release"
+      script:
+        - travis_wait 30 echo "This is the Copy to S3 Release stage"
