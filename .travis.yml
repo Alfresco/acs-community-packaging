@@ -19,6 +19,7 @@ branches:
   only:
     - master
     - develop
+    - feature/REPO-4735_Add-release-stages
 
 stages:
   - test
