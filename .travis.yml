@@ -108,7 +108,7 @@ jobs:
         - travis_wait 30 echo "This is the Push to S3 stage"
     - stage: "company release"
       # only on master branch
-      if: branch = master AND commit_message !~ /\[no-release\]/
+      if: branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
       install: skip
       script:
