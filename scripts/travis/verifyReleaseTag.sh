@@ -21,7 +21,8 @@ function docker_image_exists() {
 }
 
 if docker_image_exists $docker_image_full_name; then
-    echo "Tag $release_version already pushed, release process will interrupt." 
+    echo "Tag $release_version already pushed, release process will interrupt."
+    exit -1 
 else
     echo "The $release_version tag was not found"
 fi
