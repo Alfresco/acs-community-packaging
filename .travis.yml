@@ -22,7 +22,8 @@ branches:
     - feature/REPO-4735_Add-release-stages
 
 stages:
-  - test
+  - name: test
+    if: branch !=feature/REPO-4735_Add-release-stages
   - engineering release
   - company release
   
@@ -99,6 +100,10 @@ jobs:
       # only on develop or master branch
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
       #TODO
+      env: 
+        - release.version=
+        - development.version=
+      before_install: ./scripts/travis/verifyReleaseTag.sh 
       name: "Maven release"
       install: skip  # Release command from bamboo
       script:
