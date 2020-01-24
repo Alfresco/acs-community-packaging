@@ -6,7 +6,7 @@ if [ -v ${release_version} ]||[ -z ${release_version}]; then
     release_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)  
 fi
 docker_image_full_name="$alfresco_docker_image:$release_version"
-echo $docker_image_full_name
+echo "Looking to see if $docker_image_full_name already exists..."
 function docker_image_exists() {
   local image_full_name="$1"; shift
     local wait_time="${1:-5}"
