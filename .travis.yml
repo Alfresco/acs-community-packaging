@@ -19,6 +19,7 @@ branches:
   only:
     - master
     - develop
+    - fix/MNT-18895_thumbnails_generated_4_documents_in_smartfolders_change_modifier-ed_properties_of_actual_nodes_behaviourFilterVirtual
 
 matrix:
   include:
