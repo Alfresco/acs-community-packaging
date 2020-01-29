@@ -111,19 +111,21 @@ jobs:
       # install: skip  # Release command from bamboo
       install: if [[ -z ${release_version}] || [ -z ${development_version} ]]; then skip \
               else \
-                mvn --batch-mode \ 
-                -DreleaseVersion=${release_version} \ 
-                -DdevelopmentVersion=${development_version}  \
-                -Dbuild-number=${TRAVIS_BUILD_NUMBER} \ 
-                -Dbuild-key=${bamboo.buildKey} \ 
-                -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \ 
-                -Dscm-path=${scm_path} \ 
-                "-Dversion.edition=${bamboo.version.edition}" \ 
-                -DskipTests \ 
-                "-Darguments=-DskipTests '-Dversion.edition=${bamboo.version.edition}' -Dbuild-number=${TRAVIS_BUILD_NUMBER} -Dbuild-key=${bamboo.buildKey} '-Dbuild-name=${TRAVIS_BUILD_STAGE_NAME}' -Dscm-path=${scm_path} " \ 
-                -Prelease \
-                release:prepare release:perform \
-               fi
+                echo "did not skip" \
+              fi
+              #   mvn --batch-mode \ 
+              #   -DreleaseVersion=${release_version} \ 
+              #   -DdevelopmentVersion=${development_version}  \
+              #   -Dbuild-number=${TRAVIS_BUILD_NUMBER} \ 
+              #   -Dbuild-key=${bamboo.buildKey} \ 
+              #   -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \ 
+              #   -Dscm-path=${scm_path} \ 
+              #   "-Dversion.edition=${bamboo.version.edition}" \ 
+              #   -DskipTests \ 
+              #   "-Darguments=-DskipTests '-Dversion.edition=${bamboo.version.edition}' -Dbuild-number=${TRAVIS_BUILD_NUMBER} -Dbuild-key=${bamboo.buildKey} '-Dbuild-name=${TRAVIS_BUILD_STAGE_NAME}' -Dscm-path=${scm_path} " \ 
+              #   -Prelease \
+              #   release:prepare release:perform \
+              # fi
       script:
         - travis_wait 30 echo "This is the Maven relase stage"
       # deploy:
