@@ -109,7 +109,7 @@ jobs:
       before_install: ./scripts/travis/verifyReleaseTag.sh 
       name: "Maven release"
       # install: skip  # Release command from bamboo
-      install: if [[ -z ${release_version}] || [ -z ${development_version} ]]; then skip \
+      install: if [ -z ${release_version} ] || [ -z ${development_version} ]; then skip \
               else \
                 echo "did not skip" \
               fi
