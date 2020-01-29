@@ -104,7 +104,6 @@ jobs:
         - release_version=
         - development_version=
         - COMM_RELEASE_VERSION=
-        - scm_path=${mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout}
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
       before_install: ./scripts/travis/verifyReleaseTag.sh 
       name: "Maven release"
