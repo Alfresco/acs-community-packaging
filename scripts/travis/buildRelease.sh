@@ -3,7 +3,8 @@ set -e
 
 releaseVersion=$1
 developmentVersion=$2
-echo scm_path
+scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
+
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo skip  
 else   
