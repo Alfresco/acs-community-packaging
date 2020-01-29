@@ -146,6 +146,6 @@ jobs:
       # only on master branch
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
-      install: pip install awscli
+      install: pip install awscli --user
       script:
         - travis_wait 30 echo "This is the Copy to S3 Release stage" # As this is copying between S3 buckets a script will be required.
