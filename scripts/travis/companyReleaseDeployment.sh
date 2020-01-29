@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -e
 
 if [ ${COMM_RELEASE_VERSION} = "" ];
