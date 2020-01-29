@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#set -e
+set -e
 
 alfresco_docker_image="alfresco/alfresco-content-repository-community"
 if [ -v ${release_version} ]||[ -z ${release_version} ]; then
@@ -32,8 +32,4 @@ if docker_image_exists $docker_image_full_name; then
     exit -1 
 else
     echo "The $release_version tag was not found"
-fi
-
-if [ -z ${release_version} ] || [ -z ${development_version} ]; then echo skip 
-else echo "did not skip" 
 fi
