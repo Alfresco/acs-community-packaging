@@ -16,15 +16,14 @@ if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ];
     # -Prelease \
     # release:prepare release:perform  
 else   
-    echo "Do not skip"
-    # mvn --batch-mode \
-    # -DreleaseVersion=${releaseVersion} \
-    # -DdevelopmentVersion=${developmentVersion} \
-    # -Dbuild-number=${TRAVIS_BUILD_NUMBER} \ \
-    # -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \
-    # -Dscm-path=${scm_path} \
-    # -DskipTests \
-    # "-Darguments=-DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER} '-Dbuild-name=${TRAVIS_BUILD_STAGE_NAME}' -Dscm-path=${scm_path} " \   
-    # -Prelease \
-    # release:prepare release:perform  
+    mvn --batch-mode \
+    -DreleaseVersion=${releaseVersion} \
+    -DdevelopmentVersion=${developmentVersion} \
+    -Dbuild-number=${TRAVIS_BUILD_NUMBER} \ \
+    -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \
+    -Dscm-path=${scm_path} \
+    -DskipTests \
+    "-Darguments=-DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER} '-Dbuild-name=${TRAVIS_BUILD_STAGE_NAME}' -Dscm-path=${scm_path} " \   
+    -Prelease \
+    release:prepare release:perform  
 fi
