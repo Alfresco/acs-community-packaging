@@ -97,6 +97,7 @@ jobs:
       script:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
+      name: "Maven release"
       # only on develop or master branch
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
       # Leaving blank will auto increment the 
@@ -105,8 +106,9 @@ jobs:
         - development_version=6.3.0-alpha-6-SNAPSHOT
         - COMM_RELEASE_VERSION=
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
-      before_install: ./scripts/travis/verifyReleaseTag.sh 
-      name: "Maven release"
+      before_install: 
+        - ./scripts/travis/verifyReleaseTag.sh 
+        - "cp .travis.settings.xml $HOME/.m2/settings.xml"
       # install: skip  # Release command from bamboo
       install: ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
       script:
