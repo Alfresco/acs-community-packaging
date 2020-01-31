@@ -8,7 +8,7 @@ scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo skip 
     # mvn --batch-mode \
-    # -Dbuild-number=${TRAVIS_BUILD_NUMBER} \ \
+    # -Dbuild-number=${TRAVIS_BUILD_NUMBER} \
     # -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \
     # -Dscm-path=${scm_path} \
     # -DskipTests \
@@ -19,7 +19,7 @@ else
     mvn --batch-mode \
     -DreleaseVersion=${releaseVersion} \
     -DdevelopmentVersion=${developmentVersion} \
-    -Dbuild-number=${TRAVIS_BUILD_NUMBER} \ \
+    -Dbuild-number=${TRAVIS_BUILD_NUMBER} \
     -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \
     -Dscm-path=${scm_path} \
     -DskipTests \
