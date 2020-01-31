@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#set -e
+set -e
 
 releaseVersion=$1
 developmentVersion=$2
