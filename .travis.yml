@@ -1,5 +1,5 @@
 dist: xenial
-sudo: required
+os: linux
 language: java
 jdk:
   - openjdk11
