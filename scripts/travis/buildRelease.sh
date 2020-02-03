@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-git checkout --detach ${TRAVIS_COMMIT}
+git checkout -B "${TRAVIS_BRANCH}"
+git config user.email "${GIT_EMAIL}"
 releaseVersion=$1
 developmentVersion=$2
 scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
