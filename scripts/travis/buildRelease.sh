@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 set -e
 
-git checkout -B "${TRAVIS_BRANCH}"
-git config user.email "${GIT_EMAIL}"
 releaseVersion=$1
 developmentVersion=$2
 scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
 
+git checkout -B "${TRAVIS_BRANCH}"
+git config user.email "${GIT_EMAIL}"
+
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo skip 
     # mvn --batch-mode \
+    # -Dusername="${GIT_USERNAME}" \
+    # -Dpassword="${GIT_PASSWORD}" \
     # -Dbuild-number=${TRAVIS_BUILD_NUMBER} \
     # -Dbuild-name="${TRAVIS_BUILD_STAGE_NAME}" \
     # -Dscm-path=${scm_path} \
@@ -20,6 +23,8 @@ if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ];
     # release:prepare release:perform
 else   
     mvn --batch-mode \
+    -Dusername="${GIT_USERNAME}" \
+    -Dpassword="${GIT_PASSWORD}" \
     -DreleaseVersion=${releaseVersion} \
     -DdevelopmentVersion=${developmentVersion} \
     -Dbuild-number=${TRAVIS_BUILD_NUMBER} \
