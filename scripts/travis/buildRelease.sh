@@ -9,7 +9,7 @@ git checkout -B "${TRAVIS_BRANCH}"
 
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo skip 
-    # travis_wait 30 mvn --batch-mode \
+    # mvn --batch-mode \
     # -Dusername="${GIT_USERNAME}" \
     # -Dpassword="${GIT_PASSWORD}" \
     # -Dbuild-number=${TRAVIS_BUILD_NUMBER} \
@@ -21,7 +21,7 @@ if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ];
     # -Prelease \
     # release:prepare release:perform
 else   
-    travis_wait 30 mvn --batch-mode \
+    mvn --batch-mode \
     -Dusername="${GIT_USERNAME}" \
     -Dpassword="${GIT_PASSWORD}" \
     -DreleaseVersion=${releaseVersion} \
