@@ -46,8 +46,8 @@
     </profiles>
 
     <scm>
-        <connection>scm:git:git@github.com:Alfresco/acs-community-packaging.git</connection>
-        <developerConnection>scm:git:git@github.com:Alfresco/acs-community-packaging.git</developerConnection>
+        <connection>scm:git:https://github.com/Alfresco/acs-community-packaging.git</connection>
+        <developerConnection>scm:git:https://github.com/Alfresco/acs-community-packaging.git</developerConnection>
         <url>https://github.com/Alfresco/acs-community-packaging</url>
         <tag>HEAD</tag>
     </scm>
