@@ -9,6 +9,10 @@ git checkout -B "${TRAVIS_BRANCH}"
 
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo skip 
+    if ${TRAVIS_BRANCH} == "master"; 
+    then echo "Please provide a Release and Development verison"
+        exit -1
+    fi
     # mvn --batch-mode \
     # -Dusername="${GIT_USERNAME}" \
     # -Dpassword="${GIT_PASSWORD}" \
