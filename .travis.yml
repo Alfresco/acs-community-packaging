@@ -113,9 +113,11 @@ jobs:
       install: ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
       script:
         - travis_wait 30 echo "This is the Maven relase stage"
+      # TODO: SOLUTION 1
+      # Below is a potential solution for deployment of resources
       # before_deploy: pip install awscli
       # deploy:
-      #  -provider: s3
+      # - provider: s3
       #   access_key_id: ${AWS_ACCESS_KEY_ID}
       #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
       #   bucket: "alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
@@ -125,7 +127,7 @@ jobs:
       #   on: 
       #     all_branches:true
       #     condition: $TRAVIS_BRANCH =~ ^(master|develop)$
-      #  -provider: s3
+      # - provider: s3
       #   access_key_id: ${AWS_ACCESS_KEY_ID}
       #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
       #   bucket: "alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
@@ -135,6 +137,12 @@ jobs:
       #    on: 
       #     all_branches:true
       #     condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+      # TODO: SOLUTION 2
+      # Uses AWS CLI in script
+      #   - provider: script
+      #     script: ./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+      #     on:
+      #       branch: master
     #   # This stage could use a script to deploy to S3, as in bamboo, or the above stage can include a deploy section.
     # - name: Push to S3 # TODO currently placeholder stage
     #   install: skip 
@@ -145,8 +153,9 @@ jobs:
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
       install: skip # Nothing to build/install as we are just copying from S3 buckets
-      delpoy:
-        - provider: script
-          script: ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-          on:
-            branch: master
+      # TODO
+      # delpoy:
+      #   - provider: script
+      #     script: ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+      #     on:
+      #       branch: master
