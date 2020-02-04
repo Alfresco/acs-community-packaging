@@ -116,6 +116,8 @@
         <dependency.tas-webdav.version>1.6</dependency.tas-webdav.version>
         <dependency.tas-ftp.version>1.5</dependency.tas-ftp.version>
         <dependency.tas-dataprep.version>2.3</dependency.tas-dataprep.version>
+        
+        <maven.build.sourceVersion>11</maven.build.sourceVersion>
     </properties>
 
     <dependencyManagement>
@@ -543,4 +545,15 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
