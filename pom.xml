@@ -68,10 +68,10 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-remote-api.version>8.82</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-repository.version>repo-4710-2</dependency.alfresco-repository.version>
-        <dependency.alfresco-data-model.version>8.84</dependency.alfresco-data-model.version>
-        <dependency.alfresco-core.version>8.18</dependency.alfresco-core.version>
+        <dependency.alfresco-remote-api.version>8.101</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>8.100</dependency.alfresco-repository.version>
+        <dependency.alfresco-data-model.version>8.87</dependency.alfresco-data-model.version>
+        <dependency.alfresco-core.version>8.21</dependency.alfresco-core.version>
 
         <dependency.alfresco-hb-data-sender.version>1.0.12</dependency.alfresco-hb-data-sender.version>
         <dependency.alfresco-spring-webscripts.version>8.1</dependency.alfresco-spring-webscripts.version>
@@ -84,19 +84,19 @@
         <dependency.alfresco-api-explorer.version>6.3.0</dependency.alfresco-api-explorer.version>
         <dependency.alfresco-log-sanitizer.version>0.2</dependency.alfresco-log-sanitizer.version>
 
-        <dependency.spring.version>5.2.2.RELEASE</dependency.spring.version>
+        <dependency.spring.version>5.2.3.RELEASE</dependency.spring.version>
         <dependency.fabric8.version>4.3.1</dependency.fabric8.version>
         <dependency.jackson.version>2.10.2</dependency.jackson.version>
         <dependency.jackson-databind.version>2.10.1</dependency.jackson-databind.version>
 
-        <dependency.cxf.version>3.3.4</dependency.cxf.version>
+        <dependency.cxf.version>3.3.5</dependency.cxf.version>
 
         <!-- Alfresco Share version -->
         <alfresco.share.version>6.2.0</alfresco.share.version>
         <alfresco.alfresco-share-services.version>6.2.0</alfresco.alfresco-share-services.version>
 
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledrive.version>3.2.0-A1</alfresco.googledrive.version>
+        <alfresco.googledrive.version>3.2.0-A2</alfresco.googledrive.version>
 
         <!-- Alfresco Office Services Module -->
         <alfresco.aos-module.version>1.3.0</alfresco.aos-module.version>
@@ -105,16 +105,16 @@
         <alfresco.package.name>alfresco-community</alfresco.package.name>
         <alfresco.distribution.name>${alfresco.package.name}-distribution</alfresco.distribution.name>
 
-        <dependency.postgresql.version>42.2.9</dependency.postgresql.version>
+        <dependency.postgresql.version>42.2.10</dependency.postgresql.version>
 
-        <dependency.tas-utility.version>3.0.17</dependency.tas-utility.version>
+        <dependency.tas-utility.version>3.0.19</dependency.tas-utility.version>
         <dependency.rest-assured.version>3.3.0</dependency.rest-assured.version>
         <dependency.javax.json.version>1.1.4</dependency.javax.json.version>
-        <dependency.tas-restapi.version>1.26</dependency.tas-restapi.version>
-        <dependency.tas-cmis.version>1.12</dependency.tas-cmis.version>
-        <dependency.tas-email.version>1.7</dependency.tas-email.version>
-        <dependency.tas-webdav.version>1.5</dependency.tas-webdav.version>
-        <dependency.tas-ftp.version>1.4</dependency.tas-ftp.version>
+        <dependency.tas-restapi.version>1.29</dependency.tas-restapi.version>
+        <dependency.tas-cmis.version>1.13</dependency.tas-cmis.version>
+        <dependency.tas-email.version>1.8</dependency.tas-email.version>
+        <dependency.tas-webdav.version>1.6</dependency.tas-webdav.version>
+        <dependency.tas-ftp.version>1.5</dependency.tas-ftp.version>
         <dependency.tas-dataprep.version>2.3</dependency.tas-dataprep.version>
     </properties>
 
@@ -244,7 +244,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.12</version>
+                <version>4.4.13</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
@@ -300,12 +300,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.10</version>
+                <version>4.5.11</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient-cache</artifactId>
-                <version>4.5.10</version>
+                <version>4.5.11</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
