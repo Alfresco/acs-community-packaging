@@ -68,10 +68,10 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-remote-api.version>8.57</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-repository.version>8.46</dependency.alfresco-repository.version>
-        <dependency.alfresco-data-model.version>8.68</dependency.alfresco-data-model.version>
-        <dependency.alfresco-core.version>8.6</dependency.alfresco-core.version>
+        <dependency.alfresco-remote-api.version>8.82</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>repo-4710-2</dependency.alfresco-repository.version>
+        <dependency.alfresco-data-model.version>8.84</dependency.alfresco-data-model.version>
+        <dependency.alfresco-core.version>8.18</dependency.alfresco-core.version>
 
         <dependency.alfresco-hb-data-sender.version>1.0.12</dependency.alfresco-hb-data-sender.version>
         <dependency.alfresco-spring-webscripts.version>8.1</dependency.alfresco-spring-webscripts.version>
@@ -81,12 +81,12 @@
         <dependency.alfresco-jlan.version>7.1</dependency.alfresco-jlan.version>
         <dependency.alfresco-server-root.version>6.0.1</dependency.alfresco-server-root.version>
         <dependency.alfresco-messaging-repo.version>1.2.15</dependency.alfresco-messaging-repo.version>
-        <dependency.alfresco-api-explorer.version>6.2.0</dependency.alfresco-api-explorer.version>
+        <dependency.alfresco-api-explorer.version>6.3.0</dependency.alfresco-api-explorer.version>
         <dependency.alfresco-log-sanitizer.version>0.2</dependency.alfresco-log-sanitizer.version>
 
         <dependency.spring.version>5.2.2.RELEASE</dependency.spring.version>
         <dependency.fabric8.version>4.3.1</dependency.fabric8.version>
-        <dependency.jackson.version>2.10.1</dependency.jackson.version>
+        <dependency.jackson.version>2.10.2</dependency.jackson.version>
         <dependency.jackson-databind.version>2.10.1</dependency.jackson-databind.version>
 
         <dependency.cxf.version>3.3.4</dependency.cxf.version>
@@ -96,7 +96,7 @@
         <alfresco.alfresco-share-services.version>6.2.0</alfresco.alfresco-share-services.version>
 
         <!-- Alfresco GoogleDocs integration version -->
-        <alfresco.googledocs.version>3.1.0</alfresco.googledocs.version>
+        <alfresco.googledrive.version>3.2.0-A1</alfresco.googledrive.version>
 
         <!-- Alfresco Office Services Module -->
         <alfresco.aos-module.version>1.3.0</alfresco.aos-module.version>
@@ -110,11 +110,11 @@
         <dependency.tas-utility.version>3.0.17</dependency.tas-utility.version>
         <dependency.rest-assured.version>3.3.0</dependency.rest-assured.version>
         <dependency.javax.json.version>1.1.4</dependency.javax.json.version>
-        <dependency.tas-restapi.version>1.25</dependency.tas-restapi.version>
-        <dependency.tas-cmis.version>1.6</dependency.tas-cmis.version>
-        <dependency.tas-email.version>1.1</dependency.tas-email.version>
-        <dependency.tas-webdav.version>1.3</dependency.tas-webdav.version>
-        <dependency.tas-ftp.version>1.3</dependency.tas-ftp.version>
+        <dependency.tas-restapi.version>1.26</dependency.tas-restapi.version>
+        <dependency.tas-cmis.version>1.12</dependency.tas-cmis.version>
+        <dependency.tas-email.version>1.7</dependency.tas-email.version>
+        <dependency.tas-webdav.version>1.5</dependency.tas-webdav.version>
+        <dependency.tas-ftp.version>1.4</dependency.tas-ftp.version>
         <dependency.tas-dataprep.version>2.3</dependency.tas-dataprep.version>
     </properties>
 
@@ -269,7 +269,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.13</version>
+                <version>1.14</version>
             </dependency>
             <dependency>
                 <groupId>commons-collections</groupId>
@@ -450,7 +450,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>4.13</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -513,14 +513,14 @@
             </dependency>
             <dependency>
                 <groupId>org.alfresco.integrations</groupId>
-                <artifactId>alfresco-googledocs-repo-community</artifactId>
-                <version>${alfresco.googledocs.version}</version>
+                <artifactId>alfresco-googledrive-repo-community</artifactId>
+                <version>${alfresco.googledrive.version}</version>
                 <type>amp</type>
             </dependency>
             <dependency>
                 <groupId>org.alfresco.integrations</groupId>
-                <artifactId>alfresco-googledocs-share-community</artifactId>
-                <version>${alfresco.googledocs.version}</version>
+                <artifactId>alfresco-googledrive-share-community</artifactId>
+                <version>${alfresco.googledrive.version}</version>
                 <type>amp</type>
             </dependency>
             <!-- Enforce newer version -->
