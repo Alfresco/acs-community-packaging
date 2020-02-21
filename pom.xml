@@ -68,13 +68,13 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-remote-api.version>8.101</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-repository.version>8.100</dependency.alfresco-repository.version>
+        <dependency.alfresco-remote-api.version>8.107</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>8.103</dependency.alfresco-repository.version>
         <dependency.alfresco-data-model.version>8.87</dependency.alfresco-data-model.version>
         <dependency.alfresco-core.version>8.21</dependency.alfresco-core.version>
 
         <dependency.alfresco-hb-data-sender.version>1.0.12</dependency.alfresco-hb-data-sender.version>
-        <dependency.alfresco-spring-webscripts.version>8.1</dependency.alfresco-spring-webscripts.version>
+        <dependency.alfresco-spring-webscripts.version>8.2</dependency.alfresco-spring-webscripts.version>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <dependency.alfresco-pdf-renderer.version>1.1</dependency.alfresco-pdf-renderer.version>
         <dependency.alfresco-trashcan-cleaner.version>2.3</dependency.alfresco-trashcan-cleaner.version>
@@ -85,7 +85,7 @@
         <dependency.alfresco-log-sanitizer.version>0.2</dependency.alfresco-log-sanitizer.version>
 
         <dependency.spring.version>5.2.3.RELEASE</dependency.spring.version>
-        <dependency.fabric8.version>4.3.1</dependency.fabric8.version>
+        <dependency.fabric8.version>4.4.0</dependency.fabric8.version>
         <dependency.jackson.version>2.10.2</dependency.jackson.version>
         <dependency.jackson-databind.version>2.10.1</dependency.jackson-databind.version>
 
@@ -110,7 +110,7 @@
         <dependency.tas-utility.version>3.0.19</dependency.tas-utility.version>
         <dependency.rest-assured.version>3.3.0</dependency.rest-assured.version>
         <dependency.javax.json.version>1.1.4</dependency.javax.json.version>
-        <dependency.tas-restapi.version>1.29</dependency.tas-restapi.version>
+        <dependency.tas-restapi.version>1.33</dependency.tas-restapi.version>
         <dependency.tas-cmis.version>1.13</dependency.tas-cmis.version>
         <dependency.tas-email.version>1.8</dependency.tas-email.version>
         <dependency.tas-webdav.version>1.6</dependency.tas-webdav.version>
@@ -544,7 +544,7 @@
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>1.12.1</version>
+                <version>1.12.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
