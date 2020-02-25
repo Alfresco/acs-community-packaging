@@ -102,7 +102,7 @@ jobs:
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
       # Leaving blank will auto increment the 
       env: 
-        - release_version=repo-4735-5
+        - release_version=repo-4735-6
         - development_version=6.3.0-alpha-6-SNAPSHOT
         - COMM_RELEASE_VERSION=
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
