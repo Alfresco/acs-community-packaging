@@ -110,9 +110,14 @@ jobs:
         - ./scripts/travis/verifyReleaseTag.sh 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
       # install: skip  # Release command from bamboo
-      install: ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
-      script:
-        - travis_wait 30 echo "This is the Maven relase stage"
+      install: mvn clean install -X -PcommunityDocker
+      #script:
+        # Use full history for release
+        #- git checkout -B "${TRAVIS_BRANCH}"
+        # Add email to link commits to user
+        #- git config user.email "${GIT_EMAIL}"
+        # run build relea script
+        #- ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       # before_deploy: pip install awscli
