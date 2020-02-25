@@ -110,8 +110,9 @@ jobs:
         - ./scripts/travis/verifyReleaseTag.sh 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
       # install: skip  # Release command from bamboo
-      install: mvn clean install -X -PcommunityDocker
-      #script:
+      install: mvn install -q
+      script:
+        - mvn compile -PcommunityDocker
         # Use full history for release
         #- git checkout -B "${TRAVIS_BRANCH}"
         # Add email to link commits to user
