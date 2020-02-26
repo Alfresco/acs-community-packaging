@@ -26,7 +26,9 @@ stages:
     if: branch !=feature/REPO-4735_Add-release-stages
   - engineering release
   - company release
-  
+
+install: travis_retry mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -PcommunityDocker
+
 jobs:
   include:
     - stage: test
@@ -110,7 +112,7 @@ jobs:
         - ./scripts/travis/verifyReleaseTag.sh 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
       # install: skip  # Release command from bamboo
-      install: mvn clean install -B -DskipTests -f docker-alfresco/pom.xml -PcommunityDocker -X
+      install: mvn install -B -DskipTests -f docker-alfresco/pom.xml -PcommunityDocker -X
       #script:
         # Use full history for release
         #- git checkout -B "${TRAVIS_BRANCH}"
