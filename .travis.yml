@@ -109,7 +109,7 @@ jobs:
       before_install: 
         - ./scripts/travis/verifyReleaseTag.sh 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-      install: mvn clean install -DskipTests -PcommunityDocker  
+      install: skip  
       script:
         # Use full history for release
         - git checkout -B "${TRAVIS_BRANCH}"
