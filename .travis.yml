@@ -119,7 +119,7 @@ jobs:
         - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
         # run build release script
         #- ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
-        - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -X -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=${development_version} -DreleaseVersion=${release_version} release:clean release:prepare release:perform
+        - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -X -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=6.3.0-alpha-6-SNAPSHOT -DreleaseVersion=repo-4735-8 release:clean release:prepare release:perform
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       # deploy:

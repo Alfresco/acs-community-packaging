@@ -277,7 +277,7 @@
                         <executions>
                             <execution>
                                 <id>build-push-image</id>
-                                <phase>deploy</phase>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>build</goal>
                                     <goal>push</goal>
@@ -340,7 +340,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${image.name}:${project.version}</name>
+                                    <name>${image.name}:test-release-${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <contextDir>${project.basedir}/</contextDir>
