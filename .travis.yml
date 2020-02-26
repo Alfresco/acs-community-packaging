@@ -27,8 +27,6 @@ stages:
   - engineering release
   - company release
 
-install: travis_retry mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -PcommunityDocker
-
 jobs:
   include:
     - stage: test
@@ -111,18 +109,19 @@ jobs:
       before_install: 
         - ./scripts/travis/verifyReleaseTag.sh 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-      # install: skip  # Release command from bamboo
-      script: mvn install -B -DskipTests -f docker-alfresco/pom.xml -PcommunityDocker -X
-      #script:
+      install: skip  
+      script:
         # Use full history for release
-        #- git checkout -B "${TRAVIS_BRANCH}"
+        - git checkout -B "${TRAVIS_BRANCH}"
         # Add email to link commits to user
-        #- git config user.email "${GIT_EMAIL}"
-        # run build relea script
+        - git config user.email "${GIT_EMAIL}"
+        # Add login to quay.io
+        - docker login quay.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+        # run build release script
         #- ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
+        - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -X -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=${development_version} -DreleaseVersion=${release_version} release:clean release:prepare release:perform
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
-      # before_deploy: pip install awscli
       # deploy:
       # - provider: s3
       #   access_key_id: ${AWS_ACCESS_KEY_ID}
@@ -146,21 +145,28 @@ jobs:
       #     condition: $TRAVIS_BRANCH =~ ^(master|develop)$
       # TODO: SOLUTION 2
       # Uses AWS CLI in script
-      #   - provider: script
-      #     script: ./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-      #     on:
-      #       branch: master
+      before_deploy: pip install awscli
+      deploy:
+        - provider: script
+          script: echo "This should only run on master and develop" #./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          on:
+            all_branches: true
+            condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+        - provider: script
+          script: echo "This should only fun on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          on:
+            branch: master
     #   # This stage could use a script to deploy to S3, as in bamboo, or the above stage can include a deploy section.
     # - name: Push to S3 # TODO currently placeholder stage
     #   install: skip 
     #   script:
     #     - travis_wait 30 echo "This is the Push to S3 stage" 
-    - stage: "Company Release"
-      # only on master branch
-      if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
-      name: "Copy to S3 Release"
-      install: skip # Nothing to build/install as we are just copying from S3 buckets
-      # TODO
+    # - stage: "Company Release"
+    #   # only on master branch
+    #   if: fork = false AND branch = feature/REPO-4735_Add-release-stages AND commit_message !~ /\[no-release\]/
+    #   name: "Copy to S3 Release"
+    #   install: skip # Nothing to build/install as we are just copying from S3 buckets
+    #   # TODO
       # delpoy:
       #   - provider: script
       #     script: ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
