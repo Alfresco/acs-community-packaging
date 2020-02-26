@@ -87,7 +87,6 @@
                 <executions>
                    <execution>
                       <id>copy-licenses</id>
-                      <phase>process-resources</phase>
                       <goals>
                           <goal>copy-resources</goal>
                       </goals>
@@ -111,7 +110,6 @@
                 <executions>
                     <execution>
                         <id>unpack-war-files</id>
-                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -151,7 +149,6 @@
                     </execution>
                     <execution>
                         <id>copy-jdbc-connectors</id>
-                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -176,10 +173,9 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-
+                    
                     <execution>
                         <id>copy-amps</id>
-                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -211,7 +207,7 @@
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
-                    </execution>
+                    </execution> 
                 </executions>
             </plugin>
 
