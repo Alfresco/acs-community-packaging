@@ -120,6 +120,7 @@ jobs:
         # run build release script
         #- ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
         - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -X -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=6.3.0-alpha-6-SNAPSHOT -DreleaseVersion=repo-4735-11 release:clean release:prepare release:perform
+      after_failure: mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       # deploy:
