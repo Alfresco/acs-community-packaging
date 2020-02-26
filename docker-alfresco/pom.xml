@@ -14,6 +14,7 @@
     <properties>
         <image.name>alfresco/alfresco-content-repository-community</image.name>
         <image.registry>quay.io</image.registry>
+        <travis.docker-alfresco.dir>/home/travis/build/Alfresco/acs-community-packaging/docker-alfresco</travis.docker-alfresco.dir>
     </properties>
 
     <dependencies>
@@ -382,13 +383,13 @@
                                     <name>${image.name}:test-release-${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
-                                        <contextDir>${project.basedir}/</contextDir>
+                                        <contextDir>${travis.docker-alfresco.dir}/</contextDir>
                                     </build>
                                 </image>
                                 <image>
                                     <name>${image.name}:test-release-${project.version}</name>
                                     <build>
-                                        <contextDir>/home/travis/build/Alfresco/acs-community-packaging/docker-alfresco</contextDir>
+                                        <contextDir>${travis.docker-alfresco.dir}/</contextDir>
                                     </build>
                                 </image>
                             </images>
