@@ -21,9 +21,16 @@ branches:
     - develop
     - feature/REPO-4735_Add-release-stages-2
 
+stages:
+  - name: test
+  - engineering release
+  - company release
+
 matrix:
   include:
     - name: "WhiteSource scan"
+    - stage: test
+      name: "WhiteSource scan"
       # only on master and if it is not a PR
       if: fork = false AND branch = master AND type != pull_request
       install:
