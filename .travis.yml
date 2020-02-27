@@ -23,6 +23,7 @@ branches:
 
 stages:
   - name: test
+    if: branch !=feature/REPO-4735_Add-release-stages-2
   - engineering release
   - company release
 
