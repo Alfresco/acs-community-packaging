@@ -28,7 +28,6 @@ stages:
 
 matrix:
   include:
-    - name: "WhiteSource scan"
     - stage: test
       name: "WhiteSource scan"
       # only on master and if it is not a PR
