@@ -29,6 +29,8 @@ stages:
   - engineering release
   - company release
 
+before_install: "cp .travis.settings.xml $HOME/.m2/settings.xml"
+
 matrix:
   include:
     - stage: test
@@ -108,11 +110,10 @@ matrix:
         - release_version=6.3.0-repo-4735-2-4
         - development_version=6.3.0-SNAPSHOT
         - COMM_RELEASE_VERSION=
-      # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
-      before_install: 
-        - ./scripts/travis/verifyReleaseTag.sh 
-        - "cp .travis.settings.xml $HOME/.m2/settings.xml"
       install: travis_retry mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -PfullBuild,communityDocker #build the image to test  
+      # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
+      before_script: 
+        - ./scripts/travis/verifyReleaseTag.sh 
       script:
         # Use full history for release
         - git checkout -B "${TRAVIS_BRANCH}"
@@ -124,7 +125,7 @@ matrix:
         - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=${development_version} -DreleaseVersion=${release_version} release:prepare -q
         - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=${development_version} -DreleaseVersion=${release_version} release:perform -X
       after_failure: 
-        - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
+        - mvn release:rollback -DscmCommen  tPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       # deploy:
