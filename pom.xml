@@ -13,6 +13,18 @@
 
     <profiles>
         <profile>
+            <id>fullBuild</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>war</module>
+                <module>distribution</module>
+                <module>public-javadoc</module>
+                <module>docker-alfresco</module>
+            </modules>
+        </profile>
+        <profile>
             <id>community</id>
             <modules>
                 <module>war</module>
@@ -22,18 +34,6 @@
             <id>communityDocker</id>
             <modules>
                 <module>war</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>fullBuild</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>war</module>
-                <module>distribution</module>
-                <module>public-javadoc</module>
                 <module>docker-alfresco</module>
             </modules>
         </profile>
