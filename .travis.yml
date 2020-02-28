@@ -10,7 +10,9 @@ services:
 cache:
   directories:
     - $HOME/.m2
-
+# the cache can grow constantly
+before_cache:
+  - rm -rf $HOME/.m2/repository/org/alfresco
 env:
   global:
     - VERSION_EDITION=Community
@@ -129,9 +131,10 @@ matrix:
       # - provider: s3
       #   access_key_id: ${AWS_ACCESS_KEY_ID}
       #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-      #   bucket: "alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
+      #   bucket: "alfresco-artefacts-staging"
       #   skip_cleanup: true
       #   acl: private
+      #   upload_dir:"/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
       #   glob: war/target/alfresco.war
       #   on: 
       #     all_branches:true
@@ -139,9 +142,10 @@ matrix:
       # - provider: s3
       #   access_key_id: ${AWS_ACCESS_KEY_ID}
       #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-      #   bucket: "alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
+      #   bucket: "alfresco-artefacts-staging/"
       #   skip_cleanup: true
       #   acl: private
+      #   upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
       #   glob: distribution/target/*-distribution*.zip
       #    on: 
       #     all_branches:true
@@ -156,7 +160,7 @@ matrix:
             all_branches: true
             condition: $TRAVIS_BRANCH =~ ^(master|develop)$
         - provider: script
-          script: echo "This should only fun on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          script: echo "This should only run on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
             branch: master
     #   # This stage could use a script to deploy to S3, as in bamboo, or the above stage can include a deploy section.
