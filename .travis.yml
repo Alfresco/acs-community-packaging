@@ -102,6 +102,7 @@ matrix:
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
       # Leaving blank will auto increment the 
       env: 
+        # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x
         - release_version=6.3.0-repo-4735-2-2
         - development_version=6.3.0-alpha-6-SNAPSHOT
         - COMM_RELEASE_VERSION=
@@ -119,7 +120,7 @@ matrix:
         # - ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
         # - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests"
         - travis_wait 30 mvn -e -B -DskipTests -Darguments="-DskipTests" -Prelease -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=6.3.0-alpha-6-SNAPSHOT -DreleaseVersion=${release_version} release:prepare -q #We know this works lets leave it out of the logs
-        - travis_wait 30 mvn clean install -e -B -DskipTests -Darguments="-DskipTests" -Prelease -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=6.3.0-alpha-6-SNAPSHOT -DreleaseVersion=${release_version} release:perform -X
+        - travis_wait 30 mvn -e -B -DskipTests -Darguments="-DskipTests" -Prelease -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=6.3.0-alpha-6-SNAPSHOT -DreleaseVersion=${release_version} release:perform -X
       after_failure: 
         - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
