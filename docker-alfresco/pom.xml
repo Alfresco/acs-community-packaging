@@ -221,7 +221,7 @@
                 <configuration>
                     <images>
                         <image>
-                            <name>test-${image.name}</name>
+                            <name>${image.name}</name>
                             <build>
                                 <dockerFileDir>${project.basedir}/</dockerFileDir>
                             </build>
@@ -240,7 +240,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>${dependency.fabric8.version}</version>
+                        <version>${dependency.docker-maven.version}</version>
                         <executions>
                             <execution>
                                 <id>build-image</id>
@@ -262,7 +262,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>${dependency.fabric8.version}</version>
+                        <version>${dependency.docker-maven.version}</version>
                         <configuration>
                             <images>
                                 <image>
@@ -296,7 +296,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>${dependency.fabric8.version}</version>
+                        <version>${dependency.docker-maven.version}</version>
                         <configuration>
                             <images>
                                 <image>
@@ -336,7 +336,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>${dependency.fabric8.version}</version>
+                        <version>${dependency.docker-maven.version}</version>
                         <configuration>
                             <images>
                                 <image>
