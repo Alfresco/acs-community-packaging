@@ -340,14 +340,16 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${image.name}:${project.version}</name>
+                                    <alias>quay.io</alias>
+                                    <name>${image.name}:test-release-${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
                                 </image>
                                 <image>
-                                    <name>${image.name}:${project.version}</name>
+                                    <alias>dockerhub</alias>
+                                    <name>${image.name}:test-release-${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
