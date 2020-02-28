@@ -266,7 +266,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${image.name}:${image.tag}</name>
+                                    <name>test-release-${image.name}:${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -341,7 +341,7 @@
                             <images>
                                 <image>
                                     <alias>quay.io</alias>
-                                    <name>${image.name}:test-release-${project.version}</name>
+                                    <name>test-release-${image.name}:${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -349,7 +349,7 @@
                                 </image>
                                 <image>
                                     <alias>dockerhub</alias>
-                                    <name>${image.name}:test-release-${project.version}</name>
+                                    <name>test-release-${image.name}:${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
