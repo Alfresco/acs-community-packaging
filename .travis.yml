@@ -22,6 +22,7 @@ branches:
     - feature/REPO-4735_Add-release-stages-2
 
 stages:
+  - build
   - name: test
     if: branch !=feature/REPO-4735_Add-release-stages-2
   - engineering release
@@ -29,7 +30,10 @@ stages:
 
 matrix:
   include:
-    - stage: test
+    - stage: Build
+      name: Build
+      install: travis_retry mvn install -PfullBuild,communityDocker -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - stage: Test
       name: "WhiteSource scan"
       # only on master and if it is not a PR
       if: fork = false AND branch = master AND type != pull_request
