@@ -221,7 +221,7 @@
                 <configuration>
                     <images>
                         <image>
-                            <name>${image.name}</name>
+                            <name>${image.name}:${project.version}</name>
                             <build>
                                 <dockerFileDir>${project.basedir}/</dockerFileDir>
                             </build>
