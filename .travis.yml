@@ -107,12 +107,12 @@ matrix:
       # Leaving blank will auto increment the 
       env: 
         # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x
-        - release_version=6.3.0-repo-4735-2-7
+        - release_version=6.3.0-repo-4735-2-8
         - development_version=6.3.0-SNAPSHOT
         - COMM_RELEASE_VERSION=
       install: travis_wait 30 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
-      before_script: travis_wait 30 bash ./scripts/travis/verifyReleaseTag.sh 
+      before_script: bash ./scripts/travis/verifyReleaseTag.sh 
       script:
         # Use full history for release
         - git checkout -B "${TRAVIS_BRANCH}"
