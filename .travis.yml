@@ -32,6 +32,7 @@ matrix:
   include:
     - stage: Build
       name: Build
+      before_install: cp .travis.settings.xml $HOME/.m2/settings.xml
       install: travis_retry mvn install -PfullBuild,communityDocker -DskipTests=true -Dmaven.javadoc.skip=true -B -V
     - stage: Test
       name: "WhiteSource scan"
