@@ -46,8 +46,8 @@ RUN mkdir -p ${TOMCAT_DIR}/amps \
 COPY target/amps ${TOMCAT_DIR}/amps
 
 # Install amps on alfresco.war
-# RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
-#               ${TOMCAT_DIR}/amps ${TOMCAT_DIR}/webapps/alfresco -directory -nobackup -force
+RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
+              ${TOMCAT_DIR}/amps ${TOMCAT_DIR}/webapps/alfresco -directory -nobackup -force
 
 # Docker CMD from parent image starts the server
 
