@@ -341,7 +341,7 @@
                             <images>
                                 <image>
                                     <alias>quay.io</alias>
-                                    <name>test-release-${image.name}:${project.version}</name>
+                                    <name>${image.name}-test-release:${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -349,7 +349,7 @@
                                 </image>
                                 <image>
                                     <alias>dockerhub</alias>
-                                    <name>test-release-${image.name}:${project.version}</name>
+                                    <name>${image.name}-test-release:${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
