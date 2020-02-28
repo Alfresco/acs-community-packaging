@@ -103,7 +103,7 @@ matrix:
       # Leaving blank will auto increment the 
       env: 
         # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x
-        - release_version=6.3.0-repo-4735-2-2
+        - release_version=6.3.0-repo-4735-2-3
         - development_version=6.3.0-alpha-6-SNAPSHOT
         - COMM_RELEASE_VERSION=
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
