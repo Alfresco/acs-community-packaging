@@ -45,10 +45,12 @@
             <username>${env.DOCKER_USERNAME}</username>
             <password>${env.DOCKER_PASSWORD}</password>
         </server>
+        <!-- TODO: UPDATE DOCKER HUB CREDENTIALS. Currently env.DOCKER_USERNAME and env.DOCKER_PASSWORD are for quay.io
         <server>
             <id>docker.io</id>
             <username>${env.DOCKER_USERNAME}</username>
             <password>${env.DOCKER_PASSWORD}</password>
         </server>
+    --> 
     </servers>
 </settings>
