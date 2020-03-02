@@ -107,7 +107,7 @@ matrix:
       # Leaving blank will auto increment the 
       env: 
         # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x
-        - release_version=6.3.0-repo-4735-2-10
+        - release_version=6.3.0-repo-4735-2-11
         - development_version=6.3.0-SNAPSHOT
         - COMM_RELEASE_VERSION=
       install: travis_wait 30 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
