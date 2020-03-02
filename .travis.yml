@@ -143,7 +143,7 @@ matrix:
       #     condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
       # TODO: SOLUTION 2
       # Uses AWS CLI in script
-      before_deploy: pip install awscli
+      # before_deploy: pip install awscli
       deploy:
         - provider: script
           script: echo "This should only run on master and develop" #./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
