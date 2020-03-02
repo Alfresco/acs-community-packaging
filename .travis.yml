@@ -107,7 +107,7 @@ matrix:
       # Leaving blank will auto increment the 
       env: 
         # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x
-        - release_version=6.3.0-repo-4735-2-9
+        - release_version=6.3.0-repo-4735-2-10
         - development_version=6.3.0-SNAPSHOT
         - COMM_RELEASE_VERSION=
       install: travis_wait 30 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
@@ -118,42 +118,42 @@ matrix:
         - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
-      # deploy:
-      # - provider: s3
-      #   access_key_id: ${AWS_ACCESS_KEY_ID}
-      #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-      #   bucket: "alfresco-artefacts-staging"
-      #   skip_cleanup: true
-      #   acl: private
-      #   upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
-      #   glob: war/target/alfresco.war
-      #   on: 
-      #     all_branches: true
-      #     condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
-      # - provider: s3
-      #   access_key_id: ${AWS_ACCESS_KEY_ID}
-      #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-      #   bucket: "alfresco-artefacts-staging/"
-      #   skip_cleanup: true
-      #   acl: private
-      #   upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
-      #   glob: distribution/target/*-distribution*.zip
-      #   on: 
-      #     all_branches: true
-      #     condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+      deploy:
+      - provider: s3
+        access_key_id: ${AWS_ACCESS_KEY_ID}
+        secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+        bucket: "alfresco-artefacts-staging"
+        skip_cleanup: true
+        acl: private
+        upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
+        glob: war/target/alfresco.war
+        on: 
+          all_branches: true
+          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+      - provider: s3
+        access_key_id: ${AWS_ACCESS_KEY_ID}
+        secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+        bucket: "alfresco-artefacts-staging"
+        skip_cleanup: true
+        acl: private
+        upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
+        glob: distribution/target/*-distribution*.zip
+        on: 
+          all_branches: true
+          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
       # TODO: SOLUTION 2
       # Uses AWS CLI in script
       # before_deploy: pip install awscli
-      deploy:
-        - provider: script
-          script: echo "This should only run on master and develop" #./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-          on:
-            all_branches: true
-            condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
-        - provider: script
-          script: echo "This should only run on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-          on:
-            branch: feature/REPO-4735_Add-release-stages-2
+      # deploy:
+      #   - provider: script
+      #     script: echo "This should only run on master and develop" #./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+      #     on:
+      #       all_branches: true
+      #       condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+      #   - provider: script
+      #     script: echo "This should only run on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+      #     on:
+      #       branch: feature/REPO-4735_Add-release-stages-2
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
       # only on master branch
