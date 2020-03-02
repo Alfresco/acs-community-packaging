@@ -126,7 +126,8 @@ matrix:
         skip_cleanup: true
         acl: private
         upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
-        glob: war/target/alfresco.war
+        local_dir: war/target
+        glob: alfresco.war
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
@@ -137,7 +138,8 @@ matrix:
         skip_cleanup: true
         acl: private
         upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
-        glob: distribution/target/*-distribution*.zip
+        local_dir: distribution/target
+        glob: alfresco-content-services-community-distribution-${release_version}.zip
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
