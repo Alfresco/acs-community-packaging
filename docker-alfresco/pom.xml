@@ -12,7 +12,7 @@
     </parent>
 
     <properties>
-        <image.name>alfresco/alfresco-content-repository-community</image.name>
+        <image.name>alfresco/alfresco-content-repository-community-test-release</image.name>
         <image.registry>quay.io</image.registry>
     </properties>
 
@@ -341,7 +341,7 @@
                             <images>
                                 <image>
                                     <alias>quay.io</alias>
-                                    <name>${image.name}-test-release:${project.version}</name>
+                                    <name>${image.name}:${project.version}</name>
                                     <registry>${image.registry}</registry>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -349,7 +349,7 @@
                                 </image>
                                 <image>
                                     <alias>dockerhub</alias>
-                                    <name>${image.name}-test-release:${project.version}</name>
+                                    <name>${image.name}:${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
                                     </build>
