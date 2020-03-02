@@ -113,17 +113,9 @@ matrix:
       install: travis_wait 30 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
-      script:
-        # Use full history for release
-        - git checkout -B "${TRAVIS_BRANCH}"
-        # Add email to link commits to user
-        - git config user.email "${GIT_EMAIL}"
-        # run build release script
-        # - ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
-        # - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests"
-        - travis_wait 30 mvn -B -DskipTests -Darguments="-DskipTests" -Prelease -DscmCommentPrefix="[maven-release-plugin][skip ci] " -Dusername="${GIT_USERNAME}" -Dpassword="${GIT_PASSWORD}" -DdevelopmentVersion=${development_version} -DreleaseVersion=${release_version} release:prepare release:perform 
+      script: bash  ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
       after_failure: 
-        - mvn release:rollback -DscmCommen  tPrefix="[maven-release-plugin][skip ci] "
+        - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       # deploy:
@@ -133,11 +125,11 @@ matrix:
       #   bucket: "alfresco-artefacts-staging"
       #   skip_cleanup: true
       #   acl: private
-      #   upload_dir:"/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
+      #   upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
       #   glob: war/target/alfresco.war
       #   on: 
-      #     all_branches:true
-      #     condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+      #     all_branches: true
+      #     condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
       # - provider: s3
       #   access_key_id: ${AWS_ACCESS_KEY_ID}
       #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
