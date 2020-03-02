@@ -12,8 +12,7 @@ git config user.email "${GIT_EMAIL}"
 
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo "Please provide a Release and Development verison in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
-        exit -1
-    fi
+         exit -1
     # TODO: add Continuous Release (auto incrementing version) if required
     # mvn --batch-mode \
     # -Dusername="${GIT_USERNAME}" \
