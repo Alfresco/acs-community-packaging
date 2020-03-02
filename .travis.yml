@@ -160,10 +160,10 @@ matrix:
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
       install: skip # Nothing to build/install as we are just copying from S3 buckets
-      # TODO
+      before_deploy: pip install awscli
       delpoy:
         - provider: script
-          script:  echo "this is the Company Release stage" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
             # TODO Final version should only "release" on master
             branch: feature/REPO-4735_Add-release-stages-2
