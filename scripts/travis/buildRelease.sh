@@ -37,6 +37,6 @@ else
     -DscmCommentPrefix="[maven-release-plugin][skip ci]" \
     -DskipTests \
     "-Darguments=-DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER} '-Dbuild-name=${TRAVIS_BUILD_STAGE_NAME}' -Dscm-path=${scm_path} " \
-    -Prelease \
+    #-Prelease \
     release:clean release:prepare release:perform
 fi
