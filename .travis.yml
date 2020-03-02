@@ -138,9 +138,9 @@ matrix:
       #   acl: private
       #   upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
       #   glob: distribution/target/*-distribution*.zip
-      #    on: 
-      #     all_branches:true
-      #     condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+      #   on: 
+      #     all_branches: true
+      #     condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
       # TODO: SOLUTION 2
       # Uses AWS CLI in script
       before_deploy: pip install awscli
@@ -149,7 +149,7 @@ matrix:
           script: echo "This should only run on master and develop" #./scripts/travis/engineeringReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
             all_branches: true
-            condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+            condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
         - provider: script
           script: echo "This should only run on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
@@ -170,4 +170,5 @@ matrix:
       #     script: ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
       #     on:
       #       branch: master
+            branch: feature/REPO-4735_Add-release-stages-2
       
