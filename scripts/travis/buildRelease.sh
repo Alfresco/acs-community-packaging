@@ -5,14 +5,16 @@ releaseVersion=$1
 developmentVersion=$2
 scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
 
+# Use full history for release
 git checkout -B "${TRAVIS_BRANCH}"
+# Add email to link commits to user
+git config user.email "${GIT_EMAIL}"
 
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
-    then echo skip 
-    if ${TRAVIS_BRANCH} == "master"; 
-    then echo "Please provide a Release and Development verison"
+    then echo "Please provide a Release and Development verison in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
         exit -1
     fi
+    # TODO: add Continuous Release (auto incrementing version) if required
     # mvn --batch-mode \
     # -Dusername="${GIT_USERNAME}" \
     # -Dpassword="${GIT_PASSWORD}" \
