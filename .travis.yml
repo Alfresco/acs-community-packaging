@@ -113,7 +113,7 @@ matrix:
       install: skip
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
-      script: travis_30 30 bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
+      script: travis_wait 30 bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
       after_failure: 
         - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
