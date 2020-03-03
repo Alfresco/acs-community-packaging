@@ -17,7 +17,7 @@ env:
   global:
     - VERSION_EDITION=Community
     # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x 
-    - RELEASE_VERSION=6.3.0-repo-4735-2-13
+    - RELEASE_VERSION=6.3.0-repo-4735-2-14
     - DEVELOPMENT_VERSION=6.3.0-SNAPSHOT
     - COMM_RELEASE_VERSION=202003-test-release
 
