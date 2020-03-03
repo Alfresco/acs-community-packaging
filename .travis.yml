@@ -17,8 +17,8 @@ env:
   global:
     - VERSION_EDITION=Community
     # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x 
-    - release_version=6.3.0-repo-4735-2-13
-    - development_version=6.3.0-SNAPSHOT
+    - RELEASE_VERSION=6.3.0-repo-4735-2-13
+    - DEVELOPMENT_VERSION=6.3.0-SNAPSHOT
     - COMM_RELEASE_VERSION=202003-test-release
 
 branches:
@@ -110,11 +110,10 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
-      # Leaving blank will auto increment the 
       install: skip
-      # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
+      # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
-      script: bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
+      script: bash ./scripts/travis/buildRelease.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # if the release stage fails rollback
       after_failure: 
         - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
@@ -130,6 +129,7 @@ matrix:
         acl: private
         upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
         local_dir: deploy_dir
+        # extra check to run only on master or develop branch
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$

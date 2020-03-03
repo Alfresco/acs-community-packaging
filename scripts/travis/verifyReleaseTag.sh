@@ -3,16 +3,16 @@ set -e
 
 # get the image name from the pom file
 alfresco_docker_image=$(mvn help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -q -DforceStdout)
-if [ -v ${release_version} ]||[ -z ${release_version} ]; then
+if [ -v ${RELEASE_VERSION} ]||[ -z ${RELEASE_VERSION} ]; then
     # if we don't have a user added release version, get the verison from the pom
     pom_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     if echo $pom_version | grep -q  ".*-SNAPSHOT"; then
-        release_version=${pom_version%-*}  # remove everything after the last '-'
+        RELEASE_VERSION=${pom_version%-*}  # remove everything after the last '-'
     else
-        release_version=$pom_version
+        RELEASE_VERSION=$pom_version
     fi
 fi
-docker_image_full_name="$alfresco_docker_image:$release_version"
+docker_image_full_name="$alfresco_docker_image:$RELEASE_VERSION"
 
 function docker_image_exists() {
   local image_full_name="$1"; shift
@@ -29,8 +29,8 @@ function docker_image_exists() {
 }
 
 if docker_image_exists $docker_image_full_name; then
-    echo "Tag $release_version already pushed, release process will interrupt."
+    echo "Tag $RELEASE_VERSION already pushed, release process will interrupt."
     exit -1 
 else
-    echo "The $release_version tag was not found"
+    echo "The $RELEASE_VERSION tag was not found"
 fi
