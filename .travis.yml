@@ -118,6 +118,7 @@ matrix:
       #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
+      before_deploy: bash ./scripts/travis/prepareEngineeringRelease.sh
       deploy:
       - provider: s3
         access_key_id: ${AWS_ACCESS_KEY_ID}
@@ -127,20 +128,7 @@ matrix:
         skip_cleanup: true
         acl: private
         upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
-        glob: \*alfresco.war
-        on: 
-          all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
-      - provider: s3
-        access_key_id: ${AWS_ACCESS_KEY_ID}
-        secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-        bucket: "alfresco-artefacts-staging"
-        region: "eu-west-1"
-        skip_cleanup: true
-        acl: private
-        upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
-        local_dir: distribution/target
-        glob: alfresco-content-services-community-distribution-${release_version}.zip
+        local_dir: deploy_dir
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
