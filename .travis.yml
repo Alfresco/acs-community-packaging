@@ -32,10 +32,10 @@ stages:
     if: commit_message !~ /\[no-test\]/
   - name: engineering release
     # only on develop or master branch
-    if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
+    if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2
   - name: company release
     # only on master branch
-    if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
+    if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2
 
 before_install: "cp .travis.settings.xml $HOME/.m2/settings.xml"
 
