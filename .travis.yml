@@ -109,10 +109,11 @@ matrix:
         # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x 
         - release_version=6.3.0-repo-4735-2-13
         - development_version=6.3.0-SNAPSHOT
-      install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      install: skip
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
       script: bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
+      # if the release stage fails rollback
       after_failure: 
         - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # Copy alfresco.war and the distribution zip to deploy_dir
