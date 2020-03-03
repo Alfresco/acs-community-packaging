@@ -136,7 +136,9 @@ matrix:
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
       name: "Copy to S3 Release"
-      install: skip # Nothing to build/install as we are just copying from S3 buckets
+      # Nothing to build/install as we are just copying from S3 buckets
+      install: skip 
+      script: skip
       before_deploy: pip install awscli
       delpoy:
         - provider: script
