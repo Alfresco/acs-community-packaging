@@ -118,6 +118,7 @@ matrix:
       #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
+      # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: bash ./scripts/travis/prepareEngineeringRelease.sh
       deploy:
       - provider: s3
@@ -141,10 +142,6 @@ matrix:
       #     on:
       #       all_branches: true
       #       condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
-      #   - provider: script
-      #     script: echo "This should only run on master" #./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-      #     on:
-      #       branch: feature/REPO-4735_Add-release-stages-2
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
       # only on master branch
