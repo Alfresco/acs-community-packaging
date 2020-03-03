@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -ev
 
+if [ -z ${release_version} ];
+then
+  exit -1
+fi
+
 DEPLOYMENT_DIR=deploy_dir
 
 mkdir $DEPLOYMENT_DIR -p
