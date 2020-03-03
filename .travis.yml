@@ -127,7 +127,7 @@ matrix:
         acl: private
         upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
         local_dir: war/target
-        glob: alfresco.war
+        file: alfresco.war
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
