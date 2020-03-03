@@ -109,21 +109,20 @@ matrix:
         # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x 
         - release_version=6.3.0-repo-4735-2-12
         - development_version=6.3.0-SNAPSHOT
-        - COMM_RELEASE_VERSION=
       install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
-      #script: bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
-      # after_failure: 
-      #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
+      script: bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
+      after_failure: 
+        - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: bash ./scripts/travis/prepareEngineeringRelease.sh
       deploy:
       - provider: s3
-        access_key_id: ${AWS_ACCESS_KEY_ID}
-        secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+        access_key_id: ${AWS_STAGING_ACCESS_KEY}
+        secret_access_key: ${AWS_STAGING_SECRET_KEY}
         bucket: "alfresco-artefacts-staging"
         region: "eu-west-1"
         skip_cleanup: true
@@ -147,6 +146,8 @@ matrix:
       # only on master branch
       if: commit_message ~= /\[trigger release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
+      env: 
+        - COMM_RELEASE_VERSION=
       install: skip # Nothing to build/install as we are just copying from S3 buckets
       before_deploy: pip install awscli
       delpoy:
