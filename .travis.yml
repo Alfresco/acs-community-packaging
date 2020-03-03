@@ -29,9 +29,13 @@ branches:
 
 stages:
   - name: test
-    if: branch !=feature/REPO-4735_Add-release-stages-2
-  - engineering release
-  - company release
+    if: commit_message !~ /\[no-test\]/
+  - name: engineering release
+    # only on develop or master branch
+    if: commit_message ~= /\[trigger release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
+  - name: company release
+    # only on master branch
+    if: commit_message ~= /\[trigger company release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
 
 before_install: "cp .travis.settings.xml $HOME/.m2/settings.xml"
 
@@ -106,8 +110,6 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
-      # only on develop or master branch
-      if: commit_message ~= /\[trigger release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
       # Leaving blank will auto increment the 
       install: skip
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
@@ -133,8 +135,6 @@ matrix:
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
-      # only on master branch
-      if: commit_message ~= /\[trigger company release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND commit_message !~ /\[no-release\]/
       name: "Copy to S3 Release"
       install: skip # Nothing to build/install as we are just copying from S3 buckets
       before_deploy: pip install awscli
