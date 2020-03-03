@@ -110,12 +110,12 @@ matrix:
         - release_version=6.3.0-repo-4735-2-12
         - development_version=6.3.0-SNAPSHOT
         - COMM_RELEASE_VERSION=
-      install: skip
+      install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       # Fail the job if there is a docker image tag that matches the release_version (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
-      script: bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
-      after_failure: 
-        - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
+      #script: bash ./scripts/travis/buildRelease.sh ${release_version} ${development_version}
+      # after_failure: 
+      #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # TODO: SOLUTION 1
       # Below is a potential solution for deployment of resources
       deploy:
