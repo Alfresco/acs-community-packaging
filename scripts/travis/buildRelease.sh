@@ -38,5 +38,5 @@ else
     -DskipTests \
     "-Darguments=-DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER} '-Dbuild-name=${TRAVIS_BUILD_STAGE_NAME}' -Dscm-path=${scm_path} " \
     release:clean release:prepare release:perform \ # maven release stage, pushes to nexus
-    #-Prelease  # enable docker image to be built and pushed to quay.io & docker hub
+    -Prelease  # enable docker image to be built and pushed to quay.io & docker hub
 fi
