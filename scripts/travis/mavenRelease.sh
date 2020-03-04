@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ev
+set -e
 
 releaseVersion=$1
 developmentVersion=$2
@@ -13,7 +13,7 @@ git config user.email "${GIT_EMAIL}"
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
     then echo "Please provide a Release and Development verison in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
          exit -1
-    # TODO: add Continuous Release (auto incrementing version) if required
+    # TODO: Set up continuous release. As of REPO-4735 the following is not required if release stage is manual
     # mvn --batch-mode \
     # -Dusername="${GIT_USERNAME}" \
     # -Dpassword="${GIT_PASSWORD}" \

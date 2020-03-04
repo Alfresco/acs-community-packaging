@@ -3,7 +3,7 @@ set -ev
 
 if [ -z ${COMM_RELEASE_VERSION} ] || [ -z ${RELEASE_VERSION} ];
 then
-  echo "Please provide a COMM_RELEASE_VERSION and Development verison in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
+  echo "Please provide a COMM_RELEASE_VERSION and RELEASE_VERSION in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
   exit -1
 fi
 
