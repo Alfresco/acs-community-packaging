@@ -17,9 +17,9 @@ env:
   global:
     - VERSION_EDITION=Community
     # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x 
-    - RELEASE_VERSION=6.3.0-repo-4735-2-16
-    - DEVELOPMENT_VERSION=6.3.0-SNAPSHOT
-    - COMM_RELEASE_VERSION=202003-test-release
+    - RELEASE_VERSION=
+    - DEVELOPMENT_VERSION=
+    - COMM_RELEASE_VERSION=
 
 branches:
   only:
@@ -109,7 +109,7 @@ matrix:
     - stage: Engineering Release
       name: "Maven release"
       # TODO only on master branch
-      if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2
+      if: fork = false AND branch =~ ^(master|develop)$
       install: travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
@@ -132,12 +132,12 @@ matrix:
         # TODO extra run only on master or develop branch
         on: 
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
       name: "Copy to S3 Release"
       # TODO Final version should only "release" on master
-      if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2
+      if: fork = false AND branch = master AND type != pull_request
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
@@ -147,6 +147,6 @@ matrix:
           script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
             # TODO Final version should only "release" on master
-            branch: feature/REPO-4735_Add-release-stages-2
+            branch: master
             
       
