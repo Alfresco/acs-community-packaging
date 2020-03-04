@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -ev
 
 if [ -z ${COMM_RELEASE_VERSION} ] || [ -z ${RELEASE_VERSION} ];
 then
