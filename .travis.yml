@@ -110,7 +110,7 @@ matrix:
       name: "Maven release"
       # TODO only on master branch
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2
-      install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
       script: skip #bash ./scripts/travis/buildRelease.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
@@ -132,7 +132,7 @@ matrix:
         # TODO extra run only on master or develop branch
         on: 
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
       name: "Copy to S3 Release"
