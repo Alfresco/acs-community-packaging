@@ -112,8 +112,8 @@ matrix:
       if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2
       install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
-      script: skip #bash ./scripts/travis/buildRelease.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
+      before_script: bash ./scripts/travis/verifyReleaseTag.sh 
+      script: bash ./scripts/travis/buildRelease.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # if the release stage fails rollback
       after_failure: 
         - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
@@ -146,7 +146,7 @@ matrix:
         - provider: script
           script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
-          # TODO Final version should only "release" on master
-          branch: feature/REPO-4735_Add-release-stages-2
+            # TODO Final version should only "release" on master
+            branch: feature/REPO-4735_Add-release-stages-2
             
       
