@@ -5,7 +5,7 @@ FROM alfresco/alfresco-base-tomcat:8.5.43-java-11-openjdk-centos-7
 # Set default user information
 ARG GROUPNAME=Alfresco
 ARG GROUPID=1000
-ARG IMAGEUSERNAME=alfresco
+ARG IMAGEUSERNAME=alfresco 
 ARG USERID=33000
 
 # Set default environment args
