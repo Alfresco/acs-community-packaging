@@ -127,8 +127,8 @@ matrix:
         region: "eu-west-1"
         skip_cleanup: true
         acl: private
-        upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
         local_dir: deploy_dir
+        upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
         # TODO extra run only on master or develop branch
         on: 
           all_branches: true
