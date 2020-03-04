@@ -31,11 +31,9 @@ stages:
   - name: test
     if: commit_message !~ /\[no-test\]/
   - name: engineering release
-    # only on develop or master branch
-    if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2
+    if: commit_message ~= /\[trigger-release\]/ AND fork = false
   - name: company release
-    # only on master branch
-    if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2
+    if: commit_message ~= /\[trigger-company-release\]/ AND fork = false
 
 before_install: "cp .travis.settings.xml $HOME/.m2/settings.xml"
 
@@ -110,6 +108,8 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
+      # TODO only on master branch
+      if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2
       install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: bash ./scripts/travis/verifyReleaseTag.sh 
@@ -129,13 +129,15 @@ matrix:
         acl: private
         upload_dir: "/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}/"
         local_dir: deploy_dir
-        # extra check to run only on master or develop branch
+        # TODO extra run only on master or develop branch
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
     # This release stage should copy from our staging bucket to our release bucket
     - stage: "Company Release"
       name: "Copy to S3 Release"
+      # TODO Final version should only "release" on master
+      if: fork = false AND branch = feature/REPO-4735_Add-release-stages-2
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
