@@ -113,7 +113,8 @@ matrix:
       before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
       script: 
         - echo ${TRAVIS_COMMIT_MESSAGE}
-        - bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh ${TRAVIS_COMMIT_MESSAGE}
+        - echo ${TRAVIS_COMMIT}
+        - bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh ${TRAVIS_COMMIT}
       # if the release stage fails rollback
       # after_failure: 
       #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
