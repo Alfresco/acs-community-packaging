@@ -31,9 +31,8 @@ stages:
   - name: test
     if: commit_message !~ /\[skipTests\]/
   - name: engineering release
-    if: commit_message ~= /\[trigger-release\]/ AND fork = false  AND branch =~ ^(master|develop)$
   - name: company release
-    if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = master
+
 
 before_install: "cp .travis.settings.xml $HOME/.m2/settings.xml"
 
@@ -108,6 +107,7 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
+      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop)$ type != pull_request
       install: skip #travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
@@ -136,6 +136,7 @@ matrix:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
     - stage: "Company Release"
       name: "Copy to S3 Release"
+      if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = master AND type != pull_request
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
