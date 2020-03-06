@@ -114,7 +114,8 @@ matrix:
       script: 
         - echo ${TRAVIS_COMMIT_MESSAGE}
         - echo ${TRAVIS_COMMIT}
-        - bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh ${TRAVIS_COMMIT}
+        - echo $commit_message
+        - bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh $commit_message
       # if the release stage fails rollback
       # after_failure: 
       #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
