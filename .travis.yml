@@ -16,10 +16,7 @@ before_cache:
 env:
   global:
     - VERSION_EDITION=Community
-    # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-A-x 
-    - RELEASE_VERSION=
-    - DEVELOPMENT_VERSION=
-    - COMM_RELEASE_VERSION=
+
 
 branches:
   only:
@@ -110,11 +107,11 @@ matrix:
       if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$ 
       install: skip #travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_script: bash ./scripts/travis/verifyReleaseTag.sh 
-      script: bash ./scripts/travis/mavenRelease.sh 
+      before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
+      script: echo $TRAVIS_COMMIT_MESSAGE #bash ./scripts/travis/mavenRelease.sh 
       # if the release stage fails rollback
-      # after_failure: 
-      #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
+      after_failure: 
+        - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: bash ./scripts/travis/prepareEngineeringRelease.sh
       deploy:
@@ -129,7 +126,7 @@ matrix:
         upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
         on: 
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
     - stage: "Company Release"
       name: "Copy to S3 Release"
       if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 
