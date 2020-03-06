@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
-. ./scripts/travis/common_functions.sh
+set -e
 
-releaseVersion=$(extractVariable "release" "$TRAVIS_COMMIT_MESSAGE")
-developmentVersion=$(extractVariable "devRelease" "$TRAVIS_COMMIT_MESSAGE")
-
+releaseVersion=$1
+developmentVersion=$2
 scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
+
 # Use full history for release
 git checkout -B "${TRAVIS_BRANCH}"
 # Add email to link commits to user
 git config user.email "${GIT_EMAIL}"
 
 if [ -z ${releaseVersion} ] || [ -z ${developmentVersion} ]; 
-    then echo "Please provide a Release and Development verison via commit message in the format [release=<acs-version>-<additional-info>] and [devRelease=<acs-version>-<additional-info>]  (eg. [release=6.3.0-EA][devRelease=6.3.0-SNAPSHOT])"
-  exit -1
+    then echo "Please provide a Release and Development verison in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
          exit -1
     # TODO: Set up continuous release. As of REPO-4735 the following is not required if release stage is manual
     # mvn --batch-mode \
