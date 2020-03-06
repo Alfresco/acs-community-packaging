@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-commitMessage=$1
 # Lets create an array containing section of the commit message in the format [*=*] ie [devRelease=repo-4735] will be added as devRelease=repo-4735
-mapfile -t commitsVariables < <( echo $commitMessage | grep -Po '\[\K[^\]]*=[^\]]*(?=\])' )
+mapfile -t commitsVariables < <( echo $TRAVIS_COMMIT_MESSAGE | grep -Po '\[\K[^\]]*=[^\]]*(?=\])' )
 for i in ${commitsVariables[@]}
 do
     variable=$(echo $i | grep -Po '=\K.*' )

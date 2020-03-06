@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 set -ev
 
-commitMessage=$1
-echo "the commit message is $commitMessage"
-echo "TRAVIS_COMMIT_MESSAGE"
-echo ${TRAVIS_COMMIT_MESSAGE}
-releaseVersion=$(echo $commitMessage | grep -Po '\[release[^\]]*=\K[^\]]*(?=\])')
-developmentVersion=$(echo $commitMessage | grep -Po '\[devRelease[^\]]*=\K[^\]]*(?=\])')
+releaseVersion=$(echo $TRAVIS_COMMIT_MESSAGE | grep -Po '\[release[^\]]*=\K[^\]]*(?=\])')
+developmentVersion=$(echo $TRAVIS_COMMIT_MESSAGE | grep -Po '\[devRelease[^\]]*=\K[^\]]*(?=\])')
 
 scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
 # Use full history for release
