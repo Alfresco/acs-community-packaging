@@ -102,18 +102,15 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
-      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop)$ AND type != pull_request
+      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_install: 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-        - bash ./scripts/travis/verifyReleaseTag.sh 
-      install: travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
-      script: bash ./scripts/travis/mavenRelease.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
-      # if the release stage fails rollback
-      after_failure: 
-        - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
+        #- bash ./scripts/travis/verify_release_tag.sh 
+      install: skip #travis_wait mvn clean install -DskipTests=true -B -V -q
+      script: travis_wait mvn clean install -DskipTests=true -B -V -q #bash ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # Copy alfresco.war and the distribution zip to deploy_dir
-      before_deploy: bash ./scripts/travis/prepareEngineeringRelease.sh
+      before_deploy: bash ./scripts/travis/prepare_engineering_release.sh
       deploy:
       - provider: s3
         access_key_id: ${AWS_STAGING_ACCESS_KEY}
@@ -136,7 +133,7 @@ matrix:
       before_deploy: pip install awscli
       delpoy:
         - provider: script
-          script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          script:  ./scripts/travis/company_release_deployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
             branch: master
             
