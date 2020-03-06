@@ -111,10 +111,7 @@ matrix:
       install: skip #travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
-      script: 
-        - echo ${TRAVIS_COMMIT_MESSAGE}
-        - echo ${TRAVIS_COMMIT}
-        - bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh ${TRAVIS_COMMIT_MESSAGE}
+      script: bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh 
       # if the release stage fails rollback
       # after_failure: 
       #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
