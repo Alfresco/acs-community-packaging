@@ -1,5 +1,5 @@
 dist: xenial
-sudo: required
+os: linux
 language: java
 jdk:
   - openjdk11
@@ -16,8 +16,6 @@ before_cache:
 env:
   global:
     - VERSION_EDITION=Community
-    - RELEASE_VERSION=6.3.0-repo-4735-3-2
-    - DEVELPMENT_VERSION=6.3.0-SNAPSHOT
 
 branches:
   only:
@@ -104,11 +102,11 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
-      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop)$ AND type != pull_request 
       install: skip
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_script: skip #./scripts/travis/verify_release_tag.sh 
-      script: travis_wait mvn clean install -DskipTests=true -B -V -q # ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
+      before_script: ./scripts/travis/verify_release_tag.sh 
+      script: travis_wait 40 ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: 
          # Move the final artifacts to a single folder (deploy_dir) to be copied to S3
@@ -130,7 +128,7 @@ matrix:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
     - stage: "Company Release"
       name: "Copy to S3 Release"
-      if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = master type != pull_request 
+      if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = master AND type != pull_request 
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
