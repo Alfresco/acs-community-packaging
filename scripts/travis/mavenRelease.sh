@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ev
+set -e
 . ./scripts/travis/common_functions.sh
 
 releaseVersion=$(extractVariable "release" "$TRAVIS_COMMIT_MESSAGE")

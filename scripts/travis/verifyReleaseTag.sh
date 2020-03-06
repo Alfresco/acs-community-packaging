@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
-set -ev
+set -e
 . ./scripts/travis/common_functions.sh
 
-commitMessage="$TRAVIS_COMMIT_MESSAGE"
-echo $commitMessage
-releaseVersion=$(extractVariable "release" "$commitMessage")
+releaseVersion=$(extractVariable "release" "$TRAVIS_COMMIT_MESSAGE")
 
 if [ -v ${releaseVersion} ]||[ -z ${releaseVersion} ]; then
     # if we don't have a user added release version, get the verison from the pom

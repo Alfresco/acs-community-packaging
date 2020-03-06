@@ -129,7 +129,7 @@ matrix:
         upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
         on: 
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+          condition: $TRAVIS_BRANCH =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
     - stage: "Company Release"
       name: "Copy to S3 Release"
       if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 
