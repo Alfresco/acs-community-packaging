@@ -3,6 +3,8 @@ set -ev
 
 commitMessage=$1
 echo "the commit message is $commitMessage"
+echo "TRAVIS_COMMIT_MESSAGE"
+echo ${TRAVIS_COMMIT_MESSAGE}
 releaseVersion=$(echo $commitMessage | grep -Po '\[release[^\]]*=\K[^\]]*(?=\])')
 developmentVersion=$(echo $commitMessage | grep -Po '\[devRelease[^\]]*=\K[^\]]*(?=\])')
 
