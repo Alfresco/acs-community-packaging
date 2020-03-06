@@ -105,11 +105,9 @@ matrix:
     - stage: Engineering Release
       name: "Maven release"
       if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
+      install: skip
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_install: 
-        - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-        - bash ./scripts/travis/verify_release_tag.sh 
-      install: travis_wait mvn clean install -DskipTests=true -B -V -q
+      before_script: ./scripts/travis/verify_release_tag.sh 
       script: travis_wait mvn clean install -DskipTests=true -B -V -q # ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: 
