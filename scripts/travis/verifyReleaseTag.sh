@@ -12,7 +12,7 @@ if [ -v ${releaseVersion} ]||[ -z ${releaseVersion} ]; then
     # else
     #     releaseVersion=$pom_version
     # fi
-    echo "Please provide a releaseVersion in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
+    echo "Please provide a releaseVersion via commit message in the format [release=<acs-version>-<additional-info>] (eg. [release=6.3.0-EA])"
     exit -1
 fi
 # get the image name from the pom file
