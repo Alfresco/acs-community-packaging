@@ -110,7 +110,7 @@ matrix:
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
         - bash ./scripts/travis/verify_release_tag.sh 
       install: travis_wait mvn clean install -DskipTests=true -B -V -q
-      script: travis_wait mvn clean install -DskipTests=true -B -V -q #bash ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
+      script: travis_wait mvn clean install -DskipTests=true -B -V -q # ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: 
          # Move the final artifacts to a single folder (deploy_dir) to be copied to S3
