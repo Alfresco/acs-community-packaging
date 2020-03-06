@@ -107,11 +107,11 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
-      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 
+      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$ 
       install: skip #travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_script: bash ./scripts/travis/verifyReleaseTagCommitVariables.sh 
-      script: bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh 
+      before_script: bash ./scripts/travis/verifyReleaseTag.sh 
+      script: bash ./scripts/travis/mavenRelease.sh 
       # if the release stage fails rollback
       # after_failure: 
       #   - mvn release:rollback -DscmCommentPrefix="[maven-release-plugin][skip ci] "
@@ -132,15 +132,15 @@ matrix:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
     - stage: "Company Release"
       name: "Copy to S3 Release"
-      if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 AND type != pull_request
+      if: commit_message ~= /\[trigger-company-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
       before_deploy: pip install awscli
-      # delpoy:
-      #   - provider: script
-      #     script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-      #     on:
-      #       branch: master
+      delpoy:
+        - provider: script
+          script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          on:
+            branch: feature/REPO-4735_Add-release-stages-2
             
       
