@@ -25,7 +25,6 @@ branches:
   only:
     - master
     - develop
-    - feature/REPO-4735_Add-release-stages-2
 
 stages:
   - name: test
@@ -133,7 +132,7 @@ matrix:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
     - stage: "Company Release"
       name: "Copy to S3 Release"
-      if: fork = false AND branch = master AND type != pull_request
+      if: fork = false AND branch = master 
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
