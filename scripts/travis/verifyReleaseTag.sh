@@ -3,6 +3,7 @@ set -ev
 . ./scripts/travis/common_functions.sh
 
 commitMessage="$TRAVIS_COMMIT_MESSAGE"
+echo $commitMessage
 releaseVersion=$(extractVariable "release" "$commitMessage")
 
 if [ -v ${releaseVersion} ]||[ -z ${releaseVersion} ]; then
