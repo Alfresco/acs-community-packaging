@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ev
 
-. ./common_functions.sh
+source ./scripts/travis/common_functions.sh
 
 releaseVersion=$(extractVariable "release" $TRAVIS_COMMIT_MESSAGE)
 developmentVersion=$(extractVariable "devRelease" $TRAVIS_COMMIT_MESSAGE)

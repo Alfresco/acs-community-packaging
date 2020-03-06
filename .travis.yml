@@ -110,7 +110,7 @@ matrix:
       if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 
       install: skip #travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
+      before_script: bash ./scripts/travis/verifyReleaseTagCommitVariables.sh 
       script: bash ./scripts/travis/mavenReleaseCommitVariablesV2.sh 
       # if the release stage fails rollback
       # after_failure: 
