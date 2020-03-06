@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 set -e
-source ./scripts/travis/common_functions.sh
+. ./scripts/travis/common_functions.sh
 
-releaseVersion=$(extractVariable "release" $TRAVIS_COMMIT_MESSAGE)
+releaseVersion=$(extractVariable "release" "$TRAVIS_COMMIT_MESSAGE")
 
-# get the image name from the pom file
-alfresco_docker_image=$(mvn help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -q -DforceStdout)
 if [ -v ${releaseVersion} ]||[ -z ${releaseVersion} ]; then
     # if we don't have a user added release version, get the verison from the pom
     # TODO: Set up continuous release. As of REPO-4735 the following is not required if release stage is manual
@@ -18,6 +16,8 @@ if [ -v ${releaseVersion} ]||[ -z ${releaseVersion} ]; then
     echo "Please provide a releaseVersion in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
     exit -1
 fi
+# get the image name from the pom file
+alfresco_docker_image=$(mvn help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -q -DforceStdout)
 docker_image_full_name="$alfresco_docker_image:$releaseVersion"
 
 function docker_image_exists() {

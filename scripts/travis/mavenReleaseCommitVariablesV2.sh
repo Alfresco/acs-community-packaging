@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-set -ev
+set -e
 
 source ./scripts/travis/common_functions.sh
 
-releaseVersion=$(extractVariable "release" $TRAVIS_COMMIT_MESSAGE)
-developmentVersion=$(extractVariable "devRelease" $TRAVIS_COMMIT_MESSAGE)
+releaseVersion=$(extractVariable "release" "$TRAVIS_COMMIT_MESSAGE")
+developmentVersion=$(extractVariable "devRelease" "$TRAVIS_COMMIT_MESSAGE")
 
 scm_path=$(mvn help:evaluate -Dexpression=project.scm.url -q -DforceStdout)
 # Use full history for release
