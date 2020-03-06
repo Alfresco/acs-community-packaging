@@ -140,10 +140,10 @@ matrix:
       install: skip 
       script: skip
       before_deploy: pip install awscli
-      delpoy:
-        - provider: script
-          script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
-          on:
-            branch: master
+      # delpoy:
+      #   - provider: script
+      #     script:  ./scripts/travis/companyReleaseDeployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+      #     on:
+      #       branch: master
             
       
