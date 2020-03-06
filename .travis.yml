@@ -107,7 +107,7 @@ matrix:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
     - stage: Engineering Release
       name: "Maven release"
-      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$ type != pull_request
+      if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch = feature/REPO-4735_Add-release-stages-2 type != pull_request
       install: skip #travis_wait mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -q
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: skip #bash ./scripts/travis/verifyReleaseTag.sh 
