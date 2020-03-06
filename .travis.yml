@@ -105,7 +105,7 @@ matrix:
     - stage: Engineering Release
       name: "Maven release"
       if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop|feature/REPO-4735_Add-release-stages-2)$
-      install: skip 
+      install: skip
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: ./scripts/travis/verify_release_tag.sh 
       script: travis_wait mvn clean install -DskipTests=true -B -V -q # ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
