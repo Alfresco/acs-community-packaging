@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# get the image name from the pom file
-alfresco_docker_image=$(mvn help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -q -DforceStdout)
 if [ -v ${RELEASE_VERSION} ]||[ -z ${RELEASE_VERSION} ]; then
     # if we don't have a user added release version, get the verison from the pom
     # TODO: Set up continuous release. As of REPO-4735 the following is not required if release stage is manual
@@ -15,6 +13,8 @@ if [ -v ${RELEASE_VERSION} ]||[ -z ${RELEASE_VERSION} ]; then
     echo "Please provide a RELEASE_VERSION in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
     exit -1
 fi
+# get the image name from the pom file
+alfresco_docker_image=$(mvn help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -q -DforceStdout)
 docker_image_full_name="$alfresco_docker_image:$RELEASE_VERSION"
 
 function docker_image_exists() {

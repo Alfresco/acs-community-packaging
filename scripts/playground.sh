@@ -1,7 +1,7 @@
 #!/bin/bash
 #TO BE DELETED BEFORE MERGIN PR
 commitMessage='[skipTests] message [trigger-release] [trigger-company-release] [devRelease=6.3.0-SNAPSHOT] [release=6.3.0-repo-4735-3-1][comRelease=202003] adding some nonsense to test the message -8y-18hrnfjif1][]1[]1r[1][f3][]3g[g]g[[]3[]g[4][]4]g4][3]455[5][6]34[]g[]g[42[r1r31443=1=3=411=3]'
-testbuildcommitmessage='[skipTests][trigger-release] [trigger-company-release] [devRelease=6.3.0-SNAPSHOT] [release=6.3.0-repo-4735-3-1][comRelease=202003-test]'
+testbuildcommitmessage='[skipTests][trigger-release] [trigger-company-release] [devRelease=6.3.0-SNAPSHOT] [release=6.3.0-repo-4735-3-1][comRelease=202003-test-release]'
 # This echos each string of the commit message that is encased in square brackets
 # Example commit message: "Commit message [message 1][message 2]" will echo "message 1" "message 2"
 collectVariableTriggers() {
