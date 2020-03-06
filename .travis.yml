@@ -133,7 +133,7 @@ matrix:
       before_deploy: pip install awscli
       delpoy:
         - provider: script
-          script:  ./scripts/travis/company_release_deployment.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          script:  ./scripts/travis/copy_to_release_bucket.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
           on:
             branch: master
             
