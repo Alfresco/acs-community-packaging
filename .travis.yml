@@ -16,6 +16,8 @@ before_cache:
 env:
   global:
     - VERSION_EDITION=Community
+    - RELEASE_VERSION=6.3.0-repo-4735-3-2
+    - DEVELPMENT_VERSION=6.3.0-SNAPSHOT
 
 branches:
   only:
@@ -106,8 +108,8 @@ matrix:
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_install: 
         - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-        #- bash ./scripts/travis/verify_release_tag.sh 
-      install: skip #travis_wait mvn clean install -DskipTests=true -B -V -q
+        - bash ./scripts/travis/verify_release_tag.sh 
+      install: travis_wait mvn clean install -DskipTests=true -B -V -q
       script: travis_wait mvn clean install -DskipTests=true -B -V -q #bash ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: 
