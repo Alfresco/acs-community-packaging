@@ -8,7 +8,6 @@ services:
   - docker
 
 cache:
-  timeout: 900
   directories:
     - $HOME/.m2
 # the cache can grow constantly
