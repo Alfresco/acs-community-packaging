@@ -23,16 +23,20 @@ branches:
     - develop
 
 stages:
+  - build
   - name: test
     if: commit_message !~ /\[skipTests\]/
-  - name: engineering release
-  - name: company release
-
+  - engineering release
+  - company release
 
 before_install: "cp .travis.settings.xml $HOME/.m2/settings.xml"
 
 matrix:
   include:
+    - stage: build
+      name: "Build"
+      install: mvn clean install -DskipTests=true "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -B -V
+      script: skip
     - stage: test
       name: "WhiteSource scan"
       # only on develop and if it is not a PR
@@ -103,7 +107,7 @@ matrix:
     - stage: Engineering Release
       name: "Maven release"
       if: commit_message ~= /\[trigger-release\]/ AND fork = false AND branch =~ ^(master|develop)$ AND type != pull_request 
-      install: travis_retry travis_wait 40 mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V # Added to provide cache for release stage if Travis fails to download.
+      install: skip
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: ./scripts/travis/verify_release_tag.sh 
       script: travis_wait 40 ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
