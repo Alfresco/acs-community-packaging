@@ -35,6 +35,7 @@ matrix:
   include:
     - stage: build
       name: "Build"
+      # This is used to create a cache on first use of a branch/PR or if a new environment variable is added.
       install: travis_retry travis_wait 40 mvn clean install -DskipTests=true "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -B -V
       script: skip
     - stage: test
