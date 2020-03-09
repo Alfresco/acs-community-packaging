@@ -35,7 +35,7 @@ matrix:
   include:
     - stage: build
       name: "Build"
-      install: mvn clean install -DskipTests=true "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -B -V
+      install: travis_retry travis_wait 40 mvn clean install -DskipTests=true "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -B -V
       script: skip
     - stage: test
       name: "WhiteSource scan"
