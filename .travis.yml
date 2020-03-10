@@ -16,7 +16,7 @@ before_cache:
 env:
   global:
     - VERSION_EDITION=Community
-    - CACHE_VARIABLE=I_am_here_to_force_the_use_of_another_new_cache
+
 branches:
   only:
     - master
