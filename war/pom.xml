@@ -95,7 +95,7 @@
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
-         <!-- required by GDocs-->
+        <!-- required by GDocs-->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
