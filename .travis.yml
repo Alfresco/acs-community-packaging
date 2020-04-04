@@ -24,6 +24,7 @@ branches:
   only:
     - master
     - develop
+    - feature/repo-4710_remove_legacy_transforms
 
 stages:
   - name: test
