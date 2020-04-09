@@ -86,7 +86,6 @@ RUN mkdir -p ${TOMCAT_DIR}/conf/Catalina/localhost && \
     chmod g+rwx ${TOMCAT_DIR}/logs && \
     chmod g+rwx ${TOMCAT_DIR}/temp && \
     chmod g+rwx ${TOMCAT_DIR}/work && \
-
     sed -i -e "s_log4j.appender.File.File\=alfresco.log_log4j.appender.File.File\=${TOMCAT_DIR}/logs\/alfresco.log_" \ 
         ${TOMCAT_DIR}/webapps/alfresco/WEB-INF/classes/log4j.properties
 
