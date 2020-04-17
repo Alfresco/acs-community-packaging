@@ -80,8 +80,7 @@ services:
 
   transform-core-aio:
     image: alfresco/alfresco-transform-core-aio:${TRANSFORMERS_TAG}
-    mem_limit: 1536m
     environment:
-      JAVA_OPTS: " -Xms256m -Xmx1536m"
+      JAVA_OPTS: " -Xms256m -Xmx512m"
     ports:
       - 8097:8090
