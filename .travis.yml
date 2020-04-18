@@ -24,6 +24,7 @@ branches:
   only:
     - master
     - develop
+    - feature/ats-707_core_aio
 
 stages:
   - name: test
