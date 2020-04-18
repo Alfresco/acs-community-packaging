@@ -83,4 +83,4 @@ services:
     environment:
       JAVA_OPTS: " -Xms256m -Xmx512m"
     ports:
-      - 8097:8090
+      - 8090:8090
