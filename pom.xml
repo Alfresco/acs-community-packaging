@@ -65,7 +65,7 @@
 
     <properties>
         <!-- Set to "Community Early Access" to add to the version.edition property in version.properties -->
-        <version.edition>Community Early Access</version.edition>
+        <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
         <dependency.alfresco-remote-api.version>7.122</dependency.alfresco-remote-api.version>
