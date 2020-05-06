@@ -34,14 +34,14 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-remote-api.version>ACS-125v2</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-repository.version>ACS-125v2</dependency.alfresco-repository.version>
-        <dependency.alfresco-data-model.version>ACS-125v2</dependency.alfresco-data-model.version>
-        <dependency.alfresco-core.version>ACS-125v2</dependency.alfresco-core.version>
+        <dependency.alfresco-remote-api.version>7.134</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>7.185</dependency.alfresco-repository.version>
+        <dependency.alfresco-data-model.version>8.50.14</dependency.alfresco-data-model.version>
+        <dependency.alfresco-core.version>7.33</dependency.alfresco-core.version>
 
         <dependency.alfresco-hb-data-sender.version>1.0.12</dependency.alfresco-hb-data-sender.version>
 
-        <dependency.alfresco-spring-webscripts.version>ACS-125v2</dependency.alfresco-spring-webscripts.version>
+        <dependency.alfresco-spring-webscripts.version>7.14</dependency.alfresco-spring-webscripts.version>
         <dependency.alfresco-mmt.version>6.0</dependency.alfresco-mmt.version>
         <dependency.alfresco-pdf-renderer.version>1.1</dependency.alfresco-pdf-renderer.version>
         <dependency.alfresco-trashcan-cleaner.version>2.3</dependency.alfresco-trashcan-cleaner.version>
