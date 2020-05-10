@@ -37,6 +37,14 @@ services:
         -Dftp.port=1221
         -Dcors.enabled=true
         -Dcors.allowed.origins=http://localhost:4200
+
+        -Dencryption.keystore.type=pkcs12
+        -Dencryption.cipherAlgorithm=AES/CBC/PKCS5Padding
+        -Dencryption.keyAlgorithm=AES
+        -Dmetadata-keystore.password=mp6yc0UD9e
+        -Dmetadata-keystore.aliases=metadata
+        -Dmetadata-keystore.metadata.password=mp6yc0UD9e
+        -Dmetadata-keystore.metadata.algorithm=AES
         "
     ports:
       - 8082:8080
