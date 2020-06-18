@@ -5,7 +5,7 @@ FROM alfresco/alfresco-base-tomcat:8.5.43-java-11-openjdk-centos-7
 # Set default user information
 ARG GROUPNAME=Alfresco
 ARG GROUPID=1000
-ARG USERNAME=alfresco
+ARG IMAGEUSERNAME=alfresco
 ARG USERID=33000
 
 # Set default environment args
@@ -80,7 +80,7 @@ RUN mkdir ${TOMCAT_DIR}/shared/classes/alfresco/keystore && \
 RUN mkdir -p ${TOMCAT_DIR}/conf/Catalina/localhost && \
     mkdir -p ${TOMCAT_DIR}/alf_data && \
     groupadd -g ${GROUPID} ${GROUPNAME} && \
-    useradd -u ${USERID} -G ${GROUPNAME} ${USERNAME} && \
+    useradd -u ${USERID} -G ${GROUPNAME} ${IMAGEUSERNAME} && \
     chgrp -R ${GROUPNAME} ${TOMCAT_DIR} && \
     chmod g+w ${TOMCAT_DIR}/logs && \
     chmod g+rx ${TOMCAT_DIR}/conf && \
@@ -101,4 +101,4 @@ RUN mkdir -p ${TOMCAT_DIR}/conf/Catalina/localhost && \
 # Changes are also required to the docker-compose/docker-compose.yml file.
 # EXPOSE 8000
 
-USER ${USERNAME}
+USER ${IMAGEUSERNAME}
