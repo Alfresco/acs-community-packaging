@@ -11,6 +11,9 @@ ARG USERID=33000
 # Set default environment args
 ARG TOMCAT_DIR=/usr/local/tomcat
 
+# Use this variable to set Java Options that will not be passed as command line arguments to Java Process
+# This is specially recommended when setting passwords and other sensible data
+ENV JAVA_TOOL_OPTIONS $JAVA_TOOL_OPTIONS
 
 # Create prerequisite to store tools and properties
 RUN mkdir -p ${TOMCAT_DIR}/shared/classes/alfresco/extension && \
