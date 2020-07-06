@@ -18,7 +18,7 @@ env:
     - VERSION_EDITION=Community
     # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-Ax
     - RELEASE_VERSION=6.2.2-RC1
-    - DEVELOPMENT_VERSION=6.2.2-SNAPSHOT
+    - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
 branches:
   only:
     - master
