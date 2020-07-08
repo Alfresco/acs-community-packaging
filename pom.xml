@@ -46,15 +46,8 @@
 
     <profiles>
         <profile>
-            <id>community</id>
-            <modules>
-                <module>war</module>
-            </modules>
-        </profile>
-        <profile>
             <id>communityDocker</id>
             <modules>
-                <module>war</module>
                 <module>docker-alfresco</module>
             </modules>
         </profile>
@@ -64,7 +57,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>war</module>
                 <module>distribution</module>
                 <module>public-javadoc</module>
                 <module>docker-alfresco</module>
