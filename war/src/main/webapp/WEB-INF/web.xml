@@ -389,6 +389,16 @@
    <!-- Enterprise servlet placeholder -->
 
    <servlet-mapping>
+      <servlet-name>downloadContent</servlet-name>
+      <url-pattern>/download/*</url-pattern>
+   </servlet-mapping>
+
+   <servlet-mapping>
+      <servlet-name>downloadContent</servlet-name>
+      <url-pattern>/d/*</url-pattern>
+   </servlet-mapping>
+
+   <servlet-mapping>
         <servlet-name>WebDAV</servlet-name>
         <url-pattern>/webdav/*</url-pattern>
    </servlet-mapping>
