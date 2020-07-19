@@ -23,6 +23,7 @@ branches:
   only:
     - master
     - develop
+    - feature/REPO-5111_repo_build
 
 stages:
   - name: test
