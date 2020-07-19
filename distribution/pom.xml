@@ -15,8 +15,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>content-services-community</artifactId>
-            <version>${dependency.alfresco-community-repo.version}</version>
-            <type>war</type>
+             <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
