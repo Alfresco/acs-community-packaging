@@ -36,7 +36,7 @@ before_install:
   - pushd ..
   # TODO switch to correct branch - using master for now
 #  - git clone -b ${TRAVIS_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
-  - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
+  - git clone -b feature/REPO-5111_repo_build https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
   - cd alfresco-community-repo
   - mvn clean install -DskipTests -PcommunityDocker -B -V
   - popd
