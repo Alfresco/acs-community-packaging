@@ -35,8 +35,8 @@ before_install:
   - "cp .travis.settings.xml $HOME/.m2/settings.xml"
   - pushd ..
   # TODO switch to correct branch - using master for now
-#  - git clone -b ${TRAVIS_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo-play1.git alfresco-community-repo
-  - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo-play1.git alfresco-community-repo
+#  - git clone -b ${TRAVIS_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo
+  - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo
   - cd alfresco-community-repo
   - mvn clean install -DskipTests -PcommunityDocker -B -V
   - popd
