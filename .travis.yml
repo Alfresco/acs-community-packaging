@@ -34,9 +34,8 @@ stages:
 before_install:
   - "cp .travis.settings.xml $HOME/.m2/settings.xml"
   - pushd ..
-  # TODO switch to correct branch - using master for now
 #  - git clone -b ${TRAVIS_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
-  - git clone -b feature/REPO-5111_repo_build https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
+  - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
   - cd alfresco-community-repo
   - mvn clean install -DskipTests -PcommunityDocker -B -V
   - popd
@@ -54,6 +53,7 @@ jobs:
         - curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
         # Run WhiteSource Unified Agent
         - java -jar wss-unified-agent.jar -apiKey ${WHITESOURCE_API_KEY} -c .wss-unified-agent.config -d ./war
+
     - name: "REST API TAS tests part1"
       jdk: openjdk11
       install:
@@ -62,6 +62,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 60 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part1 -Denvironment=default -DrunBugs=false
+
     - name: "REST API TAS tests part2"
       jdk: openjdk11
       install:
@@ -70,6 +71,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 60 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part2 -Denvironment=default -DrunBugs=false
+
     - name: "REST API TAS tests part3"
       jdk: openjdk11
       install:
@@ -78,6 +80,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 60 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part3 -Denvironment=default -DrunBugs=false
+
     - name: "CMIS TAS tests"
       jdk: openjdk11
       install:
@@ -86,6 +89,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 40 mvn install -q -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+
     - name: "Email TAS tests"
       jdk: openjdk11
       install:
@@ -94,6 +98,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 30 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+
     - name: "WebDAV TAS tests"
       jdk: openjdk11
       install:
@@ -102,6 +107,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 30 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+
     - name: "Integration TAS tests"
       jdk: openjdk11
       install:
@@ -110,6 +116,7 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+
     - stage: Release
       name: "Maven release"
       if: commit_message ~= /\[release\]/ AND fork = false AND branch =~ ^(master|develop)$ AND type != pull_request 
@@ -136,6 +143,7 @@ jobs:
         on: 
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+
     - stage: "Publish"
       name: "Copy to S3 Release"
       if: commit_message ~= /\[publish\]/ AND fork = false AND branch = master AND type != pull_request 
