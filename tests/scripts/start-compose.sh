@@ -8,6 +8,9 @@ then
   exit 1
 fi
 
+# remove old version if it exists
+docker image rm -f environment_alfresco
+
 echo "Starting ACS stack in ${DOCKER_COMPOSE_PATH}"
 
 # .env files are picked up from project directory correctly on docker-compose 1.23.0+

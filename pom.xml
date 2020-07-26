@@ -38,6 +38,7 @@
         <dependency.alfresco-community-repo.version>8.300-SNAPSHOT</dependency.alfresco-community-repo.version>
         <alfresco.share.version>6.2.2</alfresco.share.version>
         <alfresco.alfresco-share-services.version>6.2.2</alfresco.alfresco-share-services.version>
+        <dependency.alfresco-api-explorer.version>7.0.0-A1</dependency.alfresco-api-explorer.version>
 
         <installer.version.name>${project.version}</installer.version.name>
         <alfresco.package.name>alfresco-community</alfresco.package.name>

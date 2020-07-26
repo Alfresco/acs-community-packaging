@@ -1,5 +1,3 @@
-# Fetch image based on Tomcat 8.5.43 and Java 11
-# More infos about this image: https://github.com/Alfresco/alfresco-docker-base-tomcat
 FROM alfresco/alfresco-community-repo-base:latest
 
 # Set default docker_context. Will / Can be overriden with maven.
@@ -16,8 +14,11 @@ ARG TOMCAT_DIR=/usr/local/tomcat
 
 USER root
 
-# Copy the amps from build context to the appropriate location for your application server
-COPY ${resource_path}/amps ${TOMCAT_DIR}/amps
+# Copy api-explorer war
+COPY ${resource_path}/war/* ${TOMCAT_DIR}/webapps/
+
+# Copy in the share-services amp
+COPY ${resource_path}/amps/* ${TOMCAT_DIR}/amps/
 
 # Install amps on alfresco.war
 RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
@@ -39,10 +40,5 @@ RUN chgrp -R ${GROUPNAME} ${TOMCAT_DIR} && \
     chmod g+rwx ${TOMCAT_DIR}/temp && \
     chmod g+rwx ${TOMCAT_DIR}/work && \
     chmod o-w ${TOMCAT_DIR}/work
-
-EXPOSE 10001
-
-# For remote debug
-EXPOSE 8000
 
 USER ${IMAGEUSERNAME}
