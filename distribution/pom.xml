@@ -39,6 +39,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${dependency.postgresql.version}</version>
+            <scope>compile</scope>
         </dependency>
         <!-- Alfresco Pdf Renderer -->
         <dependency>
