@@ -1,53 +1,55 @@
+---
 dist: xenial
-os: linux
 language: java
-jdk:
-  - openjdk11
+jdk: openjdk11
 
 services:
   - docker
 
+git:
+  depth: false
+  quiet: true
+
 cache:
   directories:
-    - $HOME/.m2
+    - ${HOME}/.m2/repository
+
 # the cache can grow constantly
-before_cache:
-  - rm -rf $HOME/.m2/repository/org/alfresco/acs-community-packaging
+before_cache: bash scripts/travis/cleanup_cache.sh
+
+branches:
+  only:
+    - master
+    - develop
+    - /release\/.*/
+    - feature/REPO-5111_repo_build
+    - feature/ACS-457_travis-release-config
+
 env:
   global:
     - VERSION_EDITION=Community
     # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-Ax
     - RELEASE_VERSION=6.2.2-RC1
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
-branches:
-  only:
-    - master
-    - develop
-    - feature/REPO-5111_repo_build
 
 stages:
   - name: test
     if: commit_message !~ /\[skip tests\]/
-  - release
-  - publish
+  - name: release
+    if: commit_message ~= /\[release\]/ AND fork = false AND type != pull_request AND (branch =~ ^(master|develop)$ OR branch =~ /release\/.*/)
+  - name: publish
+    if: commit_message ~= /\[publish\]/ AND fork = false AND type != pull_request AND (branch =~ ^(master|develop)$ OR branch =~ /release\/.*/)
 
-before_install:
-  - "cp .travis.settings.xml $HOME/.m2/settings.xml"
-  - pushd ..
-#  - git clone -b ${TRAVIS_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
-  - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
-  - cd alfresco-community-repo
-  - mvn clean install -DskipTests -PcommunityDocker -B -V
-  - popd
+before_install: travis_retry bash scripts/travis/init.sh
+install: travis_retry travis_wait 40 bash scripts/travis/build.sh
 
 jobs:
   include:
-    - stage: test
-      name: "WhiteSource scan"
+    - name: "WhiteSource scan"
+      stage: test
       # only on master or develop and if it is not a PR
       if: fork = false AND branch =~ ^(master|develop)$ AND type != pull_request
-      install:
-        - travis_retry travis_wait 30 mvn -q install "-Dversion.edition=${VERSION_EDITION}" -f war/pom.xml
+      install: travis_retry travis_wait 30 mvn -B -q install "-Dversion.edition=${VERSION_EDITION}" -f war/pom.xml
       script:
         # Download the latest version of WhiteSource Unified Agent
         - curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
@@ -55,72 +57,57 @@ jobs:
         - java -jar wss-unified-agent.jar -apiKey ${WHITESOURCE_API_KEY} -c .wss-unified-agent.config -d ./war
 
     - name: "REST API TAS tests part1"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 60 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part1 -Denvironment=default -DrunBugs=false
+        - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part1 -Denvironment=default -DrunBugs=false
 
     - name: "REST API TAS tests part2"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 60 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part2 -Denvironment=default -DrunBugs=false
+        - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part2 -Denvironment=default -DrunBugs=false
 
     - name: "REST API TAS tests part3"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 60 mvn install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part3 -Denvironment=default -DrunBugs=false
+        - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part3 -Denvironment=default -DrunBugs=false
 
     - name: "CMIS TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal+transforms.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn install -q -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 40 mvn -B -q install -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
     - name: "Email TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 30 mvn install -q -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 30 mvn -B -q install -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
     - name: "WebDAV TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 30 mvn install -q -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 30 mvn -B -q install -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
     - name: "Integration TAS tests"
-      jdk: openjdk11
-      install:
-        - travis_retry travis_wait 40 mvn install -q "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -PcommunityDocker
+      before_script:
         - ./tests/scripts/start-compose.sh ./tests/environment/docker-compose-minimal.yml
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 30 mvn -B -q install -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
-    - stage: Release
-      name: "Maven release"
-      if: commit_message ~= /\[release\]/ AND fork = false AND branch =~ ^(master|develop)$ AND type != pull_request 
-      install: travis_retry travis_wait 40 mvn clean install -DskipTests=true "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true -B -V
+    - name: "Maven release"
+      stage: release
+      install: travis_retry travis_wait 40 mvn -B -V clean install -DskipTests "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
       before_script: ./scripts/travis/verify_release_tag.sh 
       script: travis_wait 40 ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
@@ -144,9 +131,8 @@ jobs:
           all_branches: true
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
 
-    - stage: "Publish"
-      name: "Copy to S3 Release"
-      if: commit_message ~= /\[publish\]/ AND fork = false AND branch = master AND type != pull_request 
+    - name: "Copy to S3 Release"
+      stage: publish
       # Nothing to build/install as we are just copying from S3 buckets
       install: skip 
       script: skip
