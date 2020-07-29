@@ -25,4 +25,7 @@ fi
 [ -n "${UPSTREAM_VERSION}" ] && mvn -B versions:update-parent "-DparentVersion=(0,${UPSTREAM_VERSION}]" versions:commit
 
 # Build the current project also
-mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true "-Dversion.edition=${VERSION_EDITION}" -PcommunityDocker
+mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true "-Dversion.edition=${VERSION_EDITION}" -PcommunityDocker \
+  $(test -n "${UPSTREAM_VERSION}" && echo "-Ddependency.alfresco-community-repo.version=${UPSTREAM_VERSION}")
+
+
