@@ -2,14 +2,14 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.0.0-TEST3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>8.300-SNAPSHOT</version>
+        <version>8.300-TEST1-SNAPSHOT</version>
     </parent>
 
     <scm>
@@ -35,7 +35,7 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-community-repo.version>8.300-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.300-TEST1-SNAPSHOT</dependency.alfresco-community-repo.version>
         <alfresco.share.version>6.2.2</alfresco.share.version>
         <alfresco.alfresco-share-services.version>6.2.2</alfresco.alfresco-share-services.version>
         <dependency.alfresco-api-explorer.version>7.0.0-A1</dependency.alfresco-api-explorer.version>
