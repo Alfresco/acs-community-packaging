@@ -109,8 +109,8 @@ jobs:
       stage: release
       install: travis_retry travis_wait 40 mvn -B -V clean install -DskipTests "-Dversion.edition=${VERSION_EDITION}" -Dmaven.javadoc.skip=true
       # Fail the job if there is a docker image tag that matches the RELEASE_VERSION (or project version in the POM if not set)
-      before_script: ./scripts/travis/verify_release_tag.sh 
-      script: travis_wait 40 ./scripts/travis/maven_release.sh ${RELEASE_VERSION} ${DEVELOPMENT_VERSION}
+      before_script: bash scripts/travis/verify_release_tag.sh
+      script: travis_wait 40 bash scripts/travis/maven_release.sh
       # Copy alfresco.war and the distribution zip to deploy_dir
       before_deploy: 
          # Move the final artifacts to a single folder (deploy_dir) to be copied to S3
@@ -129,7 +129,7 @@ jobs:
         upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
         on: 
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
+          condition: ${TRAVIS_BRANCH} =~ ^(master|develop)$
 
     - name: "Copy to S3 Release"
       stage: publish
@@ -139,7 +139,7 @@ jobs:
       before_deploy: pip install awscli
       deploy:
         - provider: script
-          script:  ./scripts/travis/copy_to_release_bucket.sh ${TRAVIS_BUILD_NUMBER} ${TRAVIS_BRANCH}
+          script: bash scripts/travis/copy_to_release_bucket.sh
           on:
             branch: master
             
