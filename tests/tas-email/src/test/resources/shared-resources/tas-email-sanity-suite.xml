@@ -66,6 +66,13 @@
                <include name="siteManagerShouldVerifyFileContent" />
             </methods>
          </class>
+         <class name="org.alfresco.email.imap.ImapReadMessagesAcsTests">
+            <methods>
+               <include name="adminShouldGetFoldersCreatedInRepositoryViaImap" />
+               <include name="siteManagerShouldGetFileAndItsContentsViaImap" />
+               <include name="siteManagerShouldVerifyFileContent" />
+            </methods>
+         </class>
          <class name="org.alfresco.email.imap.ImapConnectionTests">
             <methods>
                <include name="correctUserConnectsToIMAPSuccessfully" />
