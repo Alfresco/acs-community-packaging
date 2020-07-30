@@ -41,7 +41,7 @@ before_install:
   - "cp .travis.settings.xml $HOME/.m2/settings.xml"
   - pushd ..
 #  - git clone -b ${TRAVIS_BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
-  - git clone -b feature/REPO-5266_dup_tas_code https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
+  - git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Alfresco/alfresco-community-repo.git
   - cd alfresco-community-repo
   - travis_retry mvn install -DskipTests -PcommunityDocker -B -V
   - travis_retry mvn install -f packaging/tests/pom.xml -DskipTests -B -V
