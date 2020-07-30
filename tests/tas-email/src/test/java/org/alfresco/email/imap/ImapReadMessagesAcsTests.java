@@ -1,5 +1,6 @@
 package org.alfresco.email.imap;
 
+import org.alfresco.email.EmailTest;
 import org.alfresco.utility.model.*;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
