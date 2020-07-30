@@ -49,6 +49,12 @@
     <dependencies>
         <dependency>
             <groupId>org.alfresco.tas</groupId>
+            <artifactId>alfresco-community-repo-restapi-test</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco.tas</groupId>
             <artifactId>restapi</artifactId>
             <scope>test</scope>
         </dependency>

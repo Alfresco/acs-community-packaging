@@ -31,11 +31,12 @@
     </distributionManagement>
 
     <properties>
+        <dependency.alfresco-community-repo.version>8.300-TEST1-SNAPSHOT</dependency.alfresco-community-repo.version>
+
         <!-- Set to "Community Early Access" to add to the version.edition property in version.properties  -->
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-community-repo.version>8.300-TEST1-SNAPSHOT</dependency.alfresco-community-repo.version>
         <alfresco.share.version>6.2.2</alfresco.share.version>
         <alfresco.alfresco-share-services.version>6.2.2</alfresco.alfresco-share-services.version>
         <dependency.alfresco-api-explorer.version>7.0.0-A1</dependency.alfresco-api-explorer.version>
@@ -73,50 +74,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-core</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-core</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-                <classifier>tests</classifier>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-data-model</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-remote-api</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-remote-api</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-                <classifier>tests</classifier>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-repository</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-repository</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-                <classifier>tests</classifier>
-            </dependency>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>content-services-community</artifactId>
-                <version>${dependency.alfresco-community-repo.version}</version>
-                <type>war</type>
-            </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-content-services-share-distribution</artifactId>
