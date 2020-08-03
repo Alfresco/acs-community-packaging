@@ -2,6 +2,9 @@
 set -ev
 pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
+# reset variables to blank values
+unset UPSTREAM_VERSION
+
 # get the source branch name
 [ "${TRAVIS_PULL_REQUEST}" = "false" ] && BRANCH="${TRAVIS_BRANCH}" || BRANCH="${TRAVIS_PULL_REQUEST_BRANCH}"
 
@@ -17,16 +20,19 @@ if ! [[ "${BRANCH}" =~ ^master$\|^release/.+$ ]] && \
   cd alfresco-community-repo
   mvn -B -V -q clean install -DskipTests -Dmaven.javadoc.skip=true -PcommunityDocker
   mvn -B -V install -f packaging/tests/pom.xml -DskipTests
-  UPSTREAM_VERSION=$(mvn -B -q help:evaluate -Dexpression=project.version -DforceStdout)
+  UPSTREAM_VERSION="$(mvn -B -q help:evaluate -Dexpression=project.version -DforceStdout)"
 
   popd
 fi
 
 # update the parent dependency if needed
-[ -n "${UPSTREAM_VERSION}" ] && mvn -B versions:update-parent "-DparentVersion=(0,${UPSTREAM_VERSION}]" versions:commit
+if [ -n "${UPSTREAM_VERSION}" ]; then
+  mvn -B versions:update-parent "-DparentVersion=(0,${UPSTREAM_VERSION}]" versions:commit
+fi
 
 # Build the current project also
 mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true "-Dversion.edition=${VERSION_EDITION}" -PcommunityDocker \
-  $(test -n "${UPSTREAM_VERSION}" && echo "-Ddependency.alfresco-community-repo.version=${UPSTREAM_VERSION}")
+  $(test -n "${UPSTREAM_VERSION}" && echo "-Ddependency.alfresco-community-repo.version=${UPSTREAM_VERSION}") \
+  $(test -n "${UPSTREAM_VERSION}" && echo "-Dupstream.image.tag=latest")
 
 
