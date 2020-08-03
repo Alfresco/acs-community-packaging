@@ -48,12 +48,6 @@
 
     <profiles>
         <profile>
-            <id>communityDocker</id>
-            <modules>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
             <id>fullBuild</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -61,6 +55,12 @@
             <modules>
                 <module>distribution</module>
                 <module>public-javadoc</module>
+                <module>docker-alfresco</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>communityDocker</id>
+            <modules>
                 <module>docker-alfresco</module>
             </modules>
         </profile>
