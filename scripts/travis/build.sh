@@ -13,9 +13,9 @@ if ! [[ "${BRANCH}" =~ ^master$\|^release/.+$ ]] && \
   pushd ..
 
   rm -rf alfresco-community-repo
-  git clone -b "${BRANCH}" "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}"
+  git clone -b "${BRANCH}" --depth=1 "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}"
   cd alfresco-community-repo
-  mvn -B -V -q clean install -DskipTests -PcommunityDocker
+  mvn -B -V -q clean install -DskipTests -Dmaven.javadoc.skip=true -PcommunityDocker
   mvn -B -V install -f packaging/tests/pom.xml -DskipTests
   UPSTREAM_VERSION=$(mvn -B -q help:evaluate -Dexpression=project.version -DforceStdout)
 
