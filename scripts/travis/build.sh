@@ -8,10 +8,18 @@ unset UPSTREAM_VERSION
 # get the source branch name
 [ "${TRAVIS_PULL_REQUEST}" = "false" ] && BRANCH="${TRAVIS_BRANCH}" || BRANCH="${TRAVIS_PULL_REQUEST_BRANCH}"
 
-# if BRANCH is not 'master' or 'release/' AND if it exists in the upstream project
+# if BRANCH is 'master' or 'release/'
 UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
-if ! [[ "${BRANCH}" =~ ^master$\|^release/.+$ ]] && \
-  git ls-remote --exit-code --heads "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}" "${BRANCH}" ; then
+if [[ "${BRANCH}" =~ ^master$\|^release/.+$ ]] ; then
+  # clone the upstream repository tag
+  pushd ..
+
+  TAG=$(mvn -B -q help:evaluate -Dexpression=project.parent.version -DforceStdout)
+  git clone -b "${TAG}" --depth=1 "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}"
+
+  popd
+# if BRANCH is a feature branch AND if it exists in the upstream project
+elif  git ls-remote --exit-code --heads "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}" "${BRANCH}" ; then
   # clone and build the upstream repository
   pushd ..
 
