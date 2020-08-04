@@ -11,7 +11,7 @@ if [ -z "${RELEASE_VERSION}" ]; then
 fi
 
 # get the image name from the pom file
-ALFRESCO_DOCKER_IMAGE=$(mvn help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -q -DforceStdout)
+ALFRESCO_DOCKER_IMAGE="$(mvn -B -q help:evaluate -f ./docker-alfresco/pom.xml -Dexpression=image.name -DforceStdout)"
 DOCKER_IMAGE_FULL_NAME="${ALFRESCO_DOCKER_IMAGE}:${RELEASE_VERSION}"
 
 function docker_image_exists() {

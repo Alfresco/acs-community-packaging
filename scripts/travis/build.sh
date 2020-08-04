@@ -28,7 +28,7 @@ else
 fi
 
 # Build the current project
-mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true "-Dversion.edition=${VERSION_EDITION}" -PcommunityDocker \
+mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -PcommunityDocker \
   $([[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Dupstream.image.tag=latest")
 
 
