@@ -2,45 +2,33 @@
 set -ev
 pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
-# reset variables to blank values
-unset UPSTREAM_VERSION
+source "$(dirname "${BASH_SOURCE[0]}")/build_functions.sh"
 
-# get the source branch name
-[ "${TRAVIS_PULL_REQUEST}" = "false" ] && BRANCH="${TRAVIS_BRANCH}" || BRANCH="${TRAVIS_PULL_REQUEST_BRANCH}"
+DEPENDENCY_VERSION="$(evaluatePomProperty "dependency.alfresco-community-repo.version")"
 
-# if BRANCH is 'master' or 'release/'
+# Either both the parent and the upstream dependency are the same, or else fail the build
+if [ "${DEPENDENCY_VERSION}" != "$(evaluatePomProperty "project.parent.version")" ]; then
+  printf "Upstream dependency version (%s) is different then the project parent version!\n" "${DEPENDENCY_VERSION}"
+  exit 1
+fi
+
+# Prevent merging of any SNAPSHOT dependencies into the master or the release/* branches
+if [[ isPullRequest && "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${SOURCE_BRANCH}" =~ ^master$|^release/.+$ ]] ; then
+  printf "PRs with SNAPSHOT dependencies are not allowed into master or release branches\n"
+  exit 1
+fi
+
 UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
-if [[ "${BRANCH}" =~ ^master$\|^release/.+$ ]] ; then
-  # clone the upstream repository tag
-  pushd ..
-
-  TAG=$(mvn -B -q help:evaluate -Dexpression=project.parent.version -DforceStdout)
-  git clone -b "${TAG}" --depth=1 "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}"
-
-  popd
-# if BRANCH is a feature branch AND if it exists in the upstream project
-elif  git ls-remote --exit-code --heads "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}" "${BRANCH}" ; then
-  # clone and build the upstream repository
-  pushd ..
-
-  rm -rf alfresco-community-repo
-  git clone -b "${BRANCH}" --depth=1 "https://${GIT_USERNAME}:${GIT_PASSWORD}@${UPSTREAM_REPO}"
-  cd alfresco-community-repo
-  mvn -B -V -q clean install -DskipTests -Dmaven.javadoc.skip=true -PcommunityDocker
-  mvn -B -V install -f packaging/tests/pom.xml -DskipTests
-  UPSTREAM_VERSION="$(mvn -B -q help:evaluate -Dexpression=project.version -DforceStdout)"
-
-  popd
+# Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
+# Otherwise just checkout the upstream dependency sources
+if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
+  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-PcommunityDocker"
+else
+  pullUpstreamTag "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}"
 fi
 
-# update the parent dependency if needed
-if [ -n "${UPSTREAM_VERSION}" ]; then
-  mvn -B versions:update-parent "-DparentVersion=(0,${UPSTREAM_VERSION}]" versions:commit
-fi
-
-# Build the current project also
+# Build the current project
 mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true "-Dversion.edition=${VERSION_EDITION}" -PcommunityDocker \
-  $(test -n "${UPSTREAM_VERSION}" && echo "-Ddependency.alfresco-community-repo.version=${UPSTREAM_VERSION}") \
-  $(test -n "${UPSTREAM_VERSION}" && echo "-Dupstream.image.tag=latest")
+  $([[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Dupstream.image.tag=latest")
 
 
