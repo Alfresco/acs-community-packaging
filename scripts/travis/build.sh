@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ev
+set -ex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 source "$(dirname "${BASH_SOURCE[0]}")/build_functions.sh"
