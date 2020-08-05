@@ -4,10 +4,10 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 source "$(dirname "${BASH_SOURCE[0]}")/build_functions.sh"
 
-DEPENDENCY_VERSION="$(evaluatePomProperty "dependency.alfresco-community-repo.version")"
+DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-repo.version")"
 
 # Either both the parent and the upstream dependency are the same, or else fail the build
-if [ "${DEPENDENCY_VERSION}" != "$(evaluatePomProperty "project.parent.version")" ]; then
+if [ "${DEPENDENCY_VERSION}" != "$(retrievePomParentVersion)" ]; then
   printf "Upstream dependency version (%s) is different then the project parent version!\n" "${DEPENDENCY_VERSION}"
   exit 1
 fi
