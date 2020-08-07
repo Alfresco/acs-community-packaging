@@ -120,26 +120,26 @@ jobs:
       before_deploy:
         # Move the final artifacts to a single folder (deploy_dir) to be copied to S3
         - mkdir -p deploy_dir
-        - cp war/target/alfresco.war deploy_dir
+        - cp distribution/target/alfresco.war deploy_dir
         - cp distribution/target/*-distribution*.zip deploy_dir
       deploy:
-      - provider: s3
-        access_key_id: ${AWS_STAGING_ACCESS_KEY}
-        secret_access_key: ${AWS_STAGING_SECRET_KEY}
-        region: "eu-west-1"
-        bucket: "alfresco-artefacts-staging"
-        skip_cleanup: true
-        acl: private
-        local_dir: deploy_dir
-        upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
-        on: 
-          all_branches: true
-          condition: ${TRAVIS_BRANCH} =~ ^(master|develop)$
+        - provider: s3
+          access_key_id: "${AWS_STAGING_ACCESS_KEY}"
+          secret_access_key: "${AWS_STAGING_SECRET_KEY}"
+          bucket: "alfresco-artefacts-staging"
+          region: "eu-west-1"
+          skip_cleanup: true
+          acl: private
+          local_dir: "deploy_dir"
+          upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
+          on:
+            all_branches: true
+            condition: ${TRAVIS_BRANCH} =~ ^(master|develop)$
 
     - name: "Copy to S3 Release"
       stage: publish
       # Nothing to build/install as we are just copying from S3 buckets
-      install: skip 
+      install: skip
       script: skip
       before_deploy: pip install awscli
       deploy:
@@ -147,5 +147,5 @@ jobs:
           script: bash scripts/travis/copy_to_release_bucket.sh
           on:
             branch: master
-            
-      
+
+
