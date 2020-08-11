@@ -68,6 +68,12 @@
             </modules>
         </profile>
         <profile>
+            <id>internal</id>
+            <modules>
+                <module>docker-alfresco</module>
+            </modules>
+        </profile>
+        <profile>
             <id>all-tas-tests</id>
             <modules>
                 <module>tests</module>
