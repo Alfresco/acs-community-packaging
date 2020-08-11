@@ -13,7 +13,7 @@ if [ "${DEPENDENCY_VERSION}" != "$(retrievePomParentVersion)" ]; then
 fi
 
 # Prevent merging of any SNAPSHOT dependencies into the master or the release/* branches
-if [[ isPullRequest && "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${SOURCE_BRANCH}" =~ ^master$|^release/.+$ ]] ; then
+if [[ isPullRequest && "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${TRAVIS_BRANCH}" =~ ^master$|^release/.+$ ]] ; then
   printf "PRs with SNAPSHOT dependencies are not allowed into master or release branches\n"
   exit 1
 fi
