@@ -2,14 +2,14 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.0.0-TEST3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>8.300-SNAPSHOT</version>
+        <version>8.300-TEST1-SNAPSHOT</version>
     </parent>
 
     <scm>
@@ -31,11 +31,14 @@
     </distributionManagement>
 
     <properties>
-        <dependency.alfresco-community-repo.version>8.300-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.300-TEST1-SNAPSHOT</dependency.alfresco-community-repo.version>
 
         <!-- Set to "Community Early Access" to add to the version.edition property in version.properties  -->
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
+        <image.registry>quay.io</image.registry>
+
+        <upstream.image.tag>${dependency.alfresco-community-repo.version}</upstream.image.tag>
 
         <alfresco.share.version>6.2.2</alfresco.share.version>
         <alfresco.alfresco-share-services.version>6.2.2</alfresco.alfresco-share-services.version>
@@ -48,12 +51,6 @@
 
     <profiles>
         <profile>
-            <id>communityDocker</id>
-            <modules>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
             <id>fullBuild</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -61,6 +58,18 @@
             <modules>
                 <module>distribution</module>
                 <module>public-javadoc</module>
+                <module>docker-alfresco</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>communityDocker</id>
+            <modules>
+                <module>docker-alfresco</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>internal</id>
+            <modules>
                 <module>docker-alfresco</module>
             </modules>
         </profile>

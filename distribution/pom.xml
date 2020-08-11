@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0-TEST3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>content-services-community</artifactId>
-             <type>war</type>
+            <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
@@ -143,6 +143,28 @@
                                     <type>war</type>
                                     <outputDirectory>${project.build.outputDirectory}/web-server/webapps</outputDirectory>
                                     <destFileName>_vti_bin.war</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+                    <!-- Copy ROOT.war -->
+                    <execution>
+                        <id>copy-alfresco-war</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>content-services-community</artifactId>
+                                    <version>${dependency.alfresco-community-repo.version}</version>
+                                    <type>war</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>alfresco.war</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
