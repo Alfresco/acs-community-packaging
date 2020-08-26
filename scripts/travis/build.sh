@@ -18,6 +18,11 @@ if [[ $(isPullRequestBuild) && "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${TR
   exit 1
 fi
 
+if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] ; then
+  printf "Cannot release project with SNAPSHOT dependencies!\n"
+  exit 1
+fi
+
 UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
 # Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
 # Otherwise just checkout the upstream dependency sources
