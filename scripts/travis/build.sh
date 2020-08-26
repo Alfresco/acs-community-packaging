@@ -18,12 +18,20 @@ if [[ $(isPullRequestBuild) && "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${TR
   exit 1
 fi
 
+# Prevent release jobs from starting when there are SNAPSHOT upstream dependencies
 if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] ; then
   printf "Cannot release project with SNAPSHOT dependencies!\n"
   exit 1
 fi
 
 UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
+
+# For release jobs, check if the upstream dependency is the latest tag on the upstream repository (on the same branch)
+if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPENDENCY_VERSION}" = "$(retieveLatestTag "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}")" ] ; then
+  printf "Upstream dependency is not up to date with %s / %s\n" "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}"
+  exit 1
+fi
+
 # Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
 # Otherwise just checkout the upstream dependency sources
 if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
