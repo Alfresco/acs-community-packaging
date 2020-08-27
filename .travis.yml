@@ -29,8 +29,8 @@ env:
     - TAS_SCRIPTS=../alfresco-community-repo/packaging/tests/scripts
     - TAS_ENVIRONMENT=./tests/environment
     # Must be in the format <alfresco-version>-<additional_versioning> ie. 6.3.0-repo-xxxx-x or 6.3.0-Ax
-    - RELEASE_VERSION=7.0.0-TEST1
-    - DEVELOPMENT_VERSION=7.0.0-TEST1-SNAPSHOT
+    - RELEASE_VERSION=7.0.0-TEST3
+    - DEVELOPMENT_VERSION=7.0.0-TEST4-SNAPSHOT
 
 stages:
   - name: test
@@ -38,7 +38,7 @@ stages:
   - name: docker_latest
     if: fork = false AND type != pull_request AND branch = master
   - name: release
-    if: commit_message ~= /\[release\]/ AND fork = false AND type != pull_request AND (branch =~ ^(master|develop)$ OR branch =~ /release\/.*/)
+    if: commit_message ~= /\[release\]/ AND fork = false AND type != pull_request AND (branch =~ ^(master|develop)$ OR branch =~ /release\/.*/ OR branch = feature/REPO-5111_repo_build)
   - name: publish
     if: commit_message ~= /\[publish\]/ AND fork = false AND type != pull_request AND (branch =~ ^(master|develop)$ OR branch =~ /release\/.*/)
 

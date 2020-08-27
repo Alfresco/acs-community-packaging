@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -ev
+echo "=========================== Starting Build Script ==========================="
+PS4="\[\e[35m\]+ \[\e[m\]"
+set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 source "$(dirname "${BASH_SOURCE[0]}")/build_functions.sh"
@@ -27,7 +29,7 @@ fi
 UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
 
 # For release jobs, check if the upstream dependency is the latest tag on the upstream repository (on the same branch)
-if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPENDENCY_VERSION}" = "$(retieveLatestTag "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}")" ] ; then
+if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPENDENCY_VERSION}" != "$(retieveLatestTag "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}")" ] ; then
   printf "Upstream dependency is not up to date with %s / %s\n" "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}"
   exit 1
 fi
@@ -44,4 +46,8 @@ fi
 mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -PcommunityDocker \
   $([[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Dupstream.image.tag=latest")
 
+
+popd
+set +vex
+echo "=========================== Finishing Build Script =========================="
 

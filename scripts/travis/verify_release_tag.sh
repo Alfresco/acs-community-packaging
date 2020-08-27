@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-set -ev
+echo "=========================== Starting Verify Release Tag Script ==========================="
+PS4="\[\e[35m\]+ \[\e[m\]"
+set -vex
+pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 #
 # Check that the version to be released does not already have a docker tag.
@@ -7,6 +10,11 @@ set -ev
 
 if [ -z "${RELEASE_VERSION}" ]; then
   echo "Please provide a RELEASE_VERSION in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
+  exit 1
+fi
+
+if git rev-parse "${RELEASE_VERSION}^{tag}" &>/dev/null ; then
+  echo "The RELEASE_VERSION tag \"${RELEASE_VERSION}\" already exists in the git project"
   exit 1
 fi
 
@@ -36,3 +44,9 @@ if docker_image_exists "${DOCKER_IMAGE_FULL_NAME}" ; then
 else
     echo "The ${RELEASE_VERSION} tag was not found"
 fi
+
+
+popd
+set +vex
+echo "=========================== Finishing Verify Release Tag Script =========================="
+

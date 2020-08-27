@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -ev
+echo "=========================== Starting Copy to Release Bucket Script ==========================="
+PS4="\[\e[35m\]+ \[\e[m\]"
+set -vex
 
 #
 # Copy from S3 Release bucket to S3 eu.dl bucket
@@ -22,3 +24,8 @@ aws s3 cp --acl private \
 aws s3 cp --acl private \
   "${SOURCE}/alfresco-content-services-community-distribution-${RELEASE_VERSION}.zip" \
   "${DESTINATION}/alfresco-content-services-community-distribution-${RELEASE_VERSION}.zip"
+
+
+set +vex
+echo "=========================== Finishing Copy to Release Bucket Script =========================="
+
