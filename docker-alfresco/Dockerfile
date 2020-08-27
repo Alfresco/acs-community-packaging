@@ -1,4 +1,4 @@
-FROM quay.io/alfresco/alfresco-community-repo-base:${upstream.image.tag}
+FROM alfresco/alfresco-community-repo-base:${upstream.image.tag}
 
 # Set default docker_context. Will / Can be overriden with maven.
 ARG resource_path=target
