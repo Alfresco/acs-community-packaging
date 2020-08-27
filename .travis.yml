@@ -36,7 +36,7 @@ stages:
   - name: test
     if: commit_message !~ /\[skip tests\]/
   - name: docker_latest
-    if: fork = false AND type != pull_request AND branch = master
+    if: fork = false AND type != pull_request AND (branch = master OR branch = feature/REPO-5111_repo_build)
   - name: release
     if: commit_message ~= /\[release\]/ AND fork = false AND type != pull_request AND (branch =~ ^(master|develop)$ OR branch =~ /release\/.*/ OR branch = feature/REPO-5111_repo_build)
   - name: publish

@@ -9,7 +9,7 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>8.300-TEST1-SNAPSHOT</version>
+        <version>8.300-TEST1</version>
     </parent>
 
     <scm>
@@ -31,7 +31,7 @@
     </distributionManagement>
 
     <properties>
-        <dependency.alfresco-community-repo.version>8.300-TEST1-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.300-TEST1</dependency.alfresco-community-repo.version>
 
         <!-- Set to "Community Early Access" to add to the version.edition property in version.properties  -->
         <version.edition>Community</version.edition>
