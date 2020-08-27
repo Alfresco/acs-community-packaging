@@ -301,15 +301,16 @@
                                     </build>
                                 </image>
                                 <!-- DockerHub image -->
-                                <image>
-                                    <name>${image.name}:${project.version}</name>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}/</dockerFileDir>
-                                        <buildOptions>
-                                            <squash>true</squash>
-                                        </buildOptions>
-                                    </build>
-                                </image>
+                                <!-- TODO enable image build&push -->
+<!--                                <image>-->
+<!--                                    <name>${image.name}:${project.version}</name>-->
+<!--                                    <build>-->
+<!--                                        <dockerFileDir>${project.basedir}/</dockerFileDir>-->
+<!--                                        <buildOptions>-->
+<!--                                            <squash>true</squash>-->
+<!--                                        </buildOptions>-->
+<!--                                    </build>-->
+<!--                                </image>-->
                             </images>
                         </configuration>
                         <executions>
