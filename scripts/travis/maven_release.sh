@@ -5,9 +5,6 @@ set -vex
 pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 
-RELEASE_VERSION="${1}"
-DEVELOPMENT_VERSION="${2}"
-
 if [ -z "${RELEASE_VERSION}" ] || [ -z "${DEVELOPMENT_VERSION}" ]; then
   echo "Please provide a Release and Development version in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
   exit 1
