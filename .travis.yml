@@ -106,7 +106,7 @@ jobs:
 
     - stage: docker_latest
       name: "Update Docker latest images"
-      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pinternal
+      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pmaster
 
     - stage: Release
       name: "Maven release"
