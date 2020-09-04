@@ -27,6 +27,8 @@ branches:
 stages:
   - name: test
     if: commit_message !~ /\[skip tests\]/
+  - name: docker_latest
+    if: fork = false AND type != pull_request AND branch = develop
   - release
   - publish
 
@@ -101,6 +103,11 @@ jobs:
         - ./tests/scripts/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 30 mvn install -q -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+
+    - stage: docker_latest
+      name: "Update Docker latest images"
+      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pmaster
+
     - stage: Release
       name: "Maven release"
       if: commit_message ~= /\[release\]/ AND fork = false AND branch =~ ^(master|develop)$ AND type != pull_request 
