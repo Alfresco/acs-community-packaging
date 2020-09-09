@@ -39,7 +39,7 @@ fi
 if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
   pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-PcommunityDocker"
 else
-  pullUpstreamTag "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}"
+  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}" "-PcommunityDocker"
 fi
 
 # Build the current project
