@@ -29,7 +29,8 @@ fi
 UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
 
 # For release jobs, check if the upstream dependency is the latest tag on the upstream repository (on the same branch)
-if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPENDENCY_VERSION}" != "$(retieveLatestTag "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}")" ] ; then
+# TODO UNCOMMENT THIS LINE: if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPENDENCY_VERSION}" != "$(retieveLatestTag "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}")" ] ; then
+if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPENDENCY_VERSION}" != "$(retieveLatestTag "${UPSTREAM_REPO}" "master")" ] ; then
   printf "Upstream dependency is not up to date with %s / %s\n" "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}"
   exit 1
 fi
