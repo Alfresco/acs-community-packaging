@@ -39,7 +39,6 @@
         <build-number>local</build-number>
 
         <image.tag>latest</image.tag>
-        <image.registry>quay.io</image.registry>
 
         <upstream.image.tag>${dependency.alfresco-community-repo.version}</upstream.image.tag>
 
