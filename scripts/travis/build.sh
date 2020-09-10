@@ -35,7 +35,7 @@ if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${DEPEN
 fi
 
 # Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
-# Otherwise just checkout the upstream dependency sources
+# Otherwise, checkout the upstream tag and build its Docker image (use just "mvn package", without "mvn install")
 if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
   pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-PcommunityDocker"
 else
