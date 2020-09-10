@@ -133,7 +133,6 @@ jobs:
           upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
           on:
             all_branches: true
-            condition: ${TRAVIS_BRANCH} =~ ^(master|develop)$
 
     - name: "Copy to S3 Release"
       stage: publish
