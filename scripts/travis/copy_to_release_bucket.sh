@@ -8,7 +8,7 @@ set -vex
 #
 
 if [ -z "${RELEASE_VERSION}" ]; then
-  echo "Please provide a RELEASE_VERSION in the format <acs-version>-<additional-info> (6.3.0-EA or 6.3.0-SNAPSHOT)"
+  echo "Please provide a RELEASE_VERSION in the format <acs-version>-<additional-info> (7.0.0-EA or 7.0.0-SNAPSHOT)"
   exit 1
 fi
 
