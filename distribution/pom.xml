@@ -19,6 +19,37 @@
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-data-model</artifactId>
+            <exclusions>
+              <!-- REPO-4998 - Exclusion due to classpath conflicts between org.codehaus.woodstox:woodstox-core-asl and com.fasterxml.woodstox:woodstox-core -->
+              <exclusion>
+                <groupId>org.codehaus.woodstox</groupId>
+                <artifactId>woodstox-core-asl</artifactId>
+              </exclusion>
+              <!-- REPO-5009 Excluded to avoid duplicated classes with javax.jws:javax.jws-api -->
+              <exclusion>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+              </exclusion>
+              <!-- Duplicates classes from jakarta.transaction:jakarta.transaction-api -->
+              <exclusion>
+                <groupId>javax.transaction</groupId>
+                <artifactId>jta</artifactId>
+              </exclusion>
+              <!-- Duplicates classes from jakarta.xml.bind:jakarta.xml.bind-api -->
+              <exclusion>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+              </exclusion>
+              <!-- Duplicates classes from jakarta.annotation:jakarta.annotation-api -->
+              <exclusion>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+              </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
             <artifactId>alfresco-repository</artifactId>
         </dependency>
         <dependency>
@@ -76,25 +107,55 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
         <plugins>
+
+            <!-- Reconfigure default-resource to overwrite files, so ACS resources overwrite
+                 enterprise resources. The default is false. -->
             <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-resources</id>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Copy the enterprise's deployment resources in the validate phase, before default-resources
+                 copies this project's resources in the process-resources phase. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>extract-keystore</id>
+                        <id>unpack-licenses-and-keystore</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-community-repo-distribution</artifactId>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>extract-share-distribution</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
                         <configuration>
                             <artifactItems>
-                                <!-- Extract keystore from alfresco-repository -->
-                                <artifactItem>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-repository</artifactId>
-                                    <includes>alfresco/keystore/**</includes>
-                                </artifactItem>
-
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-content-services-share-distribution</artifactId>
@@ -103,6 +164,7 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>extract-jlan-dll</id>
                         <phase>generate-resources</phase>
@@ -123,7 +185,7 @@
 
                     <!-- Copy ROOT.war -->
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-resources-war</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>copy</goal>
@@ -148,7 +210,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Copy ROOT.war -->
+                    <!-- Copy alfresco.war -->
                     <execution>
                         <id>copy-alfresco-war</id>
                         <phase>generate-resources</phase>

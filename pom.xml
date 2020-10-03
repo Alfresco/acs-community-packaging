@@ -35,9 +35,9 @@
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
 
-        <alfresco.share.version>6.2.2</alfresco.share.version>
-        <alfresco.alfresco-share-services.version>6.2.2</alfresco.alfresco-share-services.version>
-        <dependency.alfresco-api-explorer.version>7.0.0-A1</dependency.alfresco-api-explorer.version>
+        <alfresco.share.version>7.0.0-A1</alfresco.share.version>
+        <alfresco.alfresco-share-services.version>7.0.0-A1</alfresco.alfresco-share-services.version>
+        <alfresco.api-explorer.version>7.0.0-A1</alfresco.api-explorer.version>
     </properties>
 
     <profiles>
@@ -55,12 +55,14 @@
         <profile>
             <id>communityDocker</id>
             <modules>
+                <module>distribution</module>
                 <module>docker-alfresco</module>
             </modules>
         </profile>
         <profile>
             <id>internal</id>
             <modules>
+                <module>distribution</module>
                 <module>docker-alfresco</module>
             </modules>
         </profile>
@@ -68,6 +70,13 @@
             <id>all-tas-tests</id>
             <modules>
                 <module>tests</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <modules>
+                <module>distribution</module>
+                <module>docker-alfresco</module>
             </modules>
         </profile>
     </profiles>
@@ -127,6 +136,11 @@
                 <version>${dependency.alfresco-community-repo.version}</version>
                 <classifier>tests</classifier>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-community-repo-distribution</artifactId>
+                <version>${dependency.alfresco-community-repo.version}</version>
             </dependency>
 
             <dependency>
