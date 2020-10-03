@@ -31,7 +31,7 @@
     </distributionManagement>
 
     <properties>
-        <dependency.alfresco-community-repo.version>8.300-TEST4</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.300-TEST6</dependency.alfresco-community-repo.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
 
