@@ -4,14 +4,12 @@
     <groupId>org.alfresco.tas</groupId>
     <artifactId>content-repository-community-integration-test</artifactId>
     <name>content-repository-community-integration-test</name>
-    <version>6.2.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.alfresco</groupId>
-        <artifactId>content-repository-community-tas-tests-parent</artifactId>
-        <version>6.2.1.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>content-repository-community-tests</artifactId>
+        <version>7.0.0-TEST5-SNAPSHOT</version>
     </parent>
 
     <developers>
@@ -30,6 +28,13 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.alfresco.tas</groupId>
+            <artifactId>alfresco-community-repo-integration-test</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.alfresco.tas</groupId>
             <artifactId>utility</artifactId>
