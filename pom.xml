@@ -34,6 +34,7 @@
         <dependency.alfresco-community-repo.version>8.300-TEST6</dependency.alfresco-community-repo.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
+        <share.image.tag>${alfresco.share.version}</share.image.tag>
 
         <alfresco.share.version>7.0.0-A1</alfresco.share.version>
         <alfresco.alfresco-share-services.version>7.0.0-A1</alfresco.alfresco-share-services.version>
