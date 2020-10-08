@@ -117,6 +117,7 @@
                 <executions>
                     <execution>
                         <id>default-resources</id>
+                        <!-- runs in process-resources phase. -->
                         <configuration>
                             <overwrite>true</overwrite>
                         </configuration>
@@ -124,7 +125,7 @@
                 </executions>
             </plugin>
 
-            <!-- Copy the enterprise's deployment resources in the validate phase, before default-resources
+            <!-- Copy the enterprise's deployment resources in the generate-resources phase, before default-resources
                  copies this project's resources in the process-resources phase. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -132,7 +133,7 @@
                 <executions>
                     <execution>
                         <id>unpack-licenses-and-keystore</id>
-                        <phase>validate</phase>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -184,9 +185,11 @@
                     </execution>
 
                     <!-- Copy ROOT.war -->
+                    <!-- This plugin <execution> must be before the "make-assembly" as it is in the same phase -->
                     <execution>
                         <id>copy-resources-war</id>
-                        <phase>generate-resources</phase>
+                        <!-- We want the wars in the zip but not the package's jar. -->
+                        <phase>package</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
