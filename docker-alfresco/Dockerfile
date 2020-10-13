@@ -70,7 +70,7 @@ RUN yum install -y fontconfig-2.13.0-4.3.el7 \
     yum clean all
 
 # Copy default keystore
-COPY ${resource_path}/distribution/keystore/metadata-keystore/keystore ${TOMCAT_DIR}/shared/classes/alfresco/extension/keystore/
+COPY target/distribution/keystore/metadata-keystore/keystore ${TOMCAT_DIR}/shared/classes/alfresco/extension/keystore/
 
 # The standard configuration is to have all Tomcat files owned by root with group GROUPNAME and whilst owner has read/write privileges, 
 # group only has restricted permissions and world has no permissions.
