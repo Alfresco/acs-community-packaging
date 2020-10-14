@@ -75,6 +75,14 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <excludes>
+                    <exclude>keystore/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/keystore</directory>
+                <targetPath>keystore</targetPath>
+                <filtering>false</filtering>
             </resource>
         </resources>
         <plugins>
