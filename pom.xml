@@ -97,6 +97,7 @@
             <id>communityDocker</id>
             <modules>
                 <module>war</module>
+                <module>distribution</module>
                 <module>docker-alfresco</module>
             </modules>
         </profile>
