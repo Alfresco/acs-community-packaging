@@ -55,7 +55,7 @@
         <dependency.fabric8.version>4.4.0</dependency.fabric8.version>
         <dependency.jackson.version>2.10.5</dependency.jackson.version>
         <dependency.jackson-databind.version>2.10.5</dependency.jackson-databind.version>
-        <dependency.cxf.version>3.3.6</dependency.cxf.version>
+        <dependency.cxf.version>3.4.0</dependency.cxf.version>
 
         <!-- Alfresco Share version -->
         <alfresco.share.version>6.2.2</alfresco.share.version>
