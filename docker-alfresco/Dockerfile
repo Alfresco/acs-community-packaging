@@ -14,6 +14,7 @@ ARG TOMCAT_DIR=/usr/local/tomcat
 
 # Create prerequisite to store tools and properties
 RUN mkdir -p ${TOMCAT_DIR}/shared/classes/alfresco/extension && \
+    mkdir -p ${TOMCAT_DIR}/shared/classes/alfresco/extension/keystore && \
     mkdir ${TOMCAT_DIR}/alfresco-mmt
 RUN touch ${TOMCAT_DIR}/shared/classes/alfresco-global.properties
 
@@ -67,6 +68,9 @@ RUN yum install -y fontconfig-2.13.0-4.3.el7 \
                    libpng-1.5.13-7.el7_2 \
                    dejavu-sans-fonts-2.33-6.el7 && \
     yum clean all
+
+# Copy default keystore
+COPY target/distribution/keystore/metadata-keystore/keystore ${TOMCAT_DIR}/shared/classes/alfresco/extension/keystore/
 
 # The standard configuration is to have all Tomcat files owned by root with group GROUPNAME and whilst owner has read/write privileges, 
 # group only has restricted permissions and world has no permissions.

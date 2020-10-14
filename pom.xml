@@ -34,10 +34,10 @@
         <version.edition>Community</version.edition>
         <image.tag>latest</image.tag>
 
-        <dependency.alfresco-remote-api.version>7.147</dependency.alfresco-remote-api.version>
-        <dependency.alfresco-repository.version>7.209</dependency.alfresco-repository.version>
-        <dependency.alfresco-data-model.version>8.50.20</dependency.alfresco-data-model.version>
-        <dependency.alfresco-core.version>7.34</dependency.alfresco-core.version>
+        <dependency.alfresco-remote-api.version>7.156</dependency.alfresco-remote-api.version>
+        <dependency.alfresco-repository.version>7.219</dependency.alfresco-repository.version>
+        <dependency.alfresco-data-model.version>8.50.21</dependency.alfresco-data-model.version>
+        <dependency.alfresco-core.version>7.35</dependency.alfresco-core.version>
 
         <dependency.alfresco-hb-data-sender.version>1.0.12</dependency.alfresco-hb-data-sender.version>
 
@@ -53,8 +53,8 @@
 
         <dependency.spring.version>5.1.15.RELEASE</dependency.spring.version>
         <dependency.fabric8.version>4.4.0</dependency.fabric8.version>
-        <dependency.jackson.version>2.10.2</dependency.jackson.version>
-        <dependency.jackson-databind.version>2.10.1</dependency.jackson-databind.version>
+        <dependency.jackson.version>2.10.5</dependency.jackson.version>
+        <dependency.jackson-databind.version>2.10.5</dependency.jackson-databind.version>
         <dependency.cxf.version>3.3.6</dependency.cxf.version>
 
         <!-- Alfresco Share version -->
@@ -97,6 +97,7 @@
             <id>communityDocker</id>
             <modules>
                 <module>war</module>
+                <module>distribution</module>
                 <module>docker-alfresco</module>
             </modules>
         </profile>

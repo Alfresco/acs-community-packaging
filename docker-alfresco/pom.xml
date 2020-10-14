@@ -145,6 +145,13 @@
                                     <type>war</type>
                                     <outputDirectory>${project.build.directory}/war/_vti_bin</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-content-services-community-distribution</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}/distribution</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
