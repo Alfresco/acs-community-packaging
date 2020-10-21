@@ -133,16 +133,6 @@
                                         </buildOptions>
                                     </build>
                                 </image>
-                                <!-- DockerHub image -->
-                                <!--<image>
-                                    <name>${image.name}:${image.tag}</name>
-                                    <build>
-                                        <dockerFileDir>${project.basedir}/</dockerFileDir>
-                                        <buildOptions>
-                                            <squash>true</squash>
-                                        </buildOptions>
-                                    </build>
-                                </image>-->
                             </images>
                         </configuration>
                         <executions>
@@ -182,7 +172,7 @@
                                     </build>
                                 </image>
                                 <!-- DockerHub image -->
-                                <!--<image>
+                                <image>
                                     <name>${image.name}:${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -190,7 +180,7 @@
                                             <squash>true</squash>
                                         </buildOptions>
                                     </build>
-                                </image>-->
+                                </image>
                             </images>
                         </configuration>
                         <executions>
