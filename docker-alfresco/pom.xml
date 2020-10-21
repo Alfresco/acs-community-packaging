@@ -14,79 +14,8 @@
         <image.name>alfresco/alfresco-content-repository-community</image.name>
     </properties>
 
-<!--    <dependencies>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco</groupId>-->
-<!--            <artifactId>alfresco-mmt</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco</groupId>-->
-<!--            <artifactId>alfresco-server-root</artifactId>-->
-<!--            <type>war</type>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.postgresql</groupId>-->
-<!--            <artifactId>postgresql</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco.aos-module</groupId>-->
-<!--            <artifactId>alfresco-aos-module</artifactId>-->
-<!--            <type>amp</type>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.alfresco.aos-module</groupId>-->
-<!--                    <artifactId>alfresco-aos-repo-binding</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco.aos-module</groupId>-->
-<!--            <artifactId>alfresco-vti-bin</artifactId>-->
-<!--            <type>war</type>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco.integrations</groupId>-->
-<!--            <artifactId>alfresco-googledrive-repo-community</artifactId>-->
-<!--            <type>amp</type>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco</groupId>-->
-<!--            <artifactId>api-explorer</artifactId>-->
-<!--            <version>${alfresco.api-explorer.version}</version>-->
-<!--            <type>war</type>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.alfresco</groupId>-->
-<!--            <artifactId>alfresco-share-services</artifactId>-->
-<!--            <type>amp</type>-->
-<!--        </dependency>-->
-<!--    </dependencies>-->
-
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                   <execution>
-                      <id>copy-licenses</id>
-                      <phase>process-resources</phase>
-                      <goals>
-                          <goal>copy-resources</goal>
-                      </goals>
-                      <configuration>
-                          <resources>
-                              <resource>
-                                  <!-- Extract licenses directory -->
-                                  <directory>../distribution/src/main/resources/licenses</directory>
-                                  <filtering>false</filtering>
-                              </resource>
-                          </resources>
-                          <outputDirectory>${project.build.directory}/licenses</outputDirectory>
-                      </configuration>
-                   </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -99,13 +28,6 @@
                         </goals>
                         <configuration>
                             <artifactItems>
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.alfresco</groupId>-->
-<!--                                    <artifactId>content-services-community</artifactId>-->
-<!--                                    <type>war</type>-->
-<!--                                    <overWrite>false</overWrite>-->
-<!--                                    <outputDirectory>${project.build.directory}/war/alfresco</outputDirectory>-->
-<!--                                </artifactItem>-->
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>api-explorer</artifactId>
@@ -113,50 +35,9 @@
                                     <type>war</type>
                                     <outputDirectory>${project.build.directory}/war/api-explorer</outputDirectory>
                                 </artifactItem>
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.alfresco</groupId>-->
-<!--                                    <artifactId>alfresco-server-root</artifactId>-->
-<!--                                    <version>${dependency.alfresco-server-root.version}</version>-->
-<!--                                    <type>war</type>-->
-<!--                                    <outputDirectory>${project.build.directory}/war/ROOT</outputDirectory>-->
-<!--                                </artifactItem>-->
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.alfresco.aos-module</groupId>-->
-<!--                                    <artifactId>alfresco-vti-bin</artifactId>-->
-<!--                                    <type>war</type>-->
-<!--                                    <outputDirectory>${project.build.directory}/war/_vti_bin</outputDirectory>-->
-<!--                                </artifactItem>-->
                             </artifactItems>
                         </configuration>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>copy-jdbc-connectors</id>-->
-<!--                        <phase>process-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>copy</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <artifactItems>-->
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.postgresql</groupId>-->
-<!--                                    <artifactId>postgresql</artifactId>-->
-<!--                                    <version>${dependency.postgresql.version}</version>-->
-<!--                                    <type>jar</type>-->
-<!--                                    <overWrite>false</overWrite>-->
-<!--                                    <outputDirectory>${project.build.directory}/connector</outputDirectory>-->
-<!--                                </artifactItem>-->
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.alfresco</groupId>-->
-<!--                                    <artifactId>alfresco-mmt</artifactId>-->
-<!--                                    <version>${dependency.alfresco-mmt.version}</version>-->
-<!--                                    <type>jar</type>-->
-<!--                                    <overWrite>false</overWrite>-->
-<!--                                    <outputDirectory>${project.build.directory}/alfresco-mmt</outputDirectory>-->
-<!--                                </artifactItem>-->
-<!--                            </artifactItems>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
                     <execution>
                         <id>copy-amps</id>
                         <phase>process-resources</phase>
@@ -253,7 +134,7 @@
                                     </build>
                                 </image>
                                 <!-- DockerHub image -->
-                                <image>
+                                <!--<image>
                                     <name>${image.name}:${image.tag}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -261,7 +142,7 @@
                                             <squash>true</squash>
                                         </buildOptions>
                                     </build>
-                                </image>
+                                </image>-->
                             </images>
                         </configuration>
                         <executions>
@@ -301,7 +182,7 @@
                                     </build>
                                 </image>
                                 <!-- DockerHub image -->
-                                <image>
+                                <!--<image>
                                     <name>${image.name}:${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}/</dockerFileDir>
@@ -309,7 +190,7 @@
                                             <squash>true</squash>
                                         </buildOptions>
                                     </build>
-                                </image>
+                                </image>-->
                             </images>
                         </configuration>
                         <executions>
