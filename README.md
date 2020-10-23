@@ -24,7 +24,7 @@ For testing locally:
 4. Check that the image has been created locally with your desired name/tag: ```docker images```
 
 ### Docker-compose & Kubernetes
-Use the deployment project if you want the sample docker-compose or helm: https://github.com/Alfresco/acs-community-deployment
+Use the deployment project if you want the sample docker-compose or helm: https://github.com/Alfresco/acs-deployment
 
 ## Distribution zip
 In this folder the distribution zip is build. It contains all the war files, libraries, certificates and settings files you need to deploy Alfresco Content Services Community on the supported application servers.
