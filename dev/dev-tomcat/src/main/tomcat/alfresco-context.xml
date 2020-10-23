@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="${project.build.directory}/${project.build.finalName}" path="/alfresco">
+  <Resources className="org.apache.naming.resources.VirtualDirContext"
+    extraResourcePaths="/=${project.build.directory}/${project.build.finalName}" />
+  <Loader searchVirtualFirst="true"
+    className="org.apache.catalina.loader.VirtualWebappLoader"
+    virtualClasspath="${project.build.outputDirectory};${runtime.tomcat.conf.folder}/shared/classes" />
+</Context>

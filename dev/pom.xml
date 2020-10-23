@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>alfresco-dev-community-tomcat-env</artifactId>
+    <name>Development Tomcat Environment</name>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>acs-community-packaging</artifactId>
+        <version>7.0.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <!-- Development Tomcat runtime environment configuration -->
+        <runtime.data.folder>${project.build.directory}/dev-instance/runtime</runtime.data.folder>
+        <runtime.tomcat.conf.folder>${project.build.directory}/dev-instance/tomcat</runtime.tomcat.conf.folder>
+        <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
+    </properties>
+
+    <modules>
+        <module>dev-tomcat</module>
+        <module>dev-acs-amps-overlay</module>
+    </modules>
+
+</project>

@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acs-community-packaging</artifactId>
+    <packaging>pom</packaging>
     <name>Alfresco Content Services Community Packaging</name>
     <version>7.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>8.304</version>
+        <version>8.305</version>
     </parent>
 
     <scm>
@@ -31,7 +31,7 @@
     </distributionManagement>
 
     <properties>
-        <dependency.alfresco-community-repo.version>8.304</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.305</dependency.alfresco-community-repo.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${alfresco.share.version}</share.image.tag>
@@ -78,6 +78,12 @@
             <modules>
                 <module>distribution</module>
                 <module>docker-alfresco</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>run</id>
+            <modules>
+                <module>dev</module>
             </modules>
         </profile>
     </profiles>
