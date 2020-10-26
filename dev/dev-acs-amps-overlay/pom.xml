@@ -12,7 +12,7 @@
     </parent>
 
     <properties>
-        <tomcat.version>7.0.86</tomcat.version>
+        <tomcat.version>8.5.2</tomcat.version>
         <tomcat.default.solr6.port>8983</tomcat.default.solr6.port>
     </properties>
 
