@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>content-repository-community-tests</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0-A11</version>
     </parent>
 
     <developers>
@@ -25,7 +25,7 @@
         <suiteXmlFile>${project.basedir}/src/test/resources/cmis-suite.xml</suiteXmlFile>
         <cmis.binding>browser</cmis.binding>
         <cmis.basePath>/alfresco/api/-default-/public/cmis/versions/1.1/browser</cmis.basePath>
-        <excludedGroups></excludedGroups>
+        <excludedGroups />
     </properties>
 
     <profiles>
