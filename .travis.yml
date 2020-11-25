@@ -30,7 +30,7 @@ env:
     - TAS_SCRIPTS=../alfresco-community-repo/packaging/tests/scripts
     - TAS_ENVIRONMENT=./tests/environment
     # Release version has to start with real version  (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A11
+    - RELEASE_VERSION=7.0.0-A12
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
 
 stages:
@@ -111,7 +111,7 @@ jobs:
       script:
         - travis_wait 30 mvn -B install -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
-    - name: "Update Docker latest images"
+    - name: "Update latest images in quay.io"
       stage: docker_latest
       script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pinternal
 
