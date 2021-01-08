@@ -24,6 +24,7 @@ public class ImapReadMessagesAcsTests extends EmailTest
     public void siteManagerCanViewWikiPages() throws Exception
     {
         dataWiki.usingUser(testUser).usingSite(testSite).createRandomWiki();
+        /* @Category(IntermittentlyFailingTests.class) ACS-959 Intermittent failure on next line. @Category not supported by TAS tests. */
         imapProtocol.authenticateUser(testUser).usingSiteWikiContainer(testSite).assertThat().countMessagesIs(1);
     }
 }

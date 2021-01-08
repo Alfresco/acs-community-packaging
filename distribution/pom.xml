@@ -72,19 +72,6 @@
             <version>${dependency.postgresql.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Alfresco Pdf Renderer -->
-        <dependency>
-            <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-pdf-renderer</artifactId>
-            <classifier>linux</classifier>
-            <type>tgz</type>
-        </dependency>
-        <dependency>
-            <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-pdf-renderer</artifactId>
-            <classifier>win64</classifier>
-            <type>tgz</type>
-        </dependency>
         <!-- SHARE Distribution -->
         <dependency>
             <groupId>org.alfresco</groupId>
