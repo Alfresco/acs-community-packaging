@@ -30,7 +30,7 @@ env:
     - TAS_SCRIPTS=../alfresco-community-repo/packaging/tests/scripts
     - TAS_ENVIRONMENT=./tests/environment
     # Release version has to start with real version  (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A10
+    - RELEASE_VERSION=7.0.0-A20
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
 
 stages:
@@ -69,12 +69,26 @@ jobs:
       script:
         - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part3 -Denvironment=default -DrunBugs=false
 
-    - name: "CMIS TAS tests"
+    - name: "CMIS TAS tests - BROWSER binding"
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
-        - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
+        - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests,run-cmis-browser -Denvironment=default -DrunBugs=false
+
+    - name: "CMIS TAS tests - ATOM binding"
+      before_script:
+        - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
+        - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+      script:
+        - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests,run-cmis-atom -Denvironment=default -DrunBugs=false
+
+    - name: "CMIS TAS tests - WEBSERVICES binding"
+      before_script:
+        - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
+        - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+      script:
+        - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests,run-cmis-webservices -Denvironment=default -DrunBugs=false
 
     - name: "Email TAS tests"
       before_script:
@@ -97,7 +111,7 @@ jobs:
       script:
         - travis_wait 30 mvn -B install -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
-    - name: "Update Docker latest images"
+    - name: "Update latest images in quay.io"
       stage: docker_latest
       script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pinternal
 
