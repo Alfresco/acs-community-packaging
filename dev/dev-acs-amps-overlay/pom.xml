@@ -12,6 +12,8 @@
     </parent>
 
     <properties>
+        <dependency.sis.version>1.0</dependency.sis.version>
+
         <tomcat.version>7.0.86</tomcat.version>
         <tomcat.default.solr6.port>8983</tomcat.default.solr6.port>
     </properties>
@@ -337,17 +339,17 @@
                             <dependency>
                                 <groupId>org.apache.sis.core</groupId>
                                 <artifactId>sis-utility</artifactId>
-                                <version>0.6</version>
+                                <version>${dependency.sis.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.apache.sis.core</groupId>
                                 <artifactId>sis-metadata</artifactId>
-                                <version>1.0</version>
+                                <version>${dependency.sis.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.apache.sis.storage</groupId>
                                 <artifactId>sis-storage</artifactId>
-                                <version>1.0</version>
+                                <version>${dependency.sis.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
