@@ -7,21 +7,21 @@ repository webapp (`alfresco.war`) in a tomcat instance.
 ## Build -repo projects
 Build the `alfresco-community-repo` (if you have not done so already), so that your changes are in the enterprise alfresco.war file.
 ~~~
-cd alfresco-community-repo
-mvn clean install -PcommunityDocker  -DskipTests=true -Dversion.edition=Community
-cd ..
-
-cd alfresco-enterprise-repo
-mvn clean install -PenterpriseDocker -DskipTests=true -Dmaven.javadoc.skip=true
-cd ..
+$ # The `comR` alias includes the following commands:
+$ cd alfresco-community-repo
+$ mvn clean install -PcommunityDocker  -DskipTests=true -Dversion.edition=Community
+$ cd ..
 ~~~
 
 ## Docker test environment
 The repository code will need to talk to other ACS components, such as a databases, message queue and transformers.
 The simplest way to create these, is to use the `docker-compose.yml` file in the `dev` directory.
 ~~~
-cd acs-community-packaging
-docker-compose -f dev/docker-compose.yml up -d
+$ # The `envUp` alias is the same as the following commands:
+$ cd acs-community-packaging
+$ docker-compose -f dev/docker-compose.yml up -d
+...
+$ cd ..
 ~~~
 
 ## Alfresco Global Properties and Log4j
@@ -40,7 +40,7 @@ Once started, you will be able to access Share on `http://localhost:8080/share` 
 endpoints via `http://localhost:8080/alfresco/`. `entT` is an alias for the
 following command and `entTDebug` will allow a debugger to be attached.
 ~~~
-$ # The alias entT is the same as the following mvn command. entTDebug may also be used.
+$ # The alias comT is the same as the following mvn command. comTDebug may also be used.
 $ mvn clean install -Prun,withShare
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
@@ -53,10 +53,11 @@ $ mvn clean install -Prun,withShare
 [INFO] --------------------------------[ pom ]---------------------------------
 ...
 INFO: Starting ProtocolHandler ["http-bio-8080"]
+$ cd ..
 ~~~
 
 If you kill the tomcat instance (^C) and wish to restart it, use the following command
-or the `entO` alias, or `entODebug` to attach a debuger.
+or the `comO` alias, or `comODebug` to attach a debuger.
 ~~~
 $ mvn install -Prun,withShare -rf dev-acs-amps-overlay
 ~~~
@@ -99,6 +100,8 @@ on the next `mvn clean`.
 
 ## Aliases
 You may also find the aliases specified in the following file useful, as they may save you some typing.
+
+Aliases ending in `D` provide Maven commands for building local Docker images.
 ~~~
 $ source acs-community-packaging/dev/aliases
 ~~~
