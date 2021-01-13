@@ -4,18 +4,21 @@
 # Once the repository component has been built, it will need to be combined with other ACS components in the
 # acs_community_packaging projects.
 #
-# When developing code, you will normally not be creating repository docker images, but will be creating war files and
-# then running them in a local tomcat instance. To provide the environment needed to do this you will need to start a
-# docker-compose environment to provide access to a databases and other ACS components.
+# When developing code, you will normally not be creating repository docker images, or TAS test jar files, but will be
+# creating war files and then running them in a local tomcat instance. To provide the environment needed to do this you
+# will need to start a docker-compose environment to provide access to a databases and other ACS components.
+#
+# If need to create Docker images or create TAS test jar files (extended in downstream projects), use the aliases that
+# end in D for Docker.
 #
 # Aliases to build a sequence of projects and start tomcat - remember to start a CLEAN docker-compose environment - see envUp
 #   com - builds alfresco-community-repo & acs-community-packaging
 #
-# Aliases to build projects WITHOUT creating docker images
+# Aliases to build projects WITHOUT creating docker images or TAS tests jars
 #   comR - alfresco-community-repo
 #   comP - acs-community-packaging
 #
-# Aliases to build projects including DOCKER images
+# Aliases to build projects including DOCKER images and TAS tests jars
 #   comRD - alfresco-community-repo
 #   comPD - acs-community-packaging
 
@@ -29,11 +32,11 @@
 
 export TAG=latest
 
-alias comR='(cd alfresco-community-repo  && mvn clean install                                                                          -DskipTests=true -Dversion.edition=Community)'
-alias comP='(cd acs-community-packaging  && mvn clean install                                                                          -Dmaven.javadoc.skip=true)'
+alias comR='(cd alfresco-community-repo  && mvn clean install  -DskipTests=true -Dversion.edition=Community)'
+alias comP='(cd acs-community-packaging  && mvn clean install -Dmaven.javadoc.skip=true)'
 
-alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Dimage.tag=$TAG                             -DskipTests=true -Dversion.edition=Community)"
-alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
+alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -Dimage.tag=$TAG -DskipTests=true -Dversion.edition=Community)"
+alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
 
 alias comT='     (cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
 alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,withShare)'
@@ -42,6 +45,7 @@ alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun,wi
 
 alias com='comR && comP && comT'
 alias comD='comRD && comPD'
+alias comX='comR && comP'
 
 # Clean up of docker images and content stores (alf_data directories)
 alias drm='docker rm -f $(docker ps -q)'
