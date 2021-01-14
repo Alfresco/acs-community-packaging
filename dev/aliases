@@ -35,8 +35,8 @@ export TAG=latest
 alias comR='(cd alfresco-community-repo  && mvn clean install  -DskipTests=true -Dversion.edition=Community)'
 alias comP='(cd acs-community-packaging  && mvn clean install -Dmaven.javadoc.skip=true)'
 
-alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -Dimage.tag=$TAG -DskipTests=true -Dversion.edition=Community)"
-alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
+alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)"
+alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
 
 alias comT='     (cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
 alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,withShare)'
