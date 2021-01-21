@@ -9,9 +9,19 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-       <version>8.367</version>
-
+       <version>8.373</version>
     </parent>
+
+    <properties>
+        <dependency.alfresco-community-repo.version>8.373</dependency.alfresco-community-repo.version>
+
+        <alfresco.share.version>7.0.0-M3</alfresco.share.version>
+        <alfresco.alfresco-share-services.version>${alfresco.share.version}</alfresco.alfresco-share-services.version>
+        <alfresco.api-explorer.version>7.0.0-M1</alfresco.api-explorer.version>
+
+        <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
+        <share.image.tag>${alfresco.share.version}</share.image.tag>
+    </properties>
 
     <scm>
         <connection>scm:git:https://github.com/Alfresco/acs-community-packaging.git</connection>
@@ -30,17 +40,6 @@
             <url>https://artifacts.alfresco.com/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <properties>
-        <dependency.alfresco-community-repo.version>8.367</dependency.alfresco-community-repo.version>
-
-        <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
-        <share.image.tag>${alfresco.share.version}</share.image.tag>
-
-        <alfresco.share.version>7.0.0-A15</alfresco.share.version>
-        <alfresco.alfresco-share-services.version>${alfresco.share.version}</alfresco.alfresco-share-services.version>
-        <alfresco.api-explorer.version>7.0.0-M1</alfresco.api-explorer.version>
-    </properties>
 
     <profiles>
         <profile>
