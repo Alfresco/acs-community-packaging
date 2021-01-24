@@ -20,33 +20,6 @@
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-data-model</artifactId>
-            <exclusions>
-              <!-- REPO-4998 - Exclusion due to classpath conflicts between org.codehaus.woodstox:woodstox-core-asl and com.fasterxml.woodstox:woodstox-core -->
-              <exclusion>
-                <groupId>org.codehaus.woodstox</groupId>
-                <artifactId>woodstox-core-asl</artifactId>
-              </exclusion>
-              <!-- REPO-5009 Excluded to avoid duplicated classes with javax.jws:javax.jws-api -->
-              <exclusion>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-              </exclusion>
-              <!-- Duplicates classes from jakarta.transaction:jakarta.transaction-api -->
-              <exclusion>
-                <groupId>javax.transaction</groupId>
-                <artifactId>jta</artifactId>
-              </exclusion>
-              <!-- Duplicates classes from jakarta.xml.bind:jakarta.xml.bind-api -->
-              <exclusion>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-              </exclusion>
-              <!-- Duplicates classes from jakarta.annotation:jakarta.annotation-api -->
-              <exclusion>
-                <groupId>javax.annotation</groupId>
-                <artifactId>javax.annotation-api</artifactId>
-              </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
