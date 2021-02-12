@@ -13,11 +13,11 @@
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>8.390</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.391</dependency.alfresco-community-repo.version>
 
         <alfresco.share.version>7.0.0-M3</alfresco.share.version>
         <alfresco.alfresco-share-services.version>${alfresco.share.version}</alfresco.alfresco-share-services.version>
-        <alfresco.api-explorer.version>7.0.0-A3</alfresco.api-explorer.version>
+        <alfresco.api-explorer.version>7.0.0-A4</alfresco.api-explorer.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${alfresco.share.version}</share.image.tag>
