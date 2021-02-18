@@ -6,7 +6,7 @@ version: "2"
 
 services:
     transform-core-aio:
-        image: alfresco/alfresco-transform-core-aio:2.3.6
+        image: alfresco/alfresco-transform-core-aio:2.3.8
         mem_limit: 1536m
         environment:
             JAVA_OPTS: " -Xms256m -Xmx1536m"
