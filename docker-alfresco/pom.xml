@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>content-services-community-docker-alfresco</artifactId>
-    <name>ACS Community Docker Image Builder for Alfresco Community</name>
+    <artifactId>content-services-community-docker</artifactId>
+    <name>ACS Community Docker Image Builder</name>
     <packaging>pom</packaging>
 
     <parent>
@@ -54,20 +54,6 @@
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/amps</outputDirectory>
                                 </artifactItem>
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.alfresco.aos-module</groupId>-->
-<!--                                    <artifactId>alfresco-aos-module</artifactId>-->
-<!--                                    <type>amp</type>-->
-<!--                                    <overWrite>false</overWrite>-->
-<!--                                    <outputDirectory>${project.build.directory}/amps</outputDirectory>-->
-<!--                                </artifactItem>-->
-<!--                                <artifactItem>-->
-<!--                                    <groupId>org.alfresco.integrations</groupId>-->
-<!--                                    <artifactId>alfresco-googledrive-repo-community</artifactId>-->
-<!--                                    <type>amp</type>-->
-<!--                                    <overWrite>false</overWrite>-->
-<!--                                    <outputDirectory>${project.build.directory}/amps</outputDirectory>-->
-<!--                                </artifactItem>-->
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -148,14 +134,14 @@
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration combine.self="override">
                             <images>
+                                <!-- DockerHub image -->
+                                <image>
+                                    <name>${image.name}:${project.version}</name>
+                                </image>
                                 <!-- Quay image -->
                                 <image>
                                     <name>${image.name}:${project.version}</name>
                                     <registry>${image.registry}</registry>
-                                </image>
-                                <!-- DockerHub image -->
-                                <image>
-                                    <name>${image.name}:${project.version}</name>
                                 </image>
                             </images>
                         </configuration>
