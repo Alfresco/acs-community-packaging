@@ -94,7 +94,7 @@
 
         <profile>
             <id>internal</id>
-            <!-- publishes "image:latest" on Quay & DockerHub -->
+            <!-- publishes "image:latest" to Quay -->
             <build>
                 <plugins>
                     <plugin>
@@ -126,7 +126,7 @@
 
         <profile>
             <id>release</id>
-            <!-- publishes "image:release_version" on Quay & DockerHub -->
+            <!-- publishes "image:release_version" to DockerHub -->
             <build>
                 <plugins>
                     <plugin>
@@ -137,13 +137,7 @@
                                 <!-- DockerHub image -->
                                 <image>
                                     <name>${image.name}:${project.version}</name>
-<!--                                    <registry>docker.io</registry>-->
                                 </image>
-                                <!-- Quay image -->
-<!--                                <image>-->
-<!--                                    <name>${image.name}:${project.version}</name>-->
-<!--                                    <registry>${image.registry}</registry>-->
-<!--                                </image>-->
                             </images>
                         </configuration>
                         <executions>

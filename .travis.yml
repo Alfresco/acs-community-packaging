@@ -30,7 +30,7 @@ env:
     - TAS_SCRIPTS=../alfresco-community-repo/packaging/tests/scripts
     - TAS_ENVIRONMENT=./tests/environment
     # Release version has to start with real version  (7.0.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.0.0-A27c
+    - RELEASE_VERSION=7.0.0-A27
     - DEVELOPMENT_VERSION=7.0.0-SNAPSHOT
 
 stages:
@@ -39,9 +39,9 @@ stages:
   - name: docker_latest
     if: fork = false AND type != pull_request AND branch = master
   - name: release
-    if: commit_message =~ /\[release\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/ OR branch = fix/a_releases)
+    if: commit_message =~ /\[release\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/)
   - name: publish
-    if: commit_message =~ /\[publish\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/ OR branch = fix/a_releases)
+    if: commit_message =~ /\[publish\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/)
 
 before_install: travis_retry bash scripts/travis/init.sh
 install: travis_retry travis_wait 40 bash scripts/travis/build.sh
