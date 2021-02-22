@@ -137,7 +137,7 @@
                                 <!-- DockerHub image -->
                                 <image>
                                     <name>${image.name}:${project.version}</name>
-                                    <registry>docker.io</registry>
+<!--                                    <registry>docker.io</registry>-->
                                 </image>
                                 <!-- Quay image -->
 <!--                                <image>-->
