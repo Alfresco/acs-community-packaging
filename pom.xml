@@ -41,6 +41,19 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <repositories>
+        <repository>              
+            <id>alfresco-public</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>alfresco-public-snapshots</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>  
+
     <profiles>
         <profile>
             <id>fullBuild</id>
