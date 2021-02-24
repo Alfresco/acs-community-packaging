@@ -13,6 +13,9 @@
         <fileSet>
             <directory>target/classes</directory>
             <outputDirectory></outputDirectory>
+            <excludes>
+                <exclude>META-INF/**</exclude>
+            </excludes>
         </fileSet>
         <!-- Licenses -->
         <fileSet>
