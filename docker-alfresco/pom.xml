@@ -150,7 +150,7 @@
                                 </goals>
                             </execution>
                             <execution>
-                                <id>build-push-image</id>
+                                <id>build-push-quay-image</id>
                                 <phase>deploy</phase>
                                 <configuration combine.self="override">
                                     <images>
