@@ -132,18 +132,35 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <configuration combine.self="override">
-                            <images>
-                                <!-- DockerHub image -->
-                                <image>
-                                    <name>${image.name}:${project.version}</name>
-                                </image>
-                            </images>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>build-push-image</id>
                                 <phase>deploy</phase>
+                                <configuration combine.self="override">
+                                    <images>
+                                        <!-- DockerHub image -->
+                                        <image>
+                                            <name>${image.name}:${project.version}</name>
+                                        </image>
+                                    </images>
+                                </configuration>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>build-push-image</id>
+                                <phase>deploy</phase>
+                                <configuration combine.self="override">
+                                    <images>
+                                        <!-- Quay image -->
+                                        <image>
+                                            <name>${image.name}:${project.version}</name>
+                                            <registry>${image.registry}</registry>
+                                        </image>
+                                    </images>
+                                </configuration>
                                 <goals>
                                     <goal>build</goal>
                                     <goal>push</goal>
