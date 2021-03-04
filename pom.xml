@@ -13,7 +13,7 @@
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>8.414</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>8.416</dependency.alfresco-community-repo.version>
 
         <alfresco.share.version>7.0.0-A19</alfresco.share.version>
         <alfresco.alfresco-share-services.version>${alfresco.share.version}</alfresco.alfresco-share-services.version>
