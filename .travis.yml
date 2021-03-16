@@ -149,6 +149,4 @@ jobs:
         - provider: script
           script: bash scripts/travis/copy_to_release_bucket.sh
           on:
-            branch: master
-
-
+            all_branches: true
