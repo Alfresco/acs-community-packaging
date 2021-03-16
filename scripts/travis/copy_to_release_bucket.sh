@@ -12,7 +12,7 @@ if [ -z "${RELEASE_VERSION}" ]; then
   exit 1
 fi
 
-BUILD_NUMBER="$(aws s3 ls --recursive s3://alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/  | grep 'alfresco.war' | awk '{print $4}' | cut -d/ -f4 | sort -n -r | head -1)"
+BUILD_NUMBER="$(aws s3 ls --recursive s3://alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/  | grep 'alfresco.war' | awk '{print $4}' | cut -d/ -f5 | sort -n -r | head -1)"
 echo "Release Build Number: ${BUILD_NUMBER}"
 
 SOURCE="s3://alfresco-artefacts-staging/alfresco-content-services-community/release/${TRAVIS_BRANCH}/${BUILD_NUMBER}"
