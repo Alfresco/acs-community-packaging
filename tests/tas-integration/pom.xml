@@ -23,7 +23,7 @@
 
     <properties>
         <suiteXmlFile>${project.basedir}/src/test/resources/integration-suite.xml</suiteXmlFile>
-        <dependency.groovy.version>2.5.14</dependency.groovy.version>
+        <dependency.groovy.version>3.0.8</dependency.groovy.version>
     </properties>
 
     <dependencies>
