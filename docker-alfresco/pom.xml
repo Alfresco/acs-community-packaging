@@ -49,7 +49,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-share-services</artifactId>
-                                    <version>${alfresco.alfresco-share-services.version}</version>
+                                    <version>${dependency.alfresco-community-repo.version}</version>
                                     <type>amp</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/amps</outputDirectory>

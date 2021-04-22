@@ -37,11 +37,11 @@ stages:
   - name: test
     if: commit_message !~ /\[skip tests\]/
   - name: docker_latest
-    if: fork = false AND type != pull_request AND branch = master
+    if: branch = master AND type != pull_request AND fork = false
   - name: release
-    if: commit_message =~ /\[release\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/)
+    if: commit_message =~ /\[release\]/ AND (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
   - name: publish
-    if: commit_message =~ /\[publish\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/)
+    if: commit_message =~ /\[publish\]/ AND (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
 
 before_install: travis_retry bash scripts/travis/init.sh
 install: travis_retry travis_wait 40 bash scripts/travis/build.sh
@@ -124,6 +124,7 @@ jobs:
         - mkdir -p deploy_dir
         - cp distribution/target/alfresco.war deploy_dir
         - cp distribution/target/*-distribution*.zip deploy_dir
+        - ls -lA deploy_dir
       deploy:
         - provider: s3
           access_key_id: "${AWS_STAGING_ACCESS_KEY}"

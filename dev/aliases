@@ -2,7 +2,7 @@
 # give the flexibility to only rebuild or repackage parts of the codebase that have changed.
 #
 # Once the repository component has been built, it will need to be combined with other ACS components in the
-# acs_community_packaging projects.
+# acs_community_packaging projects or the Share project.
 #
 # When developing code, you will normally not be creating repository docker images, or TAS test jar files, but will be
 # creating war files and then running them in a local tomcat instance. To provide the environment needed to do this you
@@ -16,10 +16,12 @@
 #
 # Aliases to build projects WITHOUT creating docker images or TAS tests jars
 #   comR - alfresco-community-repo
+#   comS - share
 #   comP - acs-community-packaging
 #
 # Aliases to build projects including DOCKER images and TAS tests jars
 #   comRD - alfresco-community-repo
+#   comSD - share
 #   comPD - acs-community-packaging
 
 # Aliases to start tomcat in a CLEAN environment - remember to start a docker-compose environment - see envUp
@@ -33,9 +35,11 @@
 export TAG=latest
 
 alias comR='(cd alfresco-community-repo  && mvn clean install  -DskipTests=true -Dversion.edition=Community)'
+alias comS='(cd share && echo Not available yet)'
 alias comP='(cd acs-community-packaging  && mvn clean install -Dmaven.javadoc.skip=true)'
 
 alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)"
+alias comSD='(cd share && echo Not available yet)'
 alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
 
 alias comT='     (cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
@@ -43,9 +47,9 @@ alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,wi
 alias comO='     (cd acs-community-packaging  && mvn            install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
 alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
 
-alias com='comR && comP && comT'
-alias comD='comRD && comPD'
-alias comX='comR && comP'
+alias com='comR && comS && comP && comT'
+alias comD='comRD && comSD && comPD'
+alias comX='comR && comS && comP'
 
 # Clean up of docker images and content stores (alf_data directories)
 alias drm='docker rm -f $(docker ps -q)'
