@@ -9,7 +9,7 @@ Build the `alfresco-community-repo` (if you have not done so already), so that y
 ~~~
 $ # The `comR` alias includes the following commands:
 $ cd alfresco-community-repo
-$ mvn clean install -PcommunityDocker  -DskipTests=true -Dversion.edition=Community
+$ mvn clean install -Pbuild-docker-images  -DskipTests=true -Dversion.edition=Community
 $ cd ..
 ~~~
 

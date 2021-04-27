@@ -38,9 +38,9 @@ alias comR='(cd alfresco-community-repo  && mvn clean install  -DskipTests=true 
 alias comS='(cd share && echo Not available yet)'
 alias comP='(cd acs-community-packaging  && mvn clean install -Dmaven.javadoc.skip=true)'
 
-alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)"
+alias comRD="(cd alfresco-community-repo  && mvn clean install -Pbuild-docker-images  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)"
 alias comSD='(cd share && echo Not available yet)'
-alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
+alias comPD="(cd acs-community-packaging  && mvn clean install -Pbuild-docker-images  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
 
 alias comT='     (cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
 alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,withShare)'

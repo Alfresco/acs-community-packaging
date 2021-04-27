@@ -37,13 +37,13 @@ fi
 # Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
 # Otherwise, checkout the upstream tag and build its Docker image (use just "mvn package", without "mvn install")
 if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
-  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-PcommunityDocker"
+  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-Pbuild-docker-images"
 else
-  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}" "-PcommunityDocker"
+  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}" "-Pbuild-docker-images"
 fi
 
 # Build the current project
-mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -PcommunityDocker \
+mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -Pbuild-docker-images \
   $([[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Drepo.image.tag=latest")
 
 
