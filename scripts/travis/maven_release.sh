@@ -16,10 +16,10 @@ git checkout -B "${TRAVIS_BRANCH}"
 git config user.email "${GIT_EMAIL}"
 
 mvn -B \
-  -Prelease,fullBuild,all-tas-tests \
+  -Prelease,all-tas-tests \
   -DreleaseVersion="${RELEASE_VERSION}" \
   -DdevelopmentVersion="${DEVELOPMENT_VERSION}" \
-  "-Darguments=-Prelease,fullBuild,all-tas-tests -DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER}" \
+  "-Darguments=-Prelease,all-tas-tests -DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER}" \
   release:clean release:prepare release:perform \
   -DscmCommentPrefix="[maven-release-plugin][skip ci] " \
   -Dusername="${GIT_USERNAME}" \

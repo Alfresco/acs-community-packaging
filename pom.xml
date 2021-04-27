@@ -40,43 +40,17 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <modules>
+        <module>distribution</module>
+        <module>public-javadoc</module>
+        <module>docker-alfresco</module>
+    </modules>
+
     <profiles>
-        <profile>
-            <id>fullBuild</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>distribution</module>
-                <module>public-javadoc</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>communityDocker</id>
-            <modules>
-                <module>distribution</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>internal</id>
-            <modules>
-                <module>distribution</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
         <profile>
             <id>all-tas-tests</id>
             <modules>
                 <module>tests</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>release</id>
-            <modules>
-                <module>distribution</module>
-                <module>docker-alfresco</module>
             </modules>
         </profile>
         <profile>
