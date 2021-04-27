@@ -113,7 +113,7 @@ jobs:
 
     - name: "Update latest images in quay.io"
       stage: docker_latest
-      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pinternal
+      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Ppublish-docker-images
 
     - name: "Release and Copy to S3 Staging Bucket"
       stage: release
