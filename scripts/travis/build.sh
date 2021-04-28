@@ -37,9 +37,9 @@ fi
 # Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
 # Otherwise, checkout the upstream tag and build its Docker image (use just "mvn package", without "mvn install")
 if [[ "${DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
-  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-Pbuild-docker-images"
+  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-Pbuild-docker-images -Pags"
 else
-  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}" "-Pbuild-docker-images"
+  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${DEPENDENCY_VERSION}" "-Pbuild-docker-images -Pags"
 fi
 
 # Build the current project
