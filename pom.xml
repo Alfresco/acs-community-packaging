@@ -21,6 +21,7 @@
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${alfresco.share.version}</share.image.tag>
+        <alfresco.ags.version>3.5.0</alfresco.ags.version>
     </properties>
 
     <scm>
