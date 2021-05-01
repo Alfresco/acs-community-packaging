@@ -72,7 +72,7 @@
                     <dependency>
                         <groupId>org.alfresco.maven.plugin</groupId>
                         <artifactId>alfresco-maven-plugin</artifactId>
-                        <version>4.1.0</version>
+                        <version>${alfresco.maven-plugin.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

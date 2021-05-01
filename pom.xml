@@ -16,8 +16,6 @@
         <dependency.alfresco-community-repo.version>11.7-ags-1.0-SNAPSHOT</dependency.alfresco-community-repo.version>
         <alfresco.share.version>11.4-ags-1.0-SNAPSHOT</alfresco.share.version>
 
-        <alfresco.api-explorer.version>7.0.0</alfresco.api-explorer.version>
-
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${alfresco.share.version}</share.image.tag>
     </properties>
