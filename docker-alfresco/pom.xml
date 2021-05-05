@@ -93,7 +93,7 @@
         </profile>
 
         <profile>
-            <id>publish-docker-images</id>
+            <id>push-docker-images</id>
             <!-- publishes "image:latest" to Quay -->
             <build>
                 <plugins>
