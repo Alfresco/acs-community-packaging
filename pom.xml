@@ -16,7 +16,7 @@
         <dependency.alfresco-community-repo.version>11.21</dependency.alfresco-community-repo.version>
 
         <alfresco.share.version>7.0.0</alfresco.share.version>
-        <alfresco.alfresco-share-services.version>${alfresco.share.version}</alfresco.alfresco-share-services.version>
+        <alfresco.alfresco-share-services.version>11.26</alfresco.alfresco-share-services.version>
         <alfresco.api-explorer.version>7.0.0</alfresco.api-explorer.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
