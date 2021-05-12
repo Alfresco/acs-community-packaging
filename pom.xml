@@ -9,12 +9,12 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-       <version>11.7-ags-1.0-SNAPSHOT</version>
+       <version>11.35-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>11.7-ags-1.0-SNAPSHOT</dependency.alfresco-community-repo.version>
-        <alfresco.share.version>11.4-ags-1.0-SNAPSHOT</alfresco.share.version>
+        <dependency.alfresco-community-repo.version>11.35-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <alfresco.share.version>11.6-SNAPSHOT</alfresco.share.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${alfresco.share.version}</share.image.tag>
