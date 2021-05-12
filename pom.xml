@@ -9,7 +9,7 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-       <version>11.30</version>
+       <version>11.35-ags-1</version>
     </parent>
 
     <properties>
