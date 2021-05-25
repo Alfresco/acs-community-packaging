@@ -41,7 +41,7 @@ alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker
 alias comT='     (cd acs-community-packaging  && mvn      clean install -Pags,run)'
 alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Pags,run)'
 alias comO='     (cd acs-community-packaging  && mvn            install -Pags,run -rf dev/dev-acs-amps-overlay)'
-alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Pags,run -rf dev/d,ev-acs-amps-overlay)'
+alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Pags,run -rf dev/dev-acs-amps-overlay)'
 
 alias com='comR && comP && comT'
 alias comD='comRD && comPD'
