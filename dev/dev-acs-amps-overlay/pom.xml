@@ -1,9 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dev-acs-community-amps-overlay</artifactId>
     <name>Content Services WAR with amps</name>
     <packaging>war</packaging>
+
 
     <parent>
         <groupId>org.alfresco</groupId>
@@ -36,6 +38,12 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-governance-services-community-repo</artifactId>
+            <version>${dependency.alfresco-community-repo.version}</version>
+            <type>amp</type>
         </dependency>
     </dependencies>
 
@@ -110,13 +118,23 @@
                             <asWebapp>true</asWebapp>
                             <!-- Workaround for https://issues.apache.org/jira/browse/MTOMCAT-269 -->
                             <!-- tomcat7-maven-plugin does not pick up the context.xml file from META-INF -->
-                            <contextFile>${project.build.directory}/tomcat/webapps/alfresco-server-root/META-INF/context.xml</contextFile>
+                            <contextFile>
+                                ${project.build.directory}/tomcat/webapps/alfresco-server-root/META-INF/context.xml
+                            </contextFile>
                         </webapp>
                         <webapp>
                             <groupId>org.alfresco</groupId>
                             <artifactId>api-explorer</artifactId>
                             <version>${alfresco.api-explorer.version}</version>
                             <contextPath>/api-explorer</contextPath>
+                            <type>war</type>
+                            <asWebapp>true</asWebapp>
+                        </webapp>
+                        <webapp>
+                            <groupId>org.alfresco</groupId>
+                            <artifactId>dev-share-amps-overlay</artifactId>
+                            <contextPath>/share</contextPath>
+                            <version>7.1.0</version>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
                         </webapp>
@@ -212,6 +230,22 @@
                         <groupId>org.apache.tomcat.embed</groupId>
                         <artifactId>tomcat-embed-logging-log4j</artifactId>
                         <version>${tomcat.version}</version>
+                    </dependency>
+                    <!-- Workaround required to make Share work after Tika upgrade -->
+                    <dependency>
+                        <groupId>org.apache.sis.core</groupId>
+                        <artifactId>sis-utility</artifactId>
+                        <version>${dependency.sis.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.sis.core</groupId>
+                        <artifactId>sis-metadata</artifactId>
+                        <version>${dependency.sis.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.sis.storage</groupId>
+                        <artifactId>sis-storage</artifactId>
+                        <version>${dependency.sis.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -316,40 +350,45 @@
             </build>
         </profile>
         <profile>
-            <id>withShare</id>
+            <id>ags</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <configuration>
-                            <webapps combine.children="append">
-                                <webapp>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration combine.self="override">
+                            <overlays>
+                                <overlay>
                                     <groupId>org.alfresco</groupId>
-                                    <artifactId>share</artifactId>
-                                    <contextPath>/share</contextPath>
-                                    <version>${alfresco.share.version}</version>
+                                    <artifactId>content-services-community</artifactId>
                                     <type>war</type>
-                                    <asWebapp>true</asWebapp>
-                                </webapp>
-                            </webapps>
+                                </overlay>
+                                <overlay>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-share-services</artifactId>
+                                    <type>amp</type>
+                                </overlay>
+                                <overlay>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>alfresco-governance-services-community-repo</artifactId>
+                                    <type>amp</type>
+                                </overlay>
+                            </overlays>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
                         </configuration>
-                        <!-- Workaround required to make Share work after Tika upgrade -->
+                        <executions>
+                            <execution>
+                                <id>prepare-exploded-war</id>
+                                <goals>
+                                    <goal>exploded</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <dependencies>
                             <dependency>
-                                <groupId>org.apache.sis.core</groupId>
-                                <artifactId>sis-utility</artifactId>
-                                <version>${dependency.sis.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.apache.sis.core</groupId>
-                                <artifactId>sis-metadata</artifactId>
-                                <version>${dependency.sis.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.apache.sis.storage</groupId>
-                                <artifactId>sis-storage</artifactId>
-                                <version>${dependency.sis.version}</version>
+                                <groupId>org.alfresco.maven.plugin</groupId>
+                                <artifactId>alfresco-maven-plugin</artifactId>
+                                <version>4.1.0</version>
                             </dependency>
                         </dependencies>
                     </plugin>

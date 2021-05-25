@@ -16,11 +16,13 @@
         <!-- Development Tomcat runtime environment configuration -->
         <runtime.data.folder>${project.build.directory}/dev-instance/runtime</runtime.data.folder>
         <runtime.tomcat.conf.folder>${project.build.directory}/dev-instance/tomcat</runtime.tomcat.conf.folder>
-        <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
+        <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties
+        </alfresco.properties.file>
     </properties>
 
     <modules>
         <module>dev-tomcat</module>
+        <module>dev-share-amps-overlay</module>
         <module>dev-acs-amps-overlay</module>
     </modules>
 

@@ -38,16 +38,16 @@ alias comP='(cd acs-community-packaging  && mvn clean install -Dmaven.javadoc.sk
 alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)"
 alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
 
-alias comT='     (cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
-alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,withShare)'
-alias comO='     (cd acs-community-packaging  && mvn            install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
-alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
+alias comT='     (cd acs-community-packaging  && mvn      clean install -Pags,run)'
+alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Pags,run)'
+alias comO='     (cd acs-community-packaging  && mvn            install -Pags,run -rf dev/dev-acs-amps-overlay)'
+alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Pags,run -rf dev/d,ev-acs-amps-overlay)'
 
 alias com='comR && comP && comT'
 alias comD='comRD && comPD'
 alias comX='comR && comP'
 
-# Clean up of docker images and content stores (alf_data directories)
+# Clean up of docker images and content stores (alf_data directories),
 alias drm='docker rm -f $(docker ps -q)'
 alias arm='rm -rf `find . -name alf_data`'
 alias     envUp='docker-compose -f acs-community-packaging/dev/docker-compose.yml up'

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>dev-share-amps-overlay</artifactId>
+    <name>Share WAR with amps</name>
+    <packaging>war</packaging>
+    <version>7.1.0</version>
+
+    <parent>
+        <groupId>org.alfresco</groupId>
+        <artifactId>alfresco-dev-community-tomcat-env</artifactId>
+        <version>7.1.0-SNAPSHOT</version>
+    </parent>
+
+    <build>
+        <finalName>share</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-war-files</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco</groupId>
+                                    <artifactId>share</artifactId>
+                                    <version>${dependency.alfresco-enterprise-share.version}</version>
+                                    <type>war</type>
+                                    <outputDirectory>${project.build.directory}/share</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>ags</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-amps</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.alfresco</groupId>
+                                            <artifactId>alfresco-governance-services-community-share</artifactId>
+                                            <version>${alfresco.share.version}</version>
+                                            <type>amp</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}/amps-share</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.alfresco.maven.plugin</groupId>
+                        <artifactId>alfresco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-gs-enterprise-share-amp</id>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <backup>true</backup>
+                                    <ampLocation>
+                                        ${project.build.directory}/amps-share/alfresco-governance-services-community-share-${alfresco.share.version}.amp
+                                    </ampLocation>
+                                    <warLocation>${project.build.directory}/share</warLocation>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includeWebResources>true</includeWebResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>
