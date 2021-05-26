@@ -26,7 +26,7 @@ if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${TRAVIS_BUILD_STAGE
   exit 1
 fi
 
-COM_UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
+UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
 
 # For release jobs, check if the upstream dependency is the latest tag on the upstream repository (on the same branch)
 if isBranchBuild && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] && [ "${COM_DEPENDENCY_VERSION}" != "$(retieveLatestTag "${UPSTREAM_REPO}" "${TRAVIS_BRANCH}")" ] ; then
