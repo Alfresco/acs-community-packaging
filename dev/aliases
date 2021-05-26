@@ -1,8 +1,8 @@
 # The aliases in this script provide simple commands to build projects, start tomcat and combinations of these. This
 # give the flexibility to only rebuild or repackage parts of the codebase that have changed.
 #
-# Once the repository component has been built, it will need to be combined with other ACS components in the
-# acs_community_packaging projects or the Share project.
+# Once the repository component has been built, it will need to be combined with other ACS components such as Share
+# in the acs_community_packaging projects.
 #
 # When developing code, you will normally not be creating repository docker images, or TAS test jar files, but will be
 # creating war files and then running them in a local tomcat instance. To provide the environment needed to do this you
@@ -53,10 +53,10 @@ alias comRD='(cd alfresco-community-repo   && mvn clean install -Pbuild-docker-i
 alias comSD='(cd share                     && mvn clean install -Pbuild-docker-images -Pall-tas-tests $AMPS -DskipTests      -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true -DskipTests=true)'
 alias comPD='(cd acs-community-packaging   && mvn clean install -Pbuild-docker-images -Pall-tas-tests       -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)'
 
-alias      comT='(cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
-alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,withShare)'
-alias      comO='(cd acs-community-packaging  && mvn            install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
-alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
+alias      comT='(cd acs-community-packaging  && mvn      clean install -Prun $AMPS -rf dev)'
+alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun $AMPS -rf dev)'
+alias      comO='(cd acs-community-packaging  && mvn            install -Prun $AMPS -rf dev/dev-repo-amps-overlay)'
+alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun $AMPS -rf dev/dev-repo-amps-overlay)'
 
 alias   com='comR  && comS  && comP  && comT'
 alias  comD='comRD && comSD && comPD'
@@ -72,4 +72,3 @@ alias   envUp='docker-compose -f acs-community-packaging/dev/docker-compose.yml 
 alias envStop='docker-compose -f acs-community-packaging/dev/docker-compose.yml stop'
 alias envKill='docker-compose -f acs-community-packaging/dev/docker-compose.yml kill'
 alias   envRm='docker-compose -f acs-community-packaging/dev/docker-compose.yml rm'
-

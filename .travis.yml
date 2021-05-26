@@ -1,6 +1,5 @@
 ---
 dist: xenial
-sudo: required
 language: java
 jdk: openjdk11
 
@@ -29,15 +28,15 @@ env:
   global:
     - TAS_SCRIPTS=../alfresco-community-repo/packaging/tests/scripts
     - TAS_ENVIRONMENT=./tests/environment
-    # Release version has to start with real version  (7.1.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=7.1.0-M1
+    # Release version has to start with real version (7.1.0-....) for the docker image to build successfully.
+    - RELEASE_VERSION=7.1.0-A4
     - DEVELOPMENT_VERSION=7.1.0-SNAPSHOT
 
 stages:
   - name: test
     if: commit_message !~ /\[skip tests\]/
   - name: docker_latest
-    if: branch = master AND type != pull_request AND fork = false
+    if: (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
   - name: release
     if: commit_message =~ /\[release\]/ AND (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
   - name: publish
@@ -120,7 +119,7 @@ jobs:
       script:
         - travis_wait 30 mvn -B install -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
-    - name: "Update latest images in quay.io"
+    - name: "Update latest images"
       stage: docker_latest
       script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Ppush-docker-images
 

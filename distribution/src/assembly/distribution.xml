@@ -38,7 +38,7 @@
 
         <!-- Share -->
         <fileSet>
-            <directory>${project.build.directory}/dependency/alfresco-content-services-share-distribution-${alfresco.share.version}</directory>
+            <directory>${project.build.directory}/dependency/alfresco-content-services-share-distribution-${project.version}</directory>
             <outputDirectory/>
             <includes>
                 <include>web-server/**</include>
@@ -47,7 +47,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>${project.build.directory}/dependency/alfresco-content-services-share-distribution-${alfresco.share.version}/web-extension-samples</directory>
+            <directory>${project.build.directory}/dependency/alfresco-content-services-share-distribution-${project.version}/web-extension-samples</directory>
             <outputDirectory>web-server/shared/classes/alfresco/web-extension</outputDirectory>
         </fileSet>
     </fileSets>

@@ -126,7 +126,7 @@
 
         <profile>
             <id>release</id>
-            <!-- publishes "image:release_version" to DockerHub -->
+            <!-- publishes "image:release_version" to DockerHub and Quay -->
             <build>
                 <plugins>
                     <plugin>

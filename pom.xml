@@ -9,15 +9,15 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-       <version>11.43-SNAPSHOT</version>
+       <version>11.48-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>11.43-SNAPSHOT</dependency.alfresco-community-repo.version>
-        <alfresco.share.version>11.6-SNAPSHOT</alfresco.share.version>
+        <dependency.alfresco-community-repo.version>11.48-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-share.version>11.6-SNAPSHOT</dependency.alfresco-community-share.version>
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
-        <share.image.tag>${alfresco.share.version}</share.image.tag>
+        <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
     </properties>
 
     <scm>
@@ -49,6 +49,12 @@
             <id>all-tas-tests</id>
             <modules>
                 <module>tests</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <modules>
+                <module>dev</module>
             </modules>
         </profile>
         <profile>
@@ -156,11 +162,10 @@
                 <classifier>tests</classifier>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-content-services-share-distribution</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${project.version}</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -172,25 +177,25 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>share</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-wcmqs-distribution</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
                 <type>zip</type>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-wcmqs-web</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
                 <classifier>classes</classifier>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-wcmqs-client-api</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

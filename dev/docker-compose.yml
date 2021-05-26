@@ -51,10 +51,3 @@ services:
             - 61616:61616 # OpenWire
             - 61613:61613 # STOMP
 
-#    proxy:
-#        image: alfresco/acs-community-ngnix:1.0.0
-#        mem_limit: 128m
-#        depends_on:
-#            - alfresco
-#        ports:
-#            - 8080:8080

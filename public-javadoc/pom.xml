@@ -23,7 +23,7 @@
             <groupId>org.alfresco</groupId>
             <artifactId>share</artifactId>
             <classifier>classes</classifier>
-            <version>${alfresco.share.version}</version>
+            <version>${dependency.alfresco-community-share.version}</version>
         </dependency>
 
         <!-- Downloads the docflex license -->

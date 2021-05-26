@@ -1,5 +1,8 @@
 *.class
 
+war/overlays
+alfresco/*
+
 # Eclipse
 .classpath
 .settings
@@ -10,7 +13,7 @@
 *.iml
 *.iws
 
-#VSCode
+#VScode
 /.vscode
 
 # Mac
@@ -21,7 +24,6 @@ target
 *.log
 *.log.*
 
-
 # Package Files #
 *.jar
 *.war
@@ -30,12 +32,9 @@ target
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# Alfresco
-alf_data/
-
 helm/alfresco-content-services-community/charts/*
 helm/alfresco-content-services-community/requirements.lock
 helm/alfresco-content-services-community*.tgz
 
-# Travis deployment folder 
+# Travis deployment folder
 deploy_dir
