@@ -5,11 +5,12 @@ It is possible to use Docker containers to test your code, but it is normally mo
 repository webapp (`alfresco.war`) in a tomcat instance.
 
 ## Build -repo projects
-Build the `alfresco-community-repo` (if you have not done so already), so that your changes are in the enterprise alfresco.war file.
+Build the `alfresco-community-repo` (if you have not
+done so already), so that your changes are in the community alfresco.war file.
 ~~~
 $ # The `comR` alias includes the following commands:
 $ cd alfresco-community-repo
-$ mvn clean install -PcommunityDocker  -DskipTests=true -Dversion.edition=Community
+$ mvn clean install -Pbuild-docker-images  -DskipTests=true -Dversion.edition=Community
 $ cd ..
 ~~~
 
@@ -20,7 +21,10 @@ The simplest way to create these, is to use the `docker-compose.yml` file in the
 $ # The `envUp` alias is the same as the following commands:
 $ cd acs-community-packaging
 $ docker-compose -f dev/docker-compose.yml up -d
-...
+Creating dev_transform-core-aio_1 ... done
+Creating dev_postgres_1           ... done
+Creating dev_solr6_1              ... done
+Creating dev_activemq_1           ... done
 $ cd ..
 ~~~
 
@@ -40,17 +44,16 @@ Once started, you will be able to access Share on `http://localhost:8080/share` 
 endpoints via `http://localhost:8080/alfresco/`. `entT` is an alias for the
 following command and `entTDebug` will allow a debugger to be attached.
 ~~~
-$ # The alias comT is the same as the following mvn command. comTDebug may also be used.
-$ mvn clean install -Prun,withShare
+$ # The alias comT is the same as the following commands. comTDebug may also be used.
+$ cd acs-community-packaging
+$ mvn clean install -Prun -rf dev
+$ cd ..
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Build Order:
-[INFO] 
-[INFO] Alfresco Content Services Community Packaging                      [pom]
-[INFO] Alfresco Content Services Community Distribution zip               [jar]
-[INFO] Alfresco Content Services Public API Javadoc                       [pom]
-[INFO] ACS Community Docker Image Builder for Alfresco Community          [pom]
-[INFO] Scanning for projects...
-[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] Development Tomcat Environment                                     [pom]
+[INFO] Tomcat Configuration                                               [pom]
+[INFO] Repo WAR with amps                                                 [war]
+[INFO] Share WAR with amps                                                [war]
+[INFO] Tomcat                                                             [war]
 ...
 INFO: Starting ProtocolHandler ["http-bio-8080"]
 $ cd ..
@@ -99,9 +102,13 @@ and `dev/dev-acs-amps-overlay/target/dev-instance/tomcat/shared/classes/alfresco
 on the next `mvn clean`.
 
 ## Aliases
-You may also find the aliases specified in the following file useful, as they may save you some typing.
+You may also find the aliases specified in the following file useful, as they will help you only build selected parts
+of the code base and will save you lots of typing.
 
-Aliases ending in `D` provide Maven commands for building local Docker images.
+Aliases ending in `D` provide Maven commands for building local Docker images. The AMPS environment variable will be of
+interest, if you wish to build AMPs included in the repo and share projects. 
+
+The `aliases` file includes a more detailed description.
 ~~~
 $ source acs-community-packaging/dev/aliases
 ~~~

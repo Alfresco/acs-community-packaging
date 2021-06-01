@@ -1,6 +1,5 @@
 ---
 dist: xenial
-sudo: required
 language: java
 jdk: openjdk11
 
@@ -29,7 +28,7 @@ env:
   global:
     - TAS_SCRIPTS=../alfresco-community-repo/packaging/tests/scripts
     - TAS_ENVIRONMENT=./tests/environment
-    # Release version has to start with real version  (7.1.0-....) for the docker image to build successfully.
+    # Release version has to start with real version (7.1.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.1.0-A4
     - DEVELOPMENT_VERSION=7.1.0-SNAPSHOT
 
@@ -37,11 +36,11 @@ stages:
   - name: test
     if: commit_message !~ /\[skip tests\]/
   - name: docker_latest
-    if: fork = false AND type != pull_request AND branch = master
+    if: commit_message !~ /\[skip docker_latest\]/ AND (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
   - name: release
-    if: commit_message =~ /\[release\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/)
+    if: commit_message =~ /\[release\]/ AND (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
   - name: publish
-    if: commit_message =~ /\[publish\]/ AND fork = false AND type != pull_request AND (branch = master OR branch =~ /release\/.*/)
+    if: commit_message =~ /\[publish\]/ AND (branch = master OR branch =~ /release\/.*/) AND type != pull_request AND fork = false
 
 before_install: travis_retry bash scripts/travis/init.sh
 install: travis_retry travis_wait 40 bash scripts/travis/build.sh
@@ -49,6 +48,7 @@ install: travis_retry travis_wait 40 bash scripts/travis/build.sh
 jobs:
   include:
     - name: "REST API TAS tests part1"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -56,6 +56,7 @@ jobs:
         - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part1 -Denvironment=default -DrunBugs=false
 
     - name: "REST API TAS tests part2"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -63,6 +64,7 @@ jobs:
         - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part2 -Denvironment=default -DrunBugs=false
 
     - name: "REST API TAS tests part3"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -70,6 +72,7 @@ jobs:
         - travis_wait 60 mvn -B install -f tests/tas-restapi/pom.xml -Pall-tas-tests,run-restapi-part3 -Denvironment=default -DrunBugs=false
 
     - name: "CMIS TAS tests - BROWSER binding"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -77,6 +80,7 @@ jobs:
         - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests,run-cmis-browser -Denvironment=default -DrunBugs=false
 
     - name: "CMIS TAS tests - ATOM binding"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -84,6 +88,7 @@ jobs:
         - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests,run-cmis-atom -Denvironment=default -DrunBugs=false
 
     - name: "CMIS TAS tests - WEBSERVICES binding"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal+transforms.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -91,6 +96,7 @@ jobs:
         - travis_wait 40 mvn -B install -f tests/tas-cmis/pom.xml -Pall-tas-tests,run-cmis-webservices -Denvironment=default -DrunBugs=false
 
     - name: "Email TAS tests"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -98,6 +104,7 @@ jobs:
         - travis_wait 30 mvn -B install -f tests/tas-email/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
     - name: "WebDAV TAS tests"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
@@ -105,15 +112,16 @@ jobs:
         - travis_wait 20 mvn -B install -f tests/tas-webdav/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
     - name: "Integration TAS tests"
+      if: commit_message !~ /\[skip tas\]/
       before_script:
         - ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/docker-compose-minimal.yml
         - ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       script:
         - travis_wait 30 mvn -B install -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
-    - name: "Update latest images in quay.io"
+    - name: "Update latest images"
       stage: docker_latest
-      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pinternal
+      script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Ppush-docker-images
 
     - name: "Release and Copy to S3 Staging Bucket"
       stage: release
@@ -124,6 +132,7 @@ jobs:
         - mkdir -p deploy_dir
         - cp distribution/target/alfresco.war deploy_dir
         - cp distribution/target/*-distribution*.zip deploy_dir
+        - ls -lA deploy_dir
       deploy:
         - provider: s3
           access_key_id: "${AWS_STAGING_ACCESS_KEY}"

@@ -1,3 +1,114 @@
+<h1>        7.1.0 Community
+</h1>
+<h2>
+  New Features
+</h2>
+<li>Removal of 3rd party libraries
+
+With the offloading of both transforms and metadata extraction to T-Engines a number of 3rd party libraries
+are no longer needed within the content repository. They do still exist within the T-Engines performing the
+same tasks. Any AMPs that where making use of these will need to provide these libraries themselves. This will
+reduce the footprint of the repository and allow more frequent releases of the T-Engines to take advantage of
+new functionality or security patches in these libraries.
+<ul>
+<li>PdfBox org.apache.pdfbox:pdfbox:2.0.21 removed - transforms are now performed in T-Engines</li>
+<li>PdfBox org.apache.pdfbox:fontbox:2.0.21 removed - transforms are now performed in T-Engines</li>
+<li>PdfBox org.apache.pdfbox:pdfbox-tools:2.0.21 removed - transforms are now performed in T-Engines</li>
+</ul>
+<br>
+
+<h1>        7.0.0 Community
+</h1>
+<h2>
+  New Features
+</h2>
+
+<ul>
+<li>Metadata Extract
+
+The out of the box extraction of metadata is now generally performed asynchronously via a T-Engine connected to the
+repository either as part of the Alfresco Transform Service or as a Local transformer. This provides better security,
+scalability and reliability. The framework used for metadata extraction within the content repository remains,
+allowing custom extractors / embedders of metadata to still function, as long as they don't extend the extractors
+that have been removed. Ideally such custom code should be gradually moved into a T-Engine. For more information see
+[Metadata Extractors](https://github.com/Alfresco/acs-packaging/blob/master/docs/metadata-extract-embbed.md). </li>
+<li>Removal of Legacy transformers
+
+In ACS 6, the Alfresco Transform Service and Local transformers where introduced to help offload the transformation
+of content to a separate process. In ACS 7, the out of the box Legacy transformers and transformation framework have
+been removed. This helps provide greater clarity around installation and administration of transformations and
+technically a more scalable, reliable and secure environment.</li>
+
+<li>Custom Transforms and Renditions
+
+ACS 7 provides a number of content transforms, but also allows custom transforms to be added.
+
+It is possible to create custom transforms that run in separate processes known as T-Engines. The same engines may
+be used in Community and Enterprise Editions. 
+
+For more information, see [Custom Transforms and Renditions](https://github.com/Alfresco/acs-packaging/blob/master/docs/custom-transforms-and-renditions.md)
+</li>
+
+<li>Core All-In-One (AIO) Transform Engine
+
+We have previously used T-Engines for Community and Enterprise Editions that run in separate processes. (https://docs.alfresco.com/transform-service/latest/)
+
+The Core All-In-One (AIO) Transform Engine combines the current 5x core T-Engines  (LibreOffice, imagemagick,
+Alfresco PDF Renderer, Tika) packaged together into a single Docker image.  Enterprise deployments require
+greater scalability and we anticipate in these situations the individual T-Engines will be preferable.  
+
+For Community deployments the AIO T-Engine, running it in a single JVM is recommended.  In addition the
+AIO solution has been updated at with the option to build a single AIO T-Engine.
+</li>
+
+<li>Events related to node and association actions
+
+With Alfresco Content Services 7.0, the Content Repository publishes events related to an initial set of actions
+to nodes and associations. This is the first time that this feature is introduced as part of the ACS Core Services,
+and it will be used in many use cases, as an example by the Alfresco SDK 5. For the moment the supported events
+are related to node creation/update/deletion, secondary child association creation/deletion, peer association
+creation/deletion.
+</li>
+
+<li>New REST API Endpoints:
+
+    File  Rendition Management API is now available under /s
+    POST '/nodes/{nodeId}/s/{Id}/renditions'
+    GET '/nodes/{nodeId}/s/{Id}/renditions'
+    GET '/nodes/{nodeId}/s/{Id}/renditions/{renditionId}'
+    GET '/nodes/{nodeId}/s/{Id}/renditions/{renditionId}/content'
+
+    Site Membership Management API is now available under /sites
+    GET '/sites/{siteId}/group-members'
+    POST '/sites/{siteId}/group-members'
+    GET '/sites/{siteId}/group-members/{groupId}'
+    PUT '/sites/{siteId}/group-members/{groupId}'
+    DELETE '/sites/{siteId}/group-members/{groupId}'
+
+    Model API: https://develop.envalfresco.com/api-explorer/?urls.primaryName=Model API
+</li>
+
+<li>Recommended Database Patch
+
+ACS 7 contains a recommended database patch, which adds two indexes to the alf_node table and three to alf_transaction.
+This patch is optional, but recommended for larger implementations as it can have a big positive performance impact.
+These indexes are not automatically applied during upgrade, as the amount of time needed to create them might be
+considerable. They should be run manually after the upgrade process completes. 
+
+To apply the patch, an admin should set the following Alfresco global property to “true”. Like other patches it will
+only be run once, so there is no need to reset the property afterwards.
+
+    system.new-node-transaction-indexes.ignored=false
+
+Until this step is completed, you will see Schema Validation warnings reported in the alfresco.log on each startup.
+The log will also indicate that the patch was not run.
+
+    INFO  [org.alfresco.repo.domain.schema.SchemaBootstrap] [...] Ignoring script patch (post-Hibernate): patch.db-V6.3-add-indexes-node-transaction
+    ...
+    WARN  [org.alfresco.repo.domain.schema.SchemaBootstrap] [...] Schema validation found ... potential problems, results written to ...
+ </li>
+    
+
 <h1>        Release Notes - Alfresco - Version Community Edition 201911 GA
 </h1>
 <h2>        Bug

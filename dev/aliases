@@ -1,8 +1,8 @@
 # The aliases in this script provide simple commands to build projects, start tomcat and combinations of these. This
 # give the flexibility to only rebuild or repackage parts of the codebase that have changed.
 #
-# Once the repository component has been built, it will need to be combined with other ACS components in the
-# acs_community_packaging projects.
+# Once the repository component has been built, it will need to be combined with other ACS components such as Share
+# in the acs_community_packaging projects.
 #
 # When developing code, you will normally not be creating repository docker images, or TAS test jar files, but will be
 # creating war files and then running them in a local tomcat instance. To provide the environment needed to do this you
@@ -11,15 +11,20 @@
 # If need to create Docker images or create TAS test jar files (extended in downstream projects), use the aliases that
 # end in D for Docker.
 #
+# By default only the share-services AMP is built by these aliases. Additional AMPS may be included by adding their
+# profile to the AMPS environment variable. For example: export AMPS="-Pags"
+#
 # Aliases to build a sequence of projects and start tomcat - remember to start a CLEAN docker-compose environment - see envUp
 #   com - builds alfresco-community-repo & acs-community-packaging
 #
 # Aliases to build projects WITHOUT creating docker images or TAS tests jars
 #   comR - alfresco-community-repo
+#   comS - share
 #   comP - acs-community-packaging
 #
 # Aliases to build projects including DOCKER images and TAS tests jars
 #   comRD - alfresco-community-repo
+#   comSD - share
 #   comPD - acs-community-packaging
 
 # Aliases to start tomcat in a CLEAN environment - remember to start a docker-compose environment - see envUp
@@ -30,28 +35,40 @@
 #   comO - acs-community-packaging
 #   comODebug - acs-community-packaging (uses mvnDebug to allow a debugger to be attached)
 
-export TAG=latest
+# Set environment variables if not already set
+if [ -z ${AMPS+x} ]
+then
+  export AMPS=""
+fi
+if [ -z ${TAG+x} ]
+then
+  export TAG=latest
+fi
 
-alias comR='(cd alfresco-community-repo  && mvn clean install  -DskipTests=true -Dversion.edition=Community)'
-alias comP='(cd acs-community-packaging  && mvn clean install -Dmaven.javadoc.skip=true)'
+alias  comR='(cd alfresco-community-repo   && mvn clean install $AMPS -DskipTests=true -Dversion.edition=Community)'
+alias  comS='(cd share                     && mvn clean install $AMPS -DskipTests      -Dmaven.javadoc.skip=true)'
+alias  comP='(cd acs-community-packaging   && mvn clean install                        -Dmaven.javadoc.skip=true)'
 
-alias comRD="(cd alfresco-community-repo  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)"
-alias comPD="(cd acs-community-packaging  && mvn clean install -PcommunityDocker  -Pall-tas-tests -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)"
+alias comRD='(cd alfresco-community-repo   && mvn clean install -Pbuild-docker-images -Pall-tas-tests $AMPS -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)'
+alias comSD='(cd share                     && mvn clean install -Pbuild-docker-images -Pall-tas-tests $AMPS -DskipTests      -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true -DskipTests=true)'
+alias comPD='(cd acs-community-packaging   && mvn clean install -Pbuild-docker-images -Pall-tas-tests       -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)'
 
-alias comT='     (cd acs-community-packaging  && mvn      clean install -Prun,withShare)'
-alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun,withShare)'
-alias comO='     (cd acs-community-packaging  && mvn            install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
-alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun,withShare -rf dev/dev-acs-amps-overlay)'
+alias      comT='(cd acs-community-packaging  && mvn      clean install -Prun $AMPS -rf dev)'
+alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun $AMPS -rf dev)'
+alias      comO='(cd acs-community-packaging  && mvn            install -Prun $AMPS -rf dev/dev-repo-amps-overlay)'
+alias comODebug='(cd acs-community-packaging  && mvnDebug       install -Prun $AMPS -rf dev/dev-repo-amps-overlay)'
 
-alias com='comR && comP && comT'
-alias comD='comRD && comPD'
-alias comX='comR && comP'
+alias   com='comR  && comS  && comP  && comT'
+alias  comD='comRD && comSD && comPD'
+alias  comX='comR  && comS  && comP'
+alias comDR='comRD && comRD && comPD'
+alias comXR='comR  && comR  && comP'
+alias comXS='comS  && comP'
 
 # Clean up of docker images and content stores (alf_data directories)
-alias drm='docker rm -f $(docker ps -q)'
-alias arm='rm -rf `find . -name alf_data`'
-alias     envUp='docker-compose -f acs-community-packaging/dev/docker-compose.yml up'
-alias   envStop='docker-compose -f acs-community-packaging/dev/docker-compose.yml stop'
-alias   envKill='docker-compose -f acs-community-packaging/dev/docker-compose.yml kill'
-alias     envRm='docker-compose -f acs-community-packaging/dev/docker-compose.yml rm'
-
+alias     drm='docker rm -f $(docker ps -q)'
+alias     arm='rm -rf `find . -name alf_data`'
+alias   envUp='docker-compose -f acs-community-packaging/dev/docker-compose.yml up'
+alias envStop='docker-compose -f acs-community-packaging/dev/docker-compose.yml stop'
+alias envKill='docker-compose -f acs-community-packaging/dev/docker-compose.yml kill'
+alias   envRm='docker-compose -f acs-community-packaging/dev/docker-compose.yml rm'

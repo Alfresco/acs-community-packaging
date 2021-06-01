@@ -9,18 +9,16 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-       <version>11.44</version>
+       <version>11.51</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>11.44</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>11.51</dependency.alfresco-community-repo.version>
 
-        <alfresco.share.version>7.1.0-M1</alfresco.share.version>
-        <alfresco.alfresco-share-services.version>7.1.0-M1</alfresco.alfresco-share-services.version>
-        <alfresco.api-explorer.version>7.0.0</alfresco.api-explorer.version>
+        <dependency.alfresco-community-share.version>11.7</dependency.alfresco-community-share.version>
+        <alfresco.share.version>7.1.0-A4</alfresco.share.version> <!-- Share distribution zip from acs-packaging -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
-        <share.image.tag>${alfresco.share.version}</share.image.tag>
     </properties>
 
     <scm>
@@ -41,32 +39,13 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <modules>
+        <module>distribution</module>
+        <module>public-javadoc</module>
+        <module>docker-alfresco</module>
+    </modules>
+
     <profiles>
-        <profile>
-            <id>fullBuild</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>distribution</module>
-                <module>public-javadoc</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>communityDocker</id>
-            <modules>
-                <module>distribution</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>internal</id>
-            <modules>
-                <module>distribution</module>
-                <module>docker-alfresco</module>
-            </modules>
-        </profile>
         <profile>
             <id>all-tas-tests</id>
             <modules>
@@ -76,8 +55,7 @@
         <profile>
             <id>release</id>
             <modules>
-                <module>distribution</module>
-                <module>docker-alfresco</module>
+                <module>dev</module>
             </modules>
         </profile>
         <profile>
@@ -185,7 +163,6 @@
                 <classifier>tests</classifier>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-content-services-share-distribution</artifactId>
@@ -195,31 +172,31 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-share-services</artifactId>
-                <version>${alfresco.alfresco-share-services.version}</version>
+                <version>${dependency.alfresco-community-repo.version}</version>
                 <type>amp</type>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>share</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-wcmqs-distribution</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
                 <type>zip</type>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-wcmqs-web</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
                 <classifier>classes</classifier>
             </dependency>
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-wcmqs-client-api</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.alfresco-community-share.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

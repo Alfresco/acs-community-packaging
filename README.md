@@ -1,36 +1,53 @@
 
 # Alfresco Content Services Community Packaging
-This project is producing packaging for [Alfresco Content Services Repository](https://community.alfresco.com/docs/DOC-6385-project-overview-repository).
+This project is producing packaging for Alfresco Content Services Community.
 
-The SNAPSHOT version of the artifacts is **never** published.
+The SNAPSHOT version of artifacts are **never** published.
 
 ### Contributing guide
 Please use [this guide](CONTRIBUTING.md) to make a contribution to the project.
 
-This produces the docker images for alfresco-content-repository-community and the distribution zip for the entire Alfresco Content Services Community product
-
 # General
 
-### Build:
-* ```mvn clean install``` in the root of the project will build everything.
+This project is the Community equivalent of the [Enterprise Packaging Project](https://github.com/Alfresco/acs-packaging).
 
+This project creates the `alfresco/alfresco-content-repository-community` docker image and the distribution zip
+for the Alfresco Content Services Community product.
+
+The `alfresco/alfresco-content-repository-community` image extends the `alfresco-community-repo-base` created by the
+`alfresco-community-repo` project to add additional ACS components.
+
+# Build:
+To build the project, including the distribution zip, but not the Docker images, issue the following commands:
+```
+$ # The comP alias includes the following:
+$ cd acs-community-packaging
+$ mvn clean install
+$ cd ..
+```
 ## Docker Alfresco
-On official releases, the image is published: https://hub.docker.com/r/alfresco/alfresco-content-repository-community/tags/
+Releases are published to https://hub.docker.com/r/alfresco/alfresco-content-repository-community/tags/
 
-For testing locally:
-1. Go to docker-alfresco folder
-2. Run *mvn clean install* if you have not done so
-3. Build the docker image: ```docker build . --tag acr-community:6.0.tag```
-4. Check that the image has been created locally with your desired name/tag: ```docker images```
+To build the Docker images, you will need to build the `alfresco-community-repo` and
+`acs-community-packaging` projects. The simplest way is to use the `comRD` and `comPD` aliases.
+For more information, see [build aliases](dev/aliases). `latest` images are created locally.
+```
+comRD && comPD
+```
 
-### Docker-compose & Kubernetes
-Use the deployment project if you want the sample docker-compose or helm: https://github.com/Alfresco/acs-deployment
+## Docker-compose & Kubernetes
+Use the https://github.com/Alfresco/acs-deployment project as the basis for your own docker-compose or helm chart deployments.
+
 
 ## Distribution zip
-In this folder the distribution zip is build. It contains all the war files, libraries, certificates and settings files you need to deploy Alfresco Content Services Community on the supported application servers.
+The distribution zip contains the war files, libraries, certificates and settings files you need, to deploy
+Alfresco Content Services on the supported application servers.
 
-## How to
 
+# How to
+
+* [Development Tomcat Environment](dev/README.md)
+* [aliases](dev/aliases)
 * [Create a custom Docker image](https://github.com/Alfresco/acs-packaging/blob/master/docs/create-custom-image.md)
 * [Creating customized Docker images using an existing Docker image](https://github.com/Alfresco/acs-packaging/blob/master/docs/create-custom-image-using-existing-docker-image.md)
 * [Verifying that AMPs have been applied](https://github.com/Alfresco/acs-packaging/blob/master/docs/verify-the-amp-has-been-applied.md)

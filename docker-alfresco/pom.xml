@@ -49,7 +49,7 @@
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
                                     <artifactId>alfresco-share-services</artifactId>
-                                    <version>${alfresco.alfresco-share-services.version}</version>
+                                    <version>${dependency.alfresco-community-repo.version}</version>
                                     <type>amp</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/amps</outputDirectory>
@@ -64,7 +64,7 @@
 
     <profiles>
         <profile>
-            <id>communityDocker</id>
+            <id>build-docker-images</id>
             <!-- builds "image:latest" locally -->
             <build>
                 <plugins>
@@ -93,7 +93,7 @@
         </profile>
 
         <profile>
-            <id>internal</id>
+            <id>push-docker-images</id>
             <!-- publishes "image:latest" to Quay -->
             <build>
                 <plugins>
@@ -126,7 +126,7 @@
 
         <profile>
             <id>release</id>
-            <!-- publishes "image:release_version" to DockerHub -->
+            <!-- publishes "image:release_version" to DockerHub and Quay -->
             <build>
                 <plugins>
                     <plugin>

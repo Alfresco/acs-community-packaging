@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dev-acs-community-amps-overlay</artifactId>
-    <name>Content Services WAR with amps</name>
+    <name>Run Tomcat</name>
     <packaging>war</packaging>
 
     <parent>
@@ -21,13 +21,9 @@
     <dependencies>
         <dependency>
             <groupId>org.alfresco</groupId>
-            <artifactId>content-services-community</artifactId>
+            <artifactId>dev-community-repo-amps-overlay</artifactId>
+            <version>${project.version}</version>
             <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>org.alfresco</groupId>
-            <artifactId>alfresco-share-services</artifactId>
-            <type>amp</type>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -49,13 +45,8 @@
                     <overlays>
                         <overlay>
                             <groupId>org.alfresco</groupId>
-                            <artifactId>content-services-community</artifactId>
+                            <artifactId>dev-community-repo-amps-overlay</artifactId>
                             <type>war</type>
-                        </overlay>
-                        <overlay>
-                            <groupId>org.alfresco</groupId>
-                            <artifactId>alfresco-share-services</artifactId>
-                            <type>amp</type>
                         </overlay>
                     </overlays>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -68,13 +59,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.alfresco.maven.plugin</groupId>
-                        <artifactId>alfresco-maven-plugin</artifactId>
-                        <version>4.1.0</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
@@ -110,13 +94,23 @@
                             <asWebapp>true</asWebapp>
                             <!-- Workaround for https://issues.apache.org/jira/browse/MTOMCAT-269 -->
                             <!-- tomcat7-maven-plugin does not pick up the context.xml file from META-INF -->
-                            <contextFile>${project.build.directory}/tomcat/webapps/alfresco-server-root/META-INF/context.xml</contextFile>
+                            <contextFile>
+                                ${project.build.directory}/tomcat/webapps/alfresco-server-root/META-INF/context.xml
+                            </contextFile>
                         </webapp>
                         <webapp>
                             <groupId>org.alfresco</groupId>
                             <artifactId>api-explorer</artifactId>
                             <version>${alfresco.api-explorer.version}</version>
                             <contextPath>/api-explorer</contextPath>
+                            <type>war</type>
+                            <asWebapp>true</asWebapp>
+                        </webapp>
+                        <webapp>
+                            <groupId>org.alfresco</groupId>
+                            <artifactId>dev-community-share-amps-overlay</artifactId>
+                            <contextPath>/share</contextPath>
+                            <version>${project.version}</version>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
                         </webapp>
@@ -213,6 +207,22 @@
                         <artifactId>tomcat-embed-logging-log4j</artifactId>
                         <version>${tomcat.version}</version>
                     </dependency>
+                    <!-- Workaround required to make Share work after Tika upgrade -->
+                    <dependency>
+                        <groupId>org.apache.sis.core</groupId>
+                        <artifactId>sis-utility</artifactId>
+                        <version>${dependency.sis.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.sis.core</groupId>
+                        <artifactId>sis-metadata</artifactId>
+                        <version>${dependency.sis.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.sis.storage</groupId>
+                        <artifactId>sis-storage</artifactId>
+                        <version>${dependency.sis.version}</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <plugin>
@@ -231,7 +241,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-dev-community-tomcat</artifactId>
+                                    <artifactId>alfresco-dev-tomcat</artifactId>
                                     <version>${project.version}</version>
                                     <classifier>config</classifier>
                                     <overWrite>true</overWrite>
@@ -265,17 +275,16 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <target>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties"
-                                         classpathref="maven.plugin.classpath"/>
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
                                 <if>
-                                    <available file="${runtime.tomcat.conf.folder}" type="dir"/>
+                                    <available file="${runtime.tomcat.conf.folder}" type="dir" />
                                     <then>
-                                        <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}"/>
+                                        <echo message="Skipping creation of tomcat configuration, already exists: ${runtime.tomcat.conf.folder}" />
                                     </then>
                                     <else>
-                                        <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}"/>
+                                        <echo message="Creating tomcat runtime configuration: ${runtime.tomcat.conf.folder}" />
                                         <copy todir="${runtime.tomcat.conf.folder}">
-                                            <fileset dir="${project.build.directory}/tomcat-conf"/>
+                                            <fileset dir="${project.build.directory}/tomcat-conf" />
                                         </copy>
                                     </else>
                                 </if>
@@ -311,47 +320,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>withShare</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <configuration>
-                            <webapps combine.children="append">
-                                <webapp>
-                                    <groupId>org.alfresco</groupId>
-                                    <artifactId>share</artifactId>
-                                    <contextPath>/share</contextPath>
-                                    <version>${alfresco.share.version}</version>
-                                    <type>war</type>
-                                    <asWebapp>true</asWebapp>
-                                </webapp>
-                            </webapps>
-                        </configuration>
-                        <!-- Workaround required to make Share work after Tika upgrade -->
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.apache.sis.core</groupId>
-                                <artifactId>sis-utility</artifactId>
-                                <version>${dependency.sis.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.apache.sis.core</groupId>
-                                <artifactId>sis-metadata</artifactId>
-                                <version>${dependency.sis.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.apache.sis.storage</groupId>
-                                <artifactId>sis-storage</artifactId>
-                                <version>${dependency.sis.version}</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
