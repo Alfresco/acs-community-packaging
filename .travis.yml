@@ -133,6 +133,9 @@ jobs:
         - cp distribution/target/alfresco.war deploy_dir
         - cp distribution/target/*-distribution*.zip deploy_dir
         - ls -lA deploy_dir
+        - mkdir -p deploy_dir_ags
+        - cp distribution-ags/target/*.zip deploy_dir_ags
+        - ls -lA deploy_dir_ags
       deploy:
         - provider: s3
           access_key_id: "${AWS_STAGING_ACCESS_KEY}"
@@ -143,6 +146,17 @@ jobs:
           acl: private
           local_dir: "deploy_dir"
           upload_dir: "alfresco-content-services-community/release/${TRAVIS_BRANCH}/${TRAVIS_BUILD_NUMBER}"
+          on:
+            all_branches: true
+        - provider: s3
+          access_key_id: "${AWS_STAGING_ACCESS_KEY}"
+          secret_access_key: "${AWS_STAGING_SECRET_KEY}"
+          bucket: "alfresco-artefacts-staging"
+          region: "eu-west-1"
+          skip_cleanup: true
+          acl: private
+          local_dir: "deploy_dir_ags"
+          upload_dir: "community/RM/${RELEASE_VERSION}"
           on:
             all_branches: true
       after_deploy:
@@ -157,5 +171,9 @@ jobs:
       deploy:
         - provider: script
           script: bash scripts/travis/copy_to_release_bucket.sh
+          on:
+            all_branches: true
+        - provider: script
+          script: bash scripts/travis/copy_ags_to_release_bucket.sh
           on:
             all_branches: true
