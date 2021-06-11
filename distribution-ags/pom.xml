@@ -24,6 +24,7 @@
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-governance-services-community-rest-api-explorer</artifactId>
             <version>${dependency.alfresco-community-repo.version}</version>
+            <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.alfresco</groupId>
