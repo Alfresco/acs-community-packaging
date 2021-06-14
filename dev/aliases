@@ -40,18 +40,14 @@ if [ -z ${AMPS+x} ]
 then
   export AMPS=""
 fi
-if [ -z ${TAG+x} ]
-then
-  export TAG=latest
-fi
 
-alias  comR='(cd alfresco-community-repo   && mvn clean install $AMPS -DskipTests=true -Dversion.edition=Community)'
-alias  comS='(cd share                     && mvn clean install $AMPS -DskipTests      -Dmaven.javadoc.skip=true)'
-alias  comP='(cd acs-community-packaging   && mvn clean install                        -Dmaven.javadoc.skip=true)'
+alias  comR='(cd alfresco-community-repo   && mvn clean install $AMPS -DskipTests=true                                       -Dversion.edition=Community)'
+alias  comS='(cd share                     && mvn clean install $AMPS -DskipTests                  -Dmaven.javadoc.skip=true)'
+alias  comP='(cd acs-community-packaging   && mvn clean install                                    -Dmaven.javadoc.skip=true)'
 
-alias comRD='(cd alfresco-community-repo   && mvn clean install -Pbuild-docker-images -Pall-tas-tests $AMPS -DskipTests=true -Dimage.tag=$TAG -Dversion.edition=Community)'
-alias comSD='(cd share                     && mvn clean install -Pbuild-docker-images -Pall-tas-tests $AMPS -DskipTests      -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true -DskipTests=true)'
-alias comPD='(cd acs-community-packaging   && mvn clean install -Pbuild-docker-images -Pall-tas-tests       -DskipTests=true -Dimage.tag=$TAG -Drepo.image.tag=$TAG -Dmaven.javadoc.skip=true)'
+alias comRD='(cd alfresco-community-repo   && mvn clean install $AMPS -DskipTests=true                                       -Dversion.edition=Community -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest)'
+alias comSD='(cd share                     && mvn clean install $AMPS -DskipTests=true -DskipTests -Dmaven.javadoc.skip=true                             -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest -Drepo.image.tag=latest)'
+alias comPD='(cd acs-community-packaging   && mvn clean install       -DskipTests=true             -Dmaven.javadoc.skip=true                             -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest -Drepo.image.tag=latest -Dshare.image.tag=latest)'
 
 alias      comT='(cd acs-community-packaging  && mvn      clean install -Prun $AMPS -rf dev)'
 alias comTDebug='(cd acs-community-packaging  && mvnDebug clean install -Prun $AMPS -rf dev)'
