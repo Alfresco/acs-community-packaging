@@ -36,7 +36,49 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-base-amps</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.alfresco.integrations</groupId>
+                                    <artifactId>alfresco-googledrive-share</artifactId>
+                                    <version>${alfresco.googledrive.version}</version>
+                                    <type>amp</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/amps-share</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.alfresco.maven.plugin</groupId>
+                <artifactId>alfresco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-amps</id>
+                        <goals>
+                            <goal>install</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <backup>true</backup>
+                            <ampLocation>
+                                ${project.build.directory}/amps-share
+                            </ampLocation>
+                            <warLocation>${project.build.directory}/share</warLocation>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeWebResources>true</includeWebResources>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -70,29 +112,6 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.alfresco.maven.plugin</groupId>
-                        <artifactId>alfresco-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>install-gs-community-share-amp</id>
-                                <goals>
-                                    <goal>install</goal>
-                                </goals>
-                                <phase>prepare-package</phase>
-                                <configuration>
-                                    <backup>true</backup>
-                                    <ampLocation>
-                                        ${project.build.directory}/amps-share/alfresco-governance-services-community-share-${dependency.alfresco-community-share.version}.amp
-                                    </ampLocation>
-                                    <warLocation>${project.build.directory}/share</warLocation>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <includeWebResources>true</includeWebResources>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
