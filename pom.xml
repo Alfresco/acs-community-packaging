@@ -40,13 +40,18 @@
     </distributionManagement>
 
     <modules>
-        <module>distribution-ags</module>
         <module>distribution</module>
         <module>public-javadoc</module>
         <module>docker-alfresco</module>
     </modules>
 
     <profiles>
+        <profile>
+            <id>ags</id>
+            <modules>
+                <module>distribution-ags</module>
+            </modules>
+        </profile>
         <profile>
             <id>all-tas-tests</id>
             <modules>
