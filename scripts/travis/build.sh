@@ -7,6 +7,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 source "$(dirname "${BASH_SOURCE[0]}")/build_functions.sh"
 
 COM_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-repo.version")"
+REPO_IMAGE=$([[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Drepo.image.tag=latest" || echo)
 
 # Either both the parent and the upstream dependency are the same, or else fail the build
 if [ "${COM_DEPENDENCY_VERSION}" != "$(retrievePomParentVersion)" ]; then
@@ -37,8 +38,7 @@ else
 fi
 
 # Build the current project
-mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -Pbuild-docker-images -Pags \
-  $([[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Drepo.image.tag=latest")
+mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -Pbuild-docker-images -Pags "${REPO_IMAGE}"
 
 
 popd
