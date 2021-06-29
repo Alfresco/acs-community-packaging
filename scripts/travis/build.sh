@@ -38,7 +38,7 @@ else
 fi
 
 # Build the current project
-mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -Pbuild-docker-images -Pags "${REPO_IMAGE}"
+mvn -B -V -q install -DskipTests -Dmaven.javadoc.skip=true -Pbuild-docker-images -Pags ${REPO_IMAGE}
 
 
 popd
