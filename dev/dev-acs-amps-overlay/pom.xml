@@ -240,7 +240,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.alfresco</groupId>
-                                    <artifactId>alfresco-dev-tomcat</artifactId>
+                                    <artifactId>alfresco-dev-community-tomcat</artifactId>
                                     <version>${project.version}</version>
                                     <classifier>config</classifier>
                                     <overWrite>true</overWrite>
