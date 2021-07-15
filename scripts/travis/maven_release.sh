@@ -6,7 +6,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 
 if [ -z "${RELEASE_VERSION}" ] || [ -z "${DEVELOPMENT_VERSION}" ]; then
-  echo "Please provide a Release and Development version in the format <acs-version>-<additional-info> (7.0.1-EA or 7.0.1-SNAPSHOT)"
+  echo "Please provide a Release and Development version in the format <acs-version>-<additional-info> (7.0.2-EA or 7.0.2-SNAPSHOT)"
   exit 1
 fi
 
