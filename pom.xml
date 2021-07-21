@@ -18,6 +18,7 @@
         <alfresco.share.version>7.1.0-M2</alfresco.share.version> <!-- Share distribution zip from acs-packaging -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
+        <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
     </properties>
 
     <scm>
@@ -42,6 +43,9 @@
         <module>distribution</module>
         <module>public-javadoc</module>
         <module>docker-alfresco</module>
+        <module>docker-alfresco/ags</module>
+        <module>docker-share</module>
+        <module>docker-share/ags</module>
     </modules>
 
     <profiles>

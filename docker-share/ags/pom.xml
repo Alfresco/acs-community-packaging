@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <artifactId>share-community-docker-ags</artifactId>
+   <packaging>pom</packaging>
+   <name>Alfresco Share Community Docker Image Builder for AGS</name>
+   <description>Alfresco Governance Services Share Community Extension</description>
+
+   <parent>
+      <groupId>org.alfresco</groupId>
+      <artifactId>share-community-docker</artifactId>
+      <version>7.1.0-SNAPSHOT</version>
+   </parent>
+
+   <properties>
+      <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
+      <image.name>alfresco/alfresco-governance-share-community</image.name>
+   </properties>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>copy-amps</id>
+                  <phase>process-resources</phase>
+                  <goals>
+                     <goal>copy</goal>
+                  </goals>
+                  <configuration>
+                     <artifactItems>
+                        <artifactItem>
+                           <groupId>org.alfresco</groupId>
+                           <artifactId>alfresco-governance-services-community-share</artifactId>
+                           <version>${dependency.alfresco-community-share.version}</version>
+                           <type>amp</type>
+                        </artifactItem>
+                     </artifactItems>
+                     <outputDirectory>${project.build.directory}</outputDirectory>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+</project>
