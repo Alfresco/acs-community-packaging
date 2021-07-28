@@ -6,7 +6,6 @@ FROM alfresco/alfresco-content-repository-community:${image.tag}
 USER root
 
 COPY target/alfresco-governance-services-community-repo-*.amp /usr/local/tomcat/amps/
-COPY target/amps/alfresco-share-services-*.amp /usr/local/tomcat/amps/
 
 # Install amps on alfresco.war
 RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \

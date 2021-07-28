@@ -50,25 +50,20 @@
                      <artifactItems>
                         <artifactItem>
                            <groupId>org.alfresco</groupId>
-                           <artifactId>alfresco-share-services</artifactId>
-                           <version>${dependency.alfresco-community-repo.version}</version>
-                           <type>amp</type>
-                        </artifactItem>
-                        <artifactItem>
-                           <groupId>org.alfresco</groupId>
                            <artifactId>alfresco-governance-services-community-rest-api-explorer</artifactId>
                            <version>${dependency.alfresco-community-repo.version}</version>
                            <type>war</type>
-                           <destFileName>gs-api-explorer-${project.version}.war</destFileName>
+                           <destFileName>gs-api-explorer-${dependency.alfresco-community-repo.version}.war</destFileName>
+                           <outputDirectory>${project.build.directory}</outputDirectory>
                         </artifactItem>
                         <artifactItem>
                            <groupId>org.alfresco</groupId>
                            <artifactId>alfresco-governance-services-community-repo</artifactId>
                            <version>${dependency.alfresco-community-repo.version}</version>
                            <type>amp</type>
+                           <outputDirectory>${project.build.directory}</outputDirectory>
                         </artifactItem>
                      </artifactItems>
-                     <outputDirectory>${project.build.directory}</outputDirectory>
                   </configuration>
                </execution>
             </executions>
