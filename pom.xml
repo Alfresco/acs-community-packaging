@@ -43,9 +43,8 @@
         <module>distribution</module>
         <module>public-javadoc</module>
         <module>docker-alfresco</module>
-        <module>docker-alfresco/ags</module>
         <module>docker-share</module>
-        <module>docker-share/ags</module>
+
     </modules>
 
     <profiles>
@@ -53,6 +52,8 @@
             <id>ags</id>
             <modules>
                 <module>distribution-ags</module>
+                <module>docker-alfresco/ags</module>
+                <module>docker-share/ags</module>
             </modules>
         </profile>
         <profile>
