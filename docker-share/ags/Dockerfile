@@ -1,5 +1,5 @@
 ### Apply AGS community share AMP to Share image
-FROM alfresco/alfresco-share:${share.image.tag}
+FROM alfresco/alfresco-share:${image.tag}
 
 ARG TOMCAT_DIR=/usr/local/tomcat
 
