@@ -37,7 +37,7 @@ else
   pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${COM_DEPENDENCY_VERSION}" "-Pbuild-docker-images -Pags"
 fi
 
-SHARE_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-share.version")"
+SHARE_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-share.version")"
 SHARE_IMAGE=$([[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Dshare.image.tag=latest" || echo)
 
 # Prevent merging of any SNAPSHOT dependencies into the master or the release/* branches
@@ -52,9 +52,9 @@ if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${TRAVIS_BUILD_STA
   exit 1
 fi
 
-SHARE_UPSTREAM_REPO="github.com/Alfresco/alfresco-share.git"
+SHARE_UPSTREAM_REPO="github.com/Alfresco/share.git"
 
-# Checkout the upstream alfresco-share project (tag or branch; + build if the latter)
+# Checkout the upstream share project (tag or branch; + build if the latter)
 if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
   pullAndBuildSameBranchOnUpstream "${SHARE_UPSTREAM_REPO}" "-Pbuild-docker-images -Pags -Ddocker.quay-expires.value=NEVER ${REPO_IMAGE} -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION} -Ddependency.alfresco-community-repo.version=${ENT_DEPENDENCY_VERSION}"
 else
