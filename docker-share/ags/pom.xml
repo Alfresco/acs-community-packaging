@@ -12,8 +12,8 @@
    </parent>
 
    <properties>
-      <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
       <image.name>alfresco/alfresco-governance-share-community</image.name>
+      <docker.quay-expires.value>NEVER</docker.quay-expires.value>
    </properties>
 
    <build>

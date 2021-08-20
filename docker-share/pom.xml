@@ -9,8 +9,4 @@
       <artifactId>acs-community-packaging</artifactId>
       <version>7.1.0-SNAPSHOT</version>
    </parent>
-
-   <properties>
-      <image.name>alfresco/alfresco-share-community</image.name>
-   </properties>
 </project>
