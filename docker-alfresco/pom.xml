@@ -12,6 +12,7 @@
 
     <properties>
         <image.name>alfresco/alfresco-content-repository-community</image.name>
+        <docker.quay-expires.value>NEVER</docker.quay-expires.value>
     </properties>
 
     <build>
