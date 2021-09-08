@@ -19,12 +19,12 @@
 #
 # Aliases to build projects WITHOUT creating docker images or TAS tests jars
 #   comR - alfresco-community-repo
-#   comS - share
+#   comS - alfresco-community-share
 #   comP - acs-community-packaging
 #
 # Aliases to build projects including DOCKER images and TAS tests jars
 #   comRD - alfresco-community-repo
-#   comSD - share
+#   comSD - alfresco-community-share
 #   comPD - acs-community-packaging
 
 # Aliases to start tomcat in a CLEAN environment - remember to start a docker-compose environment - see envUp
@@ -42,11 +42,11 @@ then
 fi
 
 alias  comR='(cd alfresco-community-repo   && mvn clean install $AMPS -DskipTests=true                                       -Dversion.edition=Community)'
-alias  comS='(cd share                     && mvn clean install $AMPS -DskipTests                  -Dmaven.javadoc.skip=true)'
+alias  comS='(cd alfresco-community-share  && mvn clean install $AMPS -DskipTests                  -Dmaven.javadoc.skip=true)'
 alias  comP='(cd acs-community-packaging   && mvn clean install $AMPS                              -Dmaven.javadoc.skip=true)'
 
 alias comRD='(cd alfresco-community-repo   && mvn clean install $AMPS -DskipTests=true                                       -Dversion.edition=Community -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest)'
-alias comSD='(cd share                     && mvn clean install $AMPS -DskipTests=true -DskipTests -Dmaven.javadoc.skip=true                             -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest -Drepo.image.tag=latest)'
+alias comSD='(cd alfresco-community-share  && mvn clean install $AMPS -DskipTests=true -DskipTests -Dmaven.javadoc.skip=true                             -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest -Drepo.image.tag=latest)'
 alias comPD='(cd acs-community-packaging   && mvn clean install $AMPS -DskipTests=true             -Dmaven.javadoc.skip=true                             -Pall-tas-tests -Pbuild-docker-images -Dimage.tag=latest -Drepo.image.tag=latest -Dshare.image.tag=latest)'
 
 alias      comT='(cd acs-community-packaging  && mvn      clean install -Prun $AMPS -rf dev)'
