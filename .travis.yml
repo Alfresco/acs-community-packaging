@@ -30,7 +30,7 @@ env:
     - TAS_ENVIRONMENT=./tests/environment
     # Release version has to start with real version (7.1.0-....) for the docker image to build successfully.
     - RELEASE_VERSION=7.1.0
-    - DEVELOPMENT_VERSION=7.2.0-SNAPSHOT
+    - DEVELOPMENT_VERSION=7.1.0.2-SNAPSHOT
 
 stages:
   - name: test
