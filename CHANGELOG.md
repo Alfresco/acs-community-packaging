@@ -1,3 +1,8 @@
+<h1>        7.2.0 Community
+</h1>
+<h2>
+  New Features
+</h2>
 <h1>        7.1.0 Community
 </h1>
 <h2>
