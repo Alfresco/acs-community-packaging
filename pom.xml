@@ -15,7 +15,7 @@
     <properties>
         <dependency.alfresco-community-repo.version>14.5</dependency.alfresco-community-repo.version>
         <dependency.alfresco-community-share.version>14.4</dependency.alfresco-community-share.version>
-        <alfresco.share.version>7.1.0.1</alfresco.share.version> <!-- Share distribution zip from acs-packaging -->
+        <dependency.acs-packaging.version>7.0.0</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
@@ -175,7 +175,7 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-content-services-share-distribution</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${dependency.acs-packaging.version}</version>
                 <type>zip</type>
             </dependency>
             <dependency>
