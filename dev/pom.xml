@@ -26,4 +26,16 @@
         <module>dev-acs-amps-overlay</module>
     </modules>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Versions higher than 3.3.0 were causing the tomcat dev environment to fail to start with a
+                     ClassNotFoundException: org.springframework.web.context.ContextLoaderListener -->
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
