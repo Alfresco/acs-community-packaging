@@ -67,8 +67,10 @@ public class CheckDistributionZipContents
                             "bin/apply_amps.sh",
                             "web-server/webapps/ROOT.war",
                             "web-server/webapps/alfresco.war",
+                            "web-server/webapps/share.war",
                             "web-server/webapps/_vti_bin.war",
-                            "web-server/conf/Catalina/localhost/alfresco.xml"
+                            "web-server/conf/Catalina/localhost/alfresco.xml",
+                            "web-server/shared/classes/alfresco/web-extension/share-config-custom.xml"
                     );
         }
     }
