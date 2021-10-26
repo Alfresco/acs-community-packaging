@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.alfresco.tas</groupId>
+  <artifactId>content-repository-community-distribution-test</artifactId>
+  <name>Community Distribution test</name>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.alfresco</groupId>
+    <artifactId>content-repository-community-tests</artifactId>
+    <version>7.2.0-A5-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <dependency.assertj-core.version>3.13.2</dependency.assertj-core.version>
+    <suiteXmlFile>${project.basedir}/src/test/resources/distribution-suite.xml</suiteXmlFile>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.alfresco.tas</groupId>
+      <artifactId>restapi</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+      <version>3.8.2</version>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>run-distribution-zip-contents-check</id>
+      <properties>
+        <suiteXmlFile>${project.basedir}/src/test/resources/distribution-suite.xml</suiteXmlFile>
+      </properties>
+    </profile>
+  </profiles>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+          </suiteXmlFiles>
+          <argLine>
+            --illegal-access=warn
+          </argLine>
+        </configuration>
+      </plugin>
+      <!-- Build only test jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

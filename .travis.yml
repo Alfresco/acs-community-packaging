@@ -119,6 +119,13 @@ jobs:
       script:
         - travis_wait 30 mvn -B install -f tests/tas-integration/pom.xml -Pall-tas-tests -Denvironment=default -DrunBugs=false
 
+    - name: "Community Distribution Zip content tests"
+      before_script:
+        - travis_retry travis_wait 20 mvn -B -V clean install -Pags -DskipTests -Dmaven.javadoc.skip=true
+      script:
+        - travis_wait 20 mvn -B install -f tests/tas-distribution-zip/pom.xml -Prun-distribution-zip-contents-check -DrunBugs=false
+
+
     - name: "Update latest images"
       stage: docker_latest
       script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images

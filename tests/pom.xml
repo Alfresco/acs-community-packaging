@@ -15,6 +15,7 @@
         <module>tas-email</module>
         <module>tas-webdav</module>
         <module>tas-integration</module>
+        <module>tas-distribution-zip</module>
     </modules>
 
     <properties>
