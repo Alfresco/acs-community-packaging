@@ -18,6 +18,9 @@ The `alfresco/alfresco-content-repository-community` image extends the `alfresco
 `alfresco-community-repo` project to add additional ACS components.
 
 # Build:
+For more detailed build instructions, see the [Development Tomcat Environment](https://github.com/Alfresco/acs-community-packaging/tree/master/dev/README.md)
+page.
+
 To build the project, including the distribution zip, but not the Docker images, issue the following commands:
 ```
 $ # The comP alias includes the following:
@@ -28,11 +31,11 @@ $ cd ..
 ## Docker Alfresco
 Releases are published to https://hub.docker.com/r/alfresco/alfresco-content-repository-community/tags/
 
-To build the Docker images, you will need to build the `alfresco-community-repo` and
-`acs-community-packaging` projects. The simplest way is to use the `comRD` and `comPD` aliases.
+To build the Docker images, you will need to build the `alfresco-community-repo`, `alfresco-community-share` and
+`acs-community-packaging` projects. The simplest way is to use the `comRD`, `comSD` and `comPD` aliases.
 For more information, see [build aliases](dev/aliases). `latest` images are created locally.
 ```
-comRD && comPD
+comRD && comSD && comPD
 ```
 
 ## Docker-compose & Kubernetes
