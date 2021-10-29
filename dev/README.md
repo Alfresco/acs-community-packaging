@@ -4,6 +4,16 @@
 It is possible to use Docker containers to test your code, but it is normally more convenient to simply run the
 repository webapp (`alfresco.war`) in a tomcat instance.
 
+## Link the projects
+Generally you will want to link the different projects together by modifing the top level
+pom.xml files of each downstream project so that they references the SNAPSHOT versions of the
+upstream projects. To help do this see the `acs-community-packaging` project's `scripts/dev/linkPoms.sh` and
+`scripts/dev/unlinkPoms.sh` scripts.
+
+~~~
+sh acs-community-packaging/scripts/linkPoms.sh
+~~~
+
 ## Build -repo projects
 Build the `alfresco-community-repo` (if you have not
 done so already), so that your changes are in the community alfresco.war file.
