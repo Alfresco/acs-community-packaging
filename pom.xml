@@ -9,13 +9,13 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>14.14</version>
+        <version>14.25</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>14.14</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-community-share.version>14.10</dependency.alfresco-community-share.version>
-        <dependency.acs-packaging.version>7.2.0-A4</dependency.acs-packaging.version> <!-- for Share distribution zip -->
+        <dependency.alfresco-community-repo.version>14.25</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-share.version>14.15</dependency.alfresco-community-share.version>
+        <dependency.acs-packaging.version>7.2.0-A5</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
@@ -39,9 +39,31 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>alfresco-public</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>alfresco-public-snapshots</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <modules>
         <module>distribution</module>
-        <module>public-javadoc</module>
         <module>docker-alfresco</module>
         <module>docker-share</module>
     </modules>
@@ -64,6 +86,7 @@
         <profile>
             <id>release</id>
             <modules>
+                <module>public-javadoc</module>
                 <module>dev</module>
             </modules>
         </profile>
