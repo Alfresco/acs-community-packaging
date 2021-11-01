@@ -159,6 +159,11 @@
                 <artifactId>alfresco-community-repo-distribution</artifactId>
                 <version>${dependency.alfresco-community-repo.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-mmt</artifactId>
+                <version>${dependency.alfresco-community-repo.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.alfresco.tas</groupId>
