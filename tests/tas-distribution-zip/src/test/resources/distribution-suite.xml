@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Alfresco tests Community Distribution Zip" preserve-order="true" verbose="1">
+  <test name="distribution" verbose="3" preserve-order="true">
+    <classes>
+      <class name="org.alfresco.distribution.CheckDistributionZipContents"></class>
+    </classes>
+  </test>
+</suite>
