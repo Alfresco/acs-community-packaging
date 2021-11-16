@@ -125,7 +125,6 @@ jobs:
       script:
         - travis_wait 20 mvn -B install -f tests/tas-distribution-zip/pom.xml -Prun-distribution-zip-contents-check -DrunBugs=false
 
-
     - name: "Update latest images"
       stage: docker_latest
       script: travis_retry travis_wait 30 mvn -B -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
