@@ -3,6 +3,24 @@
 <h2>
   New Features
 </h2>
+<li>Upgrade of 3rd party libraries</li>
+<br>
+
+The Tika 1.26 library has been upgraded to the Tika 2.1.0. This upgrade brings
+some changes in available libraries. If you depend indirectly on transitive
+dependencies of Tika 1.26 then you should consider expressing your dependencies
+in an explicit way. For more details please see the Tika migration guides:
+<a href='https://cwiki.apache.org/confluence/display/TIKA/Migrating+to+Tika+2.0.0'>Migrating
+to Tika 2.0.0</a> and
+<a href='https://cwiki.apache.org/confluence/display/TIKA/Tika2_0MigrationGuide'>Tika
+2.0 Migration Guide</a>
+
+<ul>
+<li>org.apache.tika:tika-core:1.26 upgraded to  org.apache.tika:tika-core:2.1.0</li>
+<li>org.apache.tika:tika-parsers:1.26 replaced by org.apache.tika:tika-parsers-standard-package:2.1.0</li>
+</ul>
+</br>
+
 <h1>        7.1.0 Community
 </h1>
 <h2>
