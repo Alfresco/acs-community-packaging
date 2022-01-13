@@ -19,7 +19,20 @@ to Tika 2.0.0</a> and
 <li>org.apache.tika:tika-core:1.26 upgraded to  org.apache.tika:tika-core:2.1.0</li>
 <li>org.apache.tika:tika-parsers:1.26 replaced by org.apache.tika:tika-parsers-standard-package:2.1.0</li>
 </ul>
-</br>
+
+<h1>        7.1.1 Community
+</h1>
+
+<h2>        New Features
+</h2>
+<ul>
+<li>New REST API Endpoints:
+
+    DELETE '/nodes/{nodeId}/renditions/{renditionId}'
+    DELETE '/nodes/{nodeId}/versions/{versionId}/renditions/{renditionId}'
+
+</li>
+</ul>
 
 <h1>        7.1.0 Community
 </h1>
