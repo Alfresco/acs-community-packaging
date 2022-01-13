@@ -21,6 +21,20 @@ to Tika 2.0.0</a> and
 </ul>
 </br>
 
+<h1>        7.1.1 
+</h1>
+
+<h2>        New Features
+</h2>
+<ul>
+<li>New REST API Endpoints:
+
+    DELETE '/nodes/{nodeId}/renditions/{renditionId}'
+    DELETE '/nodes/{nodeId}/versions/{versionId}/renditions/{renditionId}'
+
+</li>
+</ul>
+
 <h1>        7.1.0 Community
 </h1>
 <h2>
