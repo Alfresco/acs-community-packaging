@@ -37,8 +37,6 @@ to Tika 2.0.0</a> and
 <h2>        Bug
 </h2>
 <ul>
-<li>[<a href='https://alfresco.atlassian.net/browse/MNT-22696'>MNT-22696</a>] -         Replace Renditions via REST API
-</li>
 <li>[<a href='https://alfresco.atlassian.net/browse/MNT-22611'>MNT-22611</a>] -         Disable rules flag not working correctly in bulk import with ACS v6.x or above
 </li>
 <li>[<a href='https://alfresco.atlassian.net/browse/ACS-2067'>ACS-2067</a>]   -         DAU: Live Probe seems to fail with 503 when Direct Access Urls are enabled
