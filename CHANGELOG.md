@@ -34,6 +34,35 @@ to Tika 2.0.0</a> and
 </li>
 </ul>
 
+<h2>        Bug
+</h2>
+<ul>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-22611'>MNT-22611</a>] -         Disable rules flag not working correctly in bulk import with ACS v6.x or above
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/ACS-2067'>ACS-2067</a>]   -         DAU: Live Probe seems to fail with 503 when Direct Access Urls are enabled
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-21706'>MNT-21706</a>] -         Change to Node Service permissions breaks setAssociations
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-21883'>MNT-21883</a>] -         Documents Shared from a Smart Folder cannot be Unshared
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-18700'>MNT-18700</a>] -         Message bundles do not deploy/reload automatically when dynamically deployed
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-22680'>MNT-22680</a>] -         Some formatting elements not displaying when viewing a wiki page after ACS v5.2.7.12 installed
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-21953'>MNT-21953</a>] -         Configuration for Handling Failed Thumbnail Creation No Longer Works
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-22136'>MNT-22136</a>] -         WebDAV PROPFIND returns 302 code instead of 404 when using ACS Repo docker image (eg. via docker-compose)
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-21551'>MNT-21551</a>] -         Creating links to Folder does not work when default root node is changed
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-22715'>MNT-22715</a>] -         Document Version Issue - Unexpected: current version does not appear to be 1st version in the list
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/MNT-22601'>MNT-22601</a>] -         Admin Console functionality becomes unusable in Alfresco v7.0.1.3
+</li>
+<li>[<a href='https://alfresco.atlassian.net/browse/ACS-2180'>ACS-2180</a>]   -         Secret Communication for Alfresco/SOLR is not protecting Alfresco Repository endpoints
+</li>
+</ul>
+
 <h1>        7.1.0 Community
 </h1>
 <h2>
