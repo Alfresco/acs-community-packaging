@@ -36,5 +36,6 @@ helm/alfresco-content-services-community/charts/*
 helm/alfresco-content-services-community/requirements.lock
 helm/alfresco-content-services-community*.tgz
 
-# Travis deployment folder
+# Travis deployment folders
 deploy_dir
+deploy_dir_ags

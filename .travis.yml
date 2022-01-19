@@ -133,15 +133,7 @@ jobs:
       stage: release
       before_script: bash scripts/travis/verify_release_tag.sh
       script: travis_wait 60 bash scripts/travis/maven_release.sh
-      before_deploy:
-        # Move the final artifacts to a single folder (deploy_dir) to be copied to S3
-        - mkdir -p deploy_dir
-        - cp distribution/target/alfresco.war deploy_dir
-        - cp distribution/target/*-distribution*.zip deploy_dir
-        - ls -lA deploy_dir
-        - mkdir -p deploy_dir_ags
-        - cp distribution-ags/target/*.zip deploy_dir_ags
-        - ls -lA deploy_dir_ags
+      before_deploy: source scripts/travis/prepare_staging_deploy.sh
       deploy:
         - provider: s3
           access_key_id: "${AWS_STAGING_ACCESS_KEY}"
