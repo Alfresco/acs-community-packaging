@@ -16,7 +16,15 @@ mkdir -p deploy_dir
 cp distribution/target/alfresco.war deploy_dir
 cp distribution/target/*-distribution*.zip deploy_dir
 # Create third party license csv file and add it to the deploy directory.
-python3 ./third-party-license-overrides/thirdPartyLicenseCSVCreator.py --project "`pwd`" --version "${VERSION}" --combined --output "deploy_dir"
+unzip deploy_dir/*-distribution*.zip -d deploy_dir/community-acs
+zippaths=""
+for file in `find deploy_dir/community-acs -name "*.amp" -o -name "*.war" -not -name "ROOT.war" -not -name "_vti_bin.war"`
+do
+    zippaths+="$file|"
+done
+zippaths=${zippaths::-1}
+python3 ./third-party-license-overrides/thirdPartyLicenseCSVCreator.py --zippaths "${zippaths}" --version "${VERSION}" --combined --output "deploy_dir"
+rm -rf deploy_dir/community-acs
 echo "Local deploy directory content:"
 ls -lA deploy_dir
 
