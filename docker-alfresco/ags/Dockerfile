@@ -1,4 +1,17 @@
-### Apply AGS community repo AMP to ACS image
+# BUILD STAGE AGS
+FROM debian:11-slim AS AGSBUILDER
+
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    apt-get update -qqy && apt-get -yqq install unzip && \
+    mkdir -p /build/gs-api-explorer
+
+### Copy the AGS war from the local context
+COPY target/gs-api-explorer-*.war /build
+
+RUN unzip -q /build/gs-api-explorer-*.war -d /build/gs-api-explorer && \
+    chmod -R g-w,o= /build
+
+# ACTUAL IMAGE
 FROM alfresco/alfresco-content-repository-community:${image.tag}
 
 # Alfresco user does not have permissions to modify webapps or configuration. Switch to root.
@@ -13,11 +26,7 @@ RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \
               /usr/local/tomcat/webapps/alfresco -directory -nobackup
 
 ### Copy gs-api-explorer war into webapps folder
-COPY target/gs-api-explorer-*.war /usr/local/tomcat/webapps/
-
-### Unpack gs-api-explorer.war
-RUN mkdir /usr/local/tomcat/webapps/gs-api-explorer && cd /usr/local/tomcat/webapps/gs-api-explorer && \
-    jar -xvf /usr/local/tomcat/webapps/gs-api-explorer-*.war && rm -f /usr/local/tomcat/webapps/gs-api-explorer-*.war
+COPY --chown=root:Alfresco --from=AGSBUILDER /build/gs-api-explorer /usr/local/tomcat/webapps/gs-api-explorer
 
 # All files in the tomcat folder must be owned by root user and Alfresco group as mentioned in the parent Dockerfile
 RUN chgrp -R Alfresco /usr/local/tomcat && \
