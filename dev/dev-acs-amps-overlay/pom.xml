@@ -69,7 +69,8 @@
                         <dir.root>${runtime.data.folder}/alf_data</dir.root>
                         <solr.host>localhost</solr.host>
                         <solr.base.url>/solr</solr.base.url>
-                        <solr.secureComms>none</solr.secureComms>
+                        <solr.secureComms>secret</solr.secureComms>
+                        <solr.sharedSecret>secret</solr.sharedSecret>
                         <encryption.keystore.type>pkcs12</encryption.keystore.type>
                         <encryption.cipherAlgorithm>AES/CBC/PKCS5Padding</encryption.cipherAlgorithm>
                         <encryption.keyAlgorithm>AES</encryption.keyAlgorithm>
