@@ -13,7 +13,7 @@ function cloneRepo() {
   local REPO="${1}"
   local TAG_OR_BRANCH="${2}"
 
-  printf "Clonning \"%s\" on %s\n" "${TAG_OR_BRANCH}" "${REPO}"
+  printf "Cloning \"%s\" on %s\n" "${TAG_OR_BRANCH}" "${REPO}"
 
   # clone the repository branch/tag
   pushd "$(dirname "${BASH_SOURCE[0]}")/../../../" >/dev/null
@@ -67,7 +67,7 @@ function evaluatePomProperty() {
 
   pushd "$(dirname "${BASH_SOURCE[0]}")/../../" >/dev/null
 
-  mvn -B -q help:evaluate -Dexpression="${KEY}" -DforceStdout
+  mvn -B -ntp -q help:evaluate -Dexpression="${KEY}" -DforceStdout
 
   popd >/dev/null
 }
@@ -122,7 +122,7 @@ function buildUpstreamTag() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
 
   popd
 }
@@ -135,8 +135,8 @@ function buildSameBranchOnUpstream() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
-  mvn -B -V -q install -DskipTests -f packaging/tests/pom.xml
+  mvn -B -ntp -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V -q install -DskipTests -f packaging/tests/pom.xml
 
   popd
 }
@@ -152,7 +152,7 @@ function pullUpstreamTagAndBuildDockerImage() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
 
   popd
 }
@@ -169,8 +169,8 @@ function pullAndBuildSameBranchOnUpstream() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
-  mvn -B -V -q install -DskipTests -f packaging/tests/pom.xml
+  mvn -B -ntp -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V -q install -DskipTests -f packaging/tests/pom.xml
 
   popd
 }
