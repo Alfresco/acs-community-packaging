@@ -3,7 +3,7 @@
     <artifactId>acs-community-packaging</artifactId>
     <packaging>pom</packaging>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>23.1.0-A1-SNAPSHOT</version>
+    <version>7.2.0.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.alfresco</groupId>
