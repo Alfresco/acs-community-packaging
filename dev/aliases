@@ -64,7 +64,7 @@ alias comXS='comS  && comP'
 # Clean up of docker images and content stores (alf_data directories)
 alias     drm='docker rm -f $(docker ps -q)'
 alias     arm='rm -rf `find . -name alf_data`'
-alias   envUp='docker-compose -f acs-community-packaging/dev/docker-compose.yml up'
+alias   envUp='docker-compose -f acs-community-packaging/scripts/dev/start-compose.sh'
 alias envStop='docker-compose -f acs-community-packaging/dev/docker-compose.yml stop'
 alias envKill='docker-compose -f acs-community-packaging/dev/docker-compose.yml kill'
 alias   envRm='docker-compose -f acs-community-packaging/dev/docker-compose.yml rm'
