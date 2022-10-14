@@ -167,7 +167,12 @@
 
             <dependency>
                 <groupId>org.alfresco.tas</groupId>
-                <artifactId>alfresco-community-repo-cmis-test</artifactId>
+                <artifactId>cmis</artifactId>
+                <version>${dependency.alfresco-community-repo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.tas</groupId>
+                <artifactId>cmis</artifactId>
                 <version>${dependency.alfresco-community-repo.version}</version>
                 <classifier>tests</classifier>
                 <scope>test</scope>
