@@ -81,7 +81,7 @@ cd ..
 Set any alfresco-global.properties or log4j properties you may need in the following files. They will be copied
 to the `dev/dev-acs-amps-overlay/target` directory. Other customisations may also be placed in the `extension` directory. 
 ~~~
-dev/dev-tomcat/src/main/tomcat/shared/classes/alfresco/extension/custom-log4j.properties
+dev/dev-tomcat/src/main/tomcat/shared/classes/alfresco/extension/custom-log4j2.properties
 dev/dev-tomcat/src/main/tomcat/shared/classes/alfresco-global.properties
 ~~~
 
@@ -139,6 +139,6 @@ If you have not removed the containers, it is possible to restart the tomcat ins
 a `mvn install` (no `clean`), but this may result in failures if there are incompatibilities
 between the code, database and content in `dev/dev-acs-amps-overlay/target/dev-instance/runtime/alf_data`.
 Any changes made to alfresco-global properties or log4j will not be picked up, unless you
-directly edit `dev/dev-acs-amps-overlay/target/dev-instance/tomcat/shared/classes/alfresco/extension/custom-log4j.properties`
+directly edit `dev/dev-acs-amps-overlay/target/dev-instance/tomcat/shared/classes/alfresco/extension/custom-log4j2.properties`
 and `dev/dev-acs-amps-overlay/target/dev-instance/tomcat/shared/classes/alfresco-global.properties`, but they will be thrown away
 on the next `mvn clean`.
