@@ -1,0 +1,115 @@
+name: ACS Community Packaging CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - feature/ACS-3844_migrate-to-GHA
+  workflow_call:
+
+env:
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  GITHUB_ACTIONS_DEPLOY_TIMEOUT: 60
+  JAVA_VERSION: "17"
+  MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+  MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+  QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+  QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+  TAS_ENVIRONMENT: ./tests/environment
+  TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
+  # Release version has to start with real version (7.4.0-....) for the docker image to build successfully.
+  RELEASE_VERSION: 7.4.0-A3
+  DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
+
+jobs:
+  clean:
+    name: "Clean"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: "Clean cache"
+        run: bash ./scripts/ci/cleanup_cache.sh
+
+  tas_tests:
+    name: ${{ matrix.testSuite }} TAS tests
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip tas]')"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - testSuite: REST API part1
+            pom: tests/tas-restapi/pom.xml
+            profiles: all-tas-tests,run-restapi-part1
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: REST API part2
+            pom: tests/tas-restapi/pom.xml
+            profiles: all-tas-tests,run-restapi-part2
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: REST API part3
+            pom: tests/tas-restapi/pom.xml
+            profiles: all-tas-tests,run-restapi-part3
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: CMIS (BROWSER binding)
+            pom: tests/tas-cmis/pom.xml
+            profiles: all-tas-tests,run-cmis-browser
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: CMIS (ATOM binding)
+            pom: tests/tas-cmis/pom.xml
+            profiles: all-tas-tests,run-cmis-atom
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: CMIS (WEBSERVICES binding)
+            pom: tests/tas-cmis/pom.xml
+            profiles: all-tas-tests,run-cmis-webservices
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: Email
+            pom: tests/tas-email/pom.xml
+            profiles: all-tas-tests
+            compose-file: docker-compose-minimal.yml
+          - testSuite: WebDAV
+            pom: tests/tas-webdav/pom.xml
+            profiles: all-tas-tests
+            compose-file: docker-compose-minimal.yml
+          - testSuite: Integration
+            pom: tests/tas-integration/pom.xml
+            profiles: all-tas-tests
+            compose-file: docker-compose-minimal.yml
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+#      - name: "Login to Quay.io"
+#        uses: docker/login-action@v1
+#        with:
+#          registry: quay.io
+#          username: ${{ secrets.QUAY_USERNAME }}
+#          password: ${{ secrets.QUAY_PASSWORD }}
+      - name: "Set up Java"
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: "temurin"
+      - name: "Build"
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        run: |
+          bash ./scripts/ci/init.sh
+          bash ./scripts/ci/build.sh
+      - name: "Setup the environment"
+        run: |
+          ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/${{ matrix.compose-file }}
+          ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
+      - name: "Run tests"
+        run: mvn -B install -ntp -f ${{ matrix.pom }} -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false
