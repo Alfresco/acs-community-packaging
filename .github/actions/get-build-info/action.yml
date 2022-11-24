@@ -3,7 +3,7 @@ description: "Get build-related info from GitHub and load it as variables into t
 runs:
   using: composite
   steps:
-    - name: Get build info
+    - name: "Get build info"
       run: |
         [[ $GITHUB_EVENT_NAME == "pull_request" ]] && IS_PULL_REQUEST="true" || IS_PULL_REQUEST="false"
         echo "PULL_REQUEST=$IS_PULL_REQUEST" >> "$GITHUB_ENV"

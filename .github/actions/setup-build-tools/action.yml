@@ -3,7 +3,8 @@ description: "Performs the setup of the required build tools (eg.: Maven, Java)"
 runs:
   using: composite
   steps:
-    - name: Cache local Maven repository
+    - uses: actions/checkout@v3
+    - name: "Cache local Maven repository"
       uses: actions/cache@v2
       with:
         path: ~/.m2/repository
