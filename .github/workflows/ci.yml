@@ -27,6 +27,7 @@ jobs:
     name: Configure the environment
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: "Set BRANCH_NAME"
         uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
       - name: "Set build info env vars"
