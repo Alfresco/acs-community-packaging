@@ -11,7 +11,7 @@ if [ -z "${RELEASE_VERSION}" ] || [ -z "${DEVELOPMENT_VERSION}" ]; then
 fi
 
 # Use full history for release
-git checkout -B "${TRAVIS_BRANCH}"
+git checkout -B "${BRANCH_NAME}"
 # Add email to link commits to user
 git config user.email "${GIT_EMAIL}"
 
@@ -20,7 +20,7 @@ mvn -B \
   -Prelease,all-tas-tests -Pags \
   -DreleaseVersion="${RELEASE_VERSION}" \
   -DdevelopmentVersion="${DEVELOPMENT_VERSION}" \
-  "-Darguments=-Prelease,all-tas-tests -Pags -DskipTests -Dbuild-number=${TRAVIS_BUILD_NUMBER}" \
+  "-Darguments=-Prelease,all-tas-tests -Pags -DskipTests -Dbuild-number=${BUILD_NUMBER}" \
   release:clean release:prepare release:perform \
   -DscmCommentPrefix="[maven-release-plugin][skip ci] " \
   -Dusername="${GIT_USERNAME}" \

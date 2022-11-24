@@ -82,15 +82,9 @@ function remoteBranchExists() {
 function identifyUpstreamSourceBranch() {
   local UPSTREAM_REPO="${1}"
 
-  # if it's a pull request, use the source branch name (if it exists)
-  if isPullRequestBuild && remoteBranchExists "${UPSTREAM_REPO}" "${PULL_REQUEST_BRANCH}" ; then
-    echo "${PULL_REQUEST_BRANCH}"
-    exit 0
-  fi
-
-  # otherwise use the current branch name (or in case of PRs, the target branch name)
-  if remoteBranchExists "${UPSTREAM_REPO}" "${BRANCH}" ; then
-    echo "${BRANCH}"
+  # use the current branch name (or in case of PRs, the source branch name)
+  if remoteBranchExists "${UPSTREAM_REPO}" "${BRANCH_NAME}" ; then
+    echo "${BRANCH_NAME}"
     exit 0
   fi
 
