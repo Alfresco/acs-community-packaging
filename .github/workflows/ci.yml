@@ -23,9 +23,19 @@ env:
   DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
 
 jobs:
+  configure_env:
+    name: Configure the environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Set BRANCH_NAME"
+        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
+      - name: "Set build info env vars"
+        uses: ./.github/actions/get-build-info
+
   tas_tests:
     name: ${{ matrix.testSuite }} TAS tests
     runs-on: ubuntu-latest
+    needs: configure_env
     if: "!contains(github.event.head_commit.message, '[skip tas]')"
     strategy:
       fail-fast: false
@@ -68,21 +78,8 @@ jobs:
             profiles: all-tas-tests
             compose-file: docker-compose-minimal.yml
     steps:
-      - uses: actions/checkout@v3
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: "Clean cache"
-        run: bash ./scripts/ci/cleanup_cache.sh
-      - name: "Set up Java"
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: "temurin"
+      - name: "Setup build tools"
+        uses: ./.github/actions/setup-build-tools
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
@@ -98,22 +95,10 @@ jobs:
   community_zip_tests:
     name: Community Distribution Zip content tests
     runs-on: ubuntu-latest
+    needs: configure_env
     steps:
-      - uses: actions/checkout@v3
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: "Clean cache"
-        run: bash ./scripts/ci/cleanup_cache.sh
-      - name: "Set up Java"
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: "temurin"
+      - name: "Setup build tools"
+        uses: ./.github/actions/setup-build-tools
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: mvn -B -ntp -V clean install -Pags -DskipTests -Dmaven.javadoc.skip=true
