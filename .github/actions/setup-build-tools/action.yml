@@ -12,6 +12,7 @@ runs:
           ${{ runner.os }}-maven-
     - name: "Clean cache"
       run: bash ./scripts/ci/cleanup_cache.sh
+      shell: bash
     - name: "Set up Java"
       uses: actions/setup-java@v3
       with:
