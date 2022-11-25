@@ -24,7 +24,7 @@ runs:
           ${{ runner.os }}-maven-
     - name: "Clean cache"
       run: |
-        [[ ! -z "${{ inputs.cache-cleanup-script }}]] && bash ${{ inputs.cache-cleanup-script }}
+        [[ ! -z "${{ inputs.cache-cleanup-script }}"]] && bash ${{ inputs.cache-cleanup-script }}
       shell: bash
     - name: "Set up Java"
       uses: actions/setup-java@v3
