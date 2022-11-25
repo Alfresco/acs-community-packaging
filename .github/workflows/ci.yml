@@ -22,14 +22,6 @@ env:
   DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
 
 jobs:
-  echo_test:
-    name: Test echo
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/get-build-info
-      - run: echo ${BUILD_NUMBER} - ${BRANCH_NAME}
-
   tas_tests:
     name: ${{ matrix.testSuite }} TAS tests
     runs-on: ubuntu-latest
