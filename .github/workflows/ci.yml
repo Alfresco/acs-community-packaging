@@ -156,10 +156,10 @@ jobs:
           bash ./scripts/ci/build.sh
       - name: "Release"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        #bash scripts/travis/verify_release_tag.sh TODO: add to following section once S3 has been tested
-        #bash scripts/travis/maven_release.sh
+        #bash scripts/ci/verify_release_tag.sh TODO: add to following section once S3 has been tested
+        #bash scripts/ci/maven_release.sh
         run: |
-          source scripts/travis/prepare_staging_deploy.sh
+          source scripts/ci/prepare_staging_deploy.sh
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
       - name: "Configure AWS credentials"
