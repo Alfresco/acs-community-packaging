@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [tas_tests, community_zip_tests, test_failure]
     if: >
-      always() && !contains(needs.*.result, 'failure') &&
+      !failure() &&
       ((!contains(github.event.head_commit.message, '[skip docker_latest]') && 
       (github.ref_name == 'master' || contains(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request') || 'true' == 'true')
