@@ -116,7 +116,7 @@ jobs:
   docker_latest:
     name: Update latest Docker images
     runs-on: ubuntu-latest
-    needs: [tas_tests, community_zip_tests, test_failure]
+    needs: [tas_tests, community_zip_tests]
     if: >
       !failure() &&
       !contains(github.event.head_commit.message, '[skip docker_latest]') && 
