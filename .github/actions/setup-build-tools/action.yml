@@ -29,5 +29,5 @@ runs:
     - name: "Set up Java"
       uses: actions/setup-java@v3
       with:
-        java-version: ${{ env.JAVA_VERSION }} #${{ inputs.java-version }}
+        java-version: ${{ inputs.java-version }}
         distribution: ${{ inputs.java-distribution }}
