@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: ./.github/actions/get-build-info
-      - runs: echo ${BUILD_NUMBER} - ${BRANCH_NAME}
+      - run: echo ${BUILD_NUMBER} - ${BRANCH_NAME}
 
   tas_tests:
     name: ${{ matrix.testSuite }} TAS tests
