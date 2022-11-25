@@ -1,9 +1,6 @@
 name: "Setup build tools"
 description: "Performs the setup of the required build tools (eg.: Maven, Java)"
 inputs:
-  cache-cleanup-script:
-    description: the path to the Maven cache cleanup bash script
-    required: false
   java-version:
     description: the desired Java version
     default: "17"
@@ -22,9 +19,6 @@ runs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: "Clean Maven cache"
-      run: |
-        [[ ! -z "${{ inputs.cache-cleanup-script }}" ]] && bash ${{ inputs.cache-cleanup-script }}
       shell: bash
     - name: "Set up Java"
       uses: actions/setup-java@v3
