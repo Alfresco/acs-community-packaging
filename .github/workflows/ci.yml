@@ -132,6 +132,6 @@ jobs:
           bash ./scripts/ci/build.sh
       - name: "Push Docker images"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags #-Ppush-docker-images TODO: uncomment once conditional expression is tested
+        run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
