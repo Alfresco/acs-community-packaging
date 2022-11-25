@@ -7,12 +7,10 @@ runs:
       run: |
         [[ $GITHUB_EVENT_NAME == "pull_request" ]] && IS_PULL_REQUEST="true" || IS_PULL_REQUEST="false"
         echo "PULL_REQUEST=$IS_PULL_REQUEST" >> "$GITHUB_ENV"
-        echo "BUILD_JOB_ID=$GITHUB_JOB" >> "$GITHUB_ENV"
         echo "BUILD_NUMBER=$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"
         echo "ATTEMPT_NUMBER=$GITHUB_RUN_ATTEMPT" >> "$GITHUB_ENV"
         
         echo "Pull Request: '$IS_PULL_REQUEST'"
-        echo "Build Job ID: '$GITHUB_JOB'"
         echo "Build Number: '$GITHUB_RUN_NUMBER'"
         echo "Attempt Number: '$GITHUB_RUN_ATTEMPT'"
       shell: bash
