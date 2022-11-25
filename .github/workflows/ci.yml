@@ -28,10 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: "Set BRANCH_NAME"
-        uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
-      - name: "Set build info env vars"
-        uses: ./.github/actions/get-build-info
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.23.0
+      - uses: ./.github/actions/get-build-info
 
   tas_tests:
     name: ${{ matrix.testSuite }} TAS tests
@@ -80,8 +78,7 @@ jobs:
             compose-file: docker-compose-minimal.yml
     steps:
       - uses: actions/checkout@v3
-      - name: "Setup build tools"
-        uses: ./.github/actions/setup-build-tools
+      - uses: ./.github/actions/setup-build-tools
         with:
           cache-cleanup-script: ${CACHE_CLEANUP_SCRIPT}
       - name: "Build"
@@ -102,8 +99,7 @@ jobs:
     needs: configure_env
     steps:
       - uses: actions/checkout@v3
-      - name: "Setup build tools"
-        uses: ./.github/actions/setup-build-tools
+      - uses: ./.github/actions/setup-build-tools
         with:
           cache-cleanup-script: ${CACHE_CLEANUP_SCRIPT}
       - name: "Build"
