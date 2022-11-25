@@ -21,6 +21,7 @@ env:
   # Release version has to start with real version (7.4.0-....) for the docker image to build successfully.
   RELEASE_VERSION: 7.4.0-A3
   DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
+  JAVA_VERSION: "18"
 
 jobs:
   configure_env:
