@@ -19,7 +19,6 @@ runs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-      shell: bash
     - name: "Set up Java"
       uses: actions/setup-java@v3
       with:
