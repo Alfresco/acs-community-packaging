@@ -135,3 +135,41 @@ jobs:
         run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
+
+  release:
+    name: Release and Copy to S3 Staging Bucket
+    runs-on: ubuntu-latest
+    needs: [docker_latest]
+    #&& TODO: add to following section once S3 has been tested
+    #(github.ref_name == 'master' || contains(github.ref_name, 'release/')) &&
+    #github.event_name != 'pull_request'
+    if: >
+      !failure() &&
+      contains(github.event.head_commit.message, '[release]')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-build-tools
+      - name: "Init"
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        run: |
+          bash ./scripts/ci/init.sh
+          bash ./scripts/ci/build.sh
+      - name: "Release"
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        #bash scripts/travis/verify_release_tag.sh TODO: add to following section once S3 has been tested
+        #bash scripts/travis/maven_release.sh
+        run: |
+          source scripts/travis/prepare_staging_deploy.sh
+      - name: "Clean Maven cache"
+        run: bash ./scripts/ci/cleanup_cache.sh
+      - name: "Configure AWS credentials"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_STAGING_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_STAGING_SECRET_KEY }}
+          aws-region: eu-west-1
+      - name: "Deploy to S3 Staging Bucket"
+        run: |
+          aws s3 cp --acl private --recursive ./deploy_dir s3://alfresco-artefacts-staging/alfresco-content-services-community/release/${BRANCH_NAME}/${BUILD_NUMBER}
+          aws s3 cp --acl private --recursive ./deploy_dir_ags s3://alfresco-artefacts-staging/community/RM/${RELEASE_VERSION}
+          echo "Finished release and deployed to https://s3.console.aws.amazon.com/s3/buckets/alfresco-artefacts-staging/alfresco-content-services-community/release/${BRANCH_NAME}/${BUILD_NUMBER}"
