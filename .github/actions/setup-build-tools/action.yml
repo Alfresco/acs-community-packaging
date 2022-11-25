@@ -22,7 +22,7 @@ runs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
-    - name: "Clean cache"
+    - name: "Clean Maven cache"
       run: |
         [[ ! -z "${{ inputs.cache-cleanup-script }}" ]] && bash ${{ inputs.cache-cleanup-script }}
       shell: bash
