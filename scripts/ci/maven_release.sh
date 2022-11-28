@@ -12,8 +12,9 @@ fi
 
 # Use full history for release
 git checkout -B "${BRANCH_NAME}"
-# Add email to link commits to user
+# Define git identity for commits
 git config user.email "${GIT_EMAIL}"
+git config user.name "${GIT_USERNAME}"
 
 mvn -B \
   -ntp \
