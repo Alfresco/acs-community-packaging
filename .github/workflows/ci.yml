@@ -21,8 +21,8 @@ env:
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
   # Release version has to start with real version (7.4.0-....) for the docker image to build successfully.
-  RELEASE_VERSION: 7.4.0-DEV
-  DEVELOPMENT_VERSION: 7.4.0-DEV1-SNAPSHOT
+  RELEASE_VERSION: 7.4.0-A3
+  DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
 
 jobs:
   tas_tests:
@@ -136,12 +136,11 @@ jobs:
     name: Release and Copy to S3 Staging Bucket
     runs-on: ubuntu-latest
     needs: [docker_latest]
-    #&& TODO: add to following section once S3 has been tested
-    #(github.ref_name == 'master' || contains(github.ref_name, 'release/')) &&
-    #github.event_name != 'pull_request'
     if: >
       !failure() &&
-      contains(github.event.head_commit.message, '[release]')
+      contains(github.event.head_commit.message, '[release]') &&
+      (github.ref_name == 'master' || contains(github.ref_name, 'release/')) &&
+      github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/get-build-info
