@@ -18,8 +18,8 @@ env:
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
   # Release version has to start with real version (7.4.0-....) for the docker image to build successfully.
-  RELEASE_VERSION: 7.4.0-A3
-  DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
+  RELEASE_VERSION: 7.4.0-DEV
+  DEVELOPMENT_VERSION: 7.4.0-DEV1-SNAPSHOT
 
 jobs:
   tas_tests:
@@ -150,9 +150,9 @@ jobs:
           bash ./scripts/ci/build.sh
       - name: "Release"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        #bash scripts/ci/verify_release_tag.sh TODO: add to following section once S3 has been tested
-        #bash scripts/ci/maven_release.sh
         run: |
+          bash scripts/ci/verify_release_tag.sh
+          bash scripts/ci/maven_release.sh
           source scripts/ci/prepare_staging_deploy.sh
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
