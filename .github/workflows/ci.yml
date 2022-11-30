@@ -25,19 +25,6 @@ env:
   DEVELOPMENT_VERSION: 7.4.0-A4-SNAPSHOT
 
 jobs:
-  debug:
-    name: Debug step
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
-
   tas_tests:
     name: ${{ matrix.testSuite }} TAS tests
     runs-on: ubuntu-latest
@@ -174,8 +161,8 @@ jobs:
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_STAGING_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_STAGING_SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_S3_STAGING_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_S3_STAGING_SECRET_KEY }}
           aws-region: eu-west-1
       - name: "Deploy to S3 Staging Bucket"
         run: |
@@ -198,8 +185,8 @@ jobs:
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_S3_RELEASE_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_S3_RELEASE_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
       - name: "Deploy to S3 Release Bucket"
         run: |
