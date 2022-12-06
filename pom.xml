@@ -9,11 +9,11 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>20.30</version>
+        <version>20.32</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>20.30</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>20.32</dependency.alfresco-community-repo.version>
         <dependency.alfresco-community-share.version>20.27</dependency.alfresco-community-share.version>
         <dependency.acs-packaging.version>7.4.0-M1</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
@@ -193,7 +193,12 @@
             </dependency>
             <dependency>
                 <groupId>org.alfresco.tas</groupId>
-                <artifactId>alfresco-community-repo-restapi-test</artifactId>
+                <artifactId>restapi</artifactId>
+                <version>${dependency.alfresco-community-repo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.alfresco.tas</groupId>
+                <artifactId>restapi</artifactId>
                 <version>${dependency.alfresco-community-repo.version}</version>
                 <classifier>tests</classifier>
                 <scope>test</scope>
