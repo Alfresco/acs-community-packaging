@@ -10,8 +10,10 @@ runs:
         echo "PULL_REQUEST=$IS_PULL_REQUEST" >> "$GITHUB_ENV"
         echo "BUILD_NUMBER=$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"
         echo "ATTEMPT_NUMBER=$GITHUB_RUN_ATTEMPT" >> "$GITHUB_ENV"
+        echo "JOB_NAME=$GITHUB_JOB" >> "$GITHUB_ENV"
         
         echo "Pull Request: '$IS_PULL_REQUEST'"
         echo "Build Number: '$GITHUB_RUN_NUMBER'"
         echo "Attempt Number: '$GITHUB_RUN_ATTEMPT'"
+        echo "Job Name: '$GITHUB_JOB'"
       shell: bash
