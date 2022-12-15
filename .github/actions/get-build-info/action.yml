@@ -4,7 +4,6 @@ runs:
   using: composite
   steps:
     - uses: Alfresco/alfresco-build-tools/.github/actions/get-branch-name@v1.25.0
-    - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@v1.25.0
     - name: "Get build info"
       run: |
         [[ $GITHUB_EVENT_NAME == "pull_request" ]] && IS_PULL_REQUEST="true" || IS_PULL_REQUEST="false"
