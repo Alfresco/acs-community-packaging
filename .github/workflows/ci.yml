@@ -4,7 +4,10 @@ on:
   pull_request:
   push:
     branches:
-      - feature/ACS-3844_migrate-to-GHA
+      - master
+      - release/**
+      - feature/**
+      - fix/**
   workflow_dispatch:
 
 env:
