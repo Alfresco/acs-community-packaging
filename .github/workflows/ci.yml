@@ -2,6 +2,11 @@ name: ACS Community Packaging CI
 
 on:
   pull_request:
+    branches:
+      - master
+      - release/**
+      - feature/**
+      - fix/**
   push:
     branches:
       - master
