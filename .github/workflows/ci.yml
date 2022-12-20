@@ -93,7 +93,6 @@ jobs:
       - name: "Test"
         run: mvn -B install -ntp -f ${{ matrix.pom }} -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false
       - name: "Clean Maven cache"
-        if: always()
         run: bash ./scripts/ci/cleanup_cache.sh
 
   community_zip_tests:
@@ -115,7 +114,6 @@ jobs:
       - name: "Test"
         run: mvn -B install -ntp -f tests/tas-distribution-zip/pom.xml -Prun-distribution-zip-contents-check -DrunBugs=false
       - name: "Clean Maven cache"
-        if: always()
         run: bash ./scripts/ci/cleanup_cache.sh
 
   docker_latest:
@@ -140,7 +138,6 @@ jobs:
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
       - name: "Clean Maven cache"
-        if: always()
         run: bash ./scripts/ci/cleanup_cache.sh
 
   release:
@@ -168,7 +165,6 @@ jobs:
           bash scripts/ci/maven_release.sh
           source scripts/ci/prepare_staging_deploy.sh
       - name: "Clean Maven cache"
-        if: always()
         run: bash ./scripts/ci/cleanup_cache.sh
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v1
