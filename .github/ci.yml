@@ -1,0 +1,5 @@
+name: ACS Community Packaging CI
+
+env:
+  RELEASE_VERSION: 7.4.0-A8
+  DEVELOPMENT_VERSION: 7.4.0-A9-SNAPSHOT
