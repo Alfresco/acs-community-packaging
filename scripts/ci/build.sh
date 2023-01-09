@@ -22,7 +22,7 @@ if [[ $(isPullRequestBuild) && "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "
 fi
 
 # Prevent release jobs from starting when there are SNAPSHOT upstream dependencies
-if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${BUILD_STAGE_NAME,,}" = "release" ] ; then
+if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${JOB_NAME,,}" = "release" ] ; then
   printf "Cannot release project with SNAPSHOT dependencies!\n"
   exit 1
 fi
@@ -47,7 +47,7 @@ if [[ $(isPullRequestBuild) && "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ &&
 fi
 
 # Prevent release jobs from starting when there are SNAPSHOT upstream dependencies
-if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${BUILD_STAGE_NAME,,}" = "release" ] ; then
+if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${JOB_NAME,,}" = "release" ] ; then
   printf "Cannot release project with SNAPSHOT dependencies!\n"
   exit 1
 fi
