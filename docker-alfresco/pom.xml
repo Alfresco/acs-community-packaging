@@ -13,6 +13,10 @@
     <properties>
         <image.name>alfresco/alfresco-content-repository-community</image.name>
         <docker.quay-expires.value>NEVER</docker.quay-expires.value>
+        <local.registry>127.0.0.1:5000</local.registry>
+        <base.image>alfresco/alfresco-community-repo-base:${repo.image.tag}</base.image>
+        <builder.name>entitled-builder</builder.name>
+        <scripts.directory>${project.parent.basedir}/scripts/dev</scripts.directory>
     </properties>
 
     <build>
@@ -76,6 +80,12 @@
                             <images>
                                 <image>
                                     <name>${image.name}:${image.tag}</name>
+                                    <build>
+                                        <args>
+                                            <BASE_IMAGE>${base.image}</BASE_IMAGE>
+                                        </args>
+                                        <contextDir>${project.basedir}</contextDir>
+                                    </build>
                                 </image>
                             </images>
                         </configuration>
@@ -86,6 +96,82 @@
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>build-multiarch-docker-images</id>
+            <!-- builds multi Architecture "images:latest" locally -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>${image.name}:${image.tag}</name>
+                                    <build>
+                                        <buildx>
+                                            <builderName>${builder.name}</builderName>
+                                            <platforms>
+                                                <platform>linux/amd64</platform>
+                                                <platform>linux/arm64</platform>
+                                            </platforms>
+                                        </buildx>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                        <args>
+                                            <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                                        </args>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <executions>
+                            <execution>
+                                <id>prepare-buildx</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${scripts.directory}/prepare_buildx.sh</executable>
+                                    <arguments>
+                                        <argument>${local.registry}</argument>
+                                        <argument>${base.image}</argument>
+                                        <argument>${builder.name}</argument>
+                                        <argument>${image.registry}</argument>
+                                        <argument>${image.name}</argument>
+                                        <argument>${image.tag}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>clear</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${scripts.directory}/remove_local_registry.sh</executable>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -105,8 +191,20 @@
                             <images>
                                 <!-- Quay image -->
                                 <image>
-                                    <name>${image.name}:${image.tag}</name>
-                                    <registry>${image.registry}</registry>
+                                    <name>${image.registry}/${image.name}:${image.tag}</name>
+                                    <build>
+                                        <buildx>
+                                            <builderName>${builder.name}</builderName>
+                                            <platforms>
+                                                <platform>linux/amd64</platform>
+                                                <platform>linux/arm64</platform>
+                                            </platforms>
+                                        </buildx>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                        <args>
+                                            <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                                        </args>
+                                    </build>
                                 </image>
                             </images>
                         </configuration>
@@ -118,6 +216,40 @@
                                     <goal>build</goal>
                                     <goal>push</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <executions>
+                            <execution>
+                                <id>prepare-buildx</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${scripts.directory}/prepare_buildx.sh</executable>
+                                    <arguments>
+                                        <argument>${local.registry}</argument>
+                                        <argument>${base.image}</argument>
+                                        <argument>${builder.name}</argument>
+                                        <argument>${image.registry}</argument>
+                                        <argument>${image.name}</argument>
+                                        <argument>${image.tag}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>clear</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${scripts.directory}/remove_local_registry.sh</executable>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -142,6 +274,19 @@
                                         <!-- DockerHub image -->
                                         <image>
                                             <name>${image.name}:${project.version}</name>
+                                            <build>
+                                                <buildx>
+                                                    <builderName>${builder.name}</builderName>
+                                                    <platforms>
+                                                        <platform>linux/amd64</platform>
+                                                        <platform>linux/arm64</platform>
+                                                    </platforms>
+                                                </buildx>
+                                                <dockerFileDir>${project.basedir}</dockerFileDir>
+                                                <args>
+                                                    <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                                                </args>
+                                            </build>
                                         </image>
                                     </images>
                                 </configuration>
@@ -157,8 +302,20 @@
                                     <images>
                                         <!-- Quay image -->
                                         <image>
-                                            <name>${image.name}:${project.version}</name>
-                                            <registry>${image.registry}</registry>
+                                            <name>${image.registry}/${image.name}:${project.version}</name>
+                                            <build>
+                                                <buildx>
+                                                    <builderName>${builder.name}</builderName>
+                                                    <platforms>
+                                                        <platform>linux/amd64</platform>
+                                                        <platform>linux/arm64</platform>
+                                                    </platforms>
+                                                </buildx>
+                                                <dockerFileDir>${project.basedir}</dockerFileDir>
+                                                <args>
+                                                    <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                                                </args>
+                                            </build>
                                         </image>
                                     </images>
                                 </configuration>
