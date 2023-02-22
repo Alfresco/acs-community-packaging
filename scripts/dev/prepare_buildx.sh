@@ -15,14 +15,14 @@ else
    docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
    #Push base image to the local repository
-   docker tag "${BASE_IMAGE}":"${IMAGE_TAG}" "${LOCAL_REGISTRY}"/"${BASE_IMAGE}":"${IMAGE_TAG}"
+   docker tag "${BASE_IMAGE}" "${LOCAL_REGISTRY}"/"${BASE_IMAGE}"
    while [ "$( docker container inspect -f '{{.State.Running}}' registry )" != "true" ] && [ $SLEEP_SECONDS -lt 600 ]
    do
    ((SLEEP_SECONDS++))
    sleep 1
    done
    sleep 60
-   docker push "${LOCAL_REGISTRY}"/"${BASE_IMAGE}":"${IMAGE_TAG}"
+   docker push "${LOCAL_REGISTRY}"/"${BASE_IMAGE}"
 
    #Create a `docker-container` builder with host networking and required flags (quay.io)
    docker --config target/docker/"${TARGET_REGISTRY}"/"${TARGET_IMAGE}"/"${IMAGE_TAG}"/docker \
