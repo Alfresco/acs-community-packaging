@@ -14,6 +14,8 @@
    <properties>
       <image.name>alfresco/alfresco-governance-share-community</image.name>
       <docker.quay-expires.value>NEVER</docker.quay-expires.value>
+      <base.image>alfresco/alfresco-share-base:${share.image.tag}</base.image>
+      <scripts.directory>${project.parent.parent.basedir}/scripts/dev</scripts.directory>
    </properties>
 
    <build>
