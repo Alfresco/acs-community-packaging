@@ -129,11 +129,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
           bash ./scripts/ci/init.sh
-          bash ./scripts/ci/build.sh
+          bash ./scripts/ci/build.sh -m multiarch
       - name: "Push Docker images"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
@@ -155,11 +157,13 @@ jobs:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
           bash ./scripts/ci/init.sh
-          bash ./scripts/ci/build.sh
+          bash ./scripts/ci/build.sh -m multiarch
       - name: "Release"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |

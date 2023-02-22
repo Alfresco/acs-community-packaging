@@ -21,6 +21,7 @@ else
    ((SLEEP_SECONDS++))
    sleep 1
    done
+   sleep 60
    docker push "${LOCAL_REGISTRY}"/"${BASE_IMAGE}":"${IMAGE_TAG}"
 
    #Create a `docker-container` builder with host networking and required flags (quay.io)
