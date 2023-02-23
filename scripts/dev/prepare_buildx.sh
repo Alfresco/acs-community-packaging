@@ -28,7 +28,6 @@ else
    do
     docker push "${LOCAL_REGISTRY}"/"${BASE_IMAGE}"
     RESULT=$?
-    echo "Result: $RESULT | Attempts left: $PUSH_TAG_ATTEMPTS"
     ((PUSH_TAG_ATTEMPTS--))
     sleep 10
    done
