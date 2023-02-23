@@ -18,11 +18,20 @@ else
    docker tag "${BASE_IMAGE}" "${LOCAL_REGISTRY}"/"${BASE_IMAGE}"
    while [ "$( docker container inspect -f '{{.State.Running}}' registry )" != "true" ] && [ $SLEEP_SECONDS -lt 600 ]
    do
-   ((SLEEP_SECONDS++))
-   sleep 1
+    ((SLEEP_SECONDS++))
+    sleep 1
    done
-   sleep 60
-   docker push "${LOCAL_REGISTRY}"/"${BASE_IMAGE}"
+
+   PUSH_TAG_ATTEMPTS=6
+   RESULT=1
+   while [ $RESULT -eq 1 ] && [ $PUSH_TAG_ATTEMPTS -gt 0 ]
+   do
+    docker push "${LOCAL_REGISTRY}"/"${BASE_IMAGE}"
+    RESULT=$?
+    echo "Result: $RESULT | Attempts left: $PUSH_TAG_ATTEMPTS"
+    ((PUSH_TAG_ATTEMPTS--))
+    sleep 10
+   done
 
    #Create a `docker-container` builder with host networking and required flags (quay.io)
    docker --config target/docker/"${TARGET_REGISTRY}"/"${TARGET_IMAGE}"/"${IMAGE_TAG}"/docker \
