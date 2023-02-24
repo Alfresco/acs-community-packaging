@@ -60,6 +60,12 @@
                      <images>
                         <image>
                            <name>${image.name}:${image.tag}</name>
+                           <build>
+                              <args>
+                                 <BASE_IMAGE>${base.image}</BASE_IMAGE>
+                              </args>
+                              <contextDir>${project.basedir}</contextDir>
+                           </build>
                         </image>
                      </images>
                   </configuration>
