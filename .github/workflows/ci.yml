@@ -135,7 +135,7 @@ jobs:
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
           bash ./scripts/ci/init.sh
-          bash ./scripts/ci/build.sh -m multiarch
+          bash ./scripts/ci/build.sh -m
       - name: "Push Docker images"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
@@ -163,7 +163,7 @@ jobs:
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
           bash ./scripts/ci/init.sh
-          bash ./scripts/ci/build.sh -m multiarch
+          bash ./scripts/ci/build.sh -m
       - name: "Release"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |

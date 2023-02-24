@@ -6,17 +6,27 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 
 source "$(dirname "${BASH_SOURCE[0]}")/build_functions.sh"
 
-while getopts ":m:" option; do
+usage() {
+    echo "Builds the upstream projects first, then the current one." 1>&2;
+    echo 1>&2;
+    echo "Usage: $0 [-m]" 1>&2;
+    echo "  -m: Flag to build Docker images with multi-architecture" 1>&2;
+    echo "  -h: Display the usage information" 1>&2;
+    exit 1;
+}
+
+while getopts "mh" option; do
    case $option in
-      m) # Docker image build mode
-         IS_MULTI_ARCH=$OPTARG;;
-     \?) # Invalid option
-         echo "Error: Invalid option"
-         exit;;
+      m)
+        DOCKER_BUILD_PROFILE=build-multiarch-docker-images
+        ;;
+      h)
+        usage
+        ;;
    esac
 done
 
-BUILD_PROFILE=$([[ "${IS_MULTI_ARCH}" = "multiarch" ]] && echo "build-multiarch-docker-images" || echo "build-docker-images")
+BUILD_PROFILE=${DOCKER_BUILD_PROFILE:-build-docker-images}
 
 COM_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-repo.version")"
 REPO_IMAGE=$([[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Drepo.image.tag=latest" || echo)
