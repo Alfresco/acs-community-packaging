@@ -17,6 +17,7 @@
         <base.image>alfresco/alfresco-community-repo-base:${repo.image.tag}</base.image>
         <builder.name>entitled-builder</builder.name>
         <scripts.directory>${project.parent.basedir}/scripts/dev</scripts.directory>
+        <test.tag>alfresco-content-repository-community</test.tag>
     </properties>
 
     <build>
@@ -180,7 +181,7 @@
                             <images>
                                 <!-- Quay image -->
                                 <image>
-                                    <name>${image.registry}/${image.name}:${image.tag}</name>
+                                    <name>quay.io/alfresco/dev:${test.tag}</name>
                                     <build>
                                         <buildx>
                                             <builderName>${builder.name}</builderName>
