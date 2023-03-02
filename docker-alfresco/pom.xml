@@ -105,7 +105,6 @@
 
         <profile>
             <id>build-multiarch-docker-images</id>
-            <!-- builds multi Architecture "images:latest" locally -->
             <build>
                 <plugins>
                     <plugin>
