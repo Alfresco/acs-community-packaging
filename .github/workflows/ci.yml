@@ -125,6 +125,11 @@ jobs:
       !contains(github.event.head_commit.message, '[skip docker_latest]') && 
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
@@ -151,6 +156,11 @@ jobs:
       contains(github.event.head_commit.message, '[release]') &&
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - uses: actions/checkout@v3
         with:
