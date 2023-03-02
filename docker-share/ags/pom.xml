@@ -158,8 +158,20 @@
                      <images>
                         <!-- Quay image -->
                         <image>
-                           <name>${image.name}:${image.tag}</name>
-                           <registry>${image.registry}</registry>
+                           <name>${image.registry}/${image.name}:${image.tag}</name>
+                           <build>
+                              <buildx>
+                                 <builderName>${builder.name}</builderName>
+                                 <platforms>
+                                    <platform>linux/amd64</platform>
+                                    <platform>linux/arm64</platform>
+                                 </platforms>
+                              </buildx>
+                              <dockerFileDir>${project.basedir}</dockerFileDir>
+                              <args>
+                                 <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                              </args>
+                           </build>
                         </image>
                      </images>
                   </configuration>
@@ -171,6 +183,28 @@
                            <goal>build</goal>
                            <goal>push</goal>
                         </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <artifactId>exec-maven-plugin</artifactId>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <executions>
+                     <execution>
+                        <id>prepare-buildx</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                           <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                           <executable>${scripts.directory}/prepare_buildx.sh</executable>
+                           <arguments>
+                              <argument>${builder.name}</argument>
+                              <argument>${image.registry}</argument>
+                              <argument>${image.name}</argument>
+                              <argument>${image.tag}</argument>
+                           </arguments>
+                        </configuration>
                      </execution>
                   </executions>
                </plugin>
@@ -195,6 +229,19 @@
                               <!-- DockerHub image -->
                               <image>
                                  <name>${image.name}:${project.version}</name>
+                                 <build>
+                                    <buildx>
+                                       <builderName>${builder.name}</builderName>
+                                       <platforms>
+                                          <platform>linux/amd64</platform>
+                                          <platform>linux/arm64</platform>
+                                       </platforms>
+                                    </buildx>
+                                    <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    <args>
+                                       <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                                    </args>
+                                 </build>
                               </image>
                            </images>
                         </configuration>
@@ -210,8 +257,20 @@
                            <images>
                               <!-- Quay image -->
                               <image>
-                                 <name>${image.name}:${project.version}</name>
-                                 <registry>${image.registry}</registry>
+                                 <name>${image.registry}/${image.name}:${project.version}</name>
+                                 <build>
+                                    <buildx>
+                                       <builderName>${builder.name}</builderName>
+                                       <platforms>
+                                          <platform>linux/amd64</platform>
+                                          <platform>linux/arm64</platform>
+                                       </platforms>
+                                    </buildx>
+                                    <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    <args>
+                                       <BASE_IMAGE>${local.registry}/${base.image}</BASE_IMAGE>
+                                    </args>
+                                 </build>
                               </image>
                            </images>
                         </configuration>
@@ -219,6 +278,28 @@
                            <goal>build</goal>
                            <goal>push</goal>
                         </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <artifactId>exec-maven-plugin</artifactId>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <executions>
+                     <execution>
+                        <id>prepare-buildx</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                           <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                           <executable>${scripts.directory}/prepare_buildx.sh</executable>
+                           <arguments>
+                              <argument>${builder.name}</argument>
+                              <argument>${image.registry}</argument>
+                              <argument>${image.name}</argument>
+                              <argument>${image.tag}</argument>
+                           </arguments>
+                        </configuration>
                      </execution>
                   </executions>
                </plugin>
