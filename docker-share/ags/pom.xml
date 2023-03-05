@@ -8,7 +8,7 @@
    <parent>
       <groupId>org.alfresco</groupId>
       <artifactId>share-community-docker</artifactId>
-      <version>7.4.0-A18</version>
+      <version>7.4.0-A19-SNAPSHOT</version>
    </parent>
 
    <properties>
