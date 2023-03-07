@@ -15,6 +15,8 @@
       <image.name>alfresco/alfresco-governance-share-community</image.name>
       <docker.quay-expires.value>NEVER</docker.quay-expires.value>
       <base.image>alfresco/alfresco-share-base:${share.image.tag}</base.image>
+      <local.registry>127.0.0.1:5000</local.registry>
+      <builder.name>entitled-builder</builder.name>
       <scripts.directory>${project.parent.parent.basedir}/scripts/dev</scripts.directory>
    </properties>
 
@@ -82,6 +84,7 @@
             </plugins>
          </build>
       </profile>
+
       <profile>
          <id>build-multiarch-docker-images</id>
          <build>
@@ -145,6 +148,7 @@
             </plugins>
          </build>
       </profile>
+
       <profile>
          <id>push-docker-images</id>
          <!-- publishes "image:latest" to Quay -->
