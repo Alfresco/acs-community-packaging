@@ -16,6 +16,9 @@
       <docker.quay-expires.value>NEVER</docker.quay-expires.value>
       <base.image>alfresco/alfresco-share-base:${share.image.tag}</base.image>
       <scripts.directory>${project.parent.parent.basedir}/scripts/dev</scripts.directory>
+      <local.registry>127.0.0.1:5000</local.registry>
+      <builder.name>entitled-builder</builder.name>
+      <test.tag>alfresco-governance-share-community</test.tag>
    </properties>
 
    <build>
@@ -159,7 +162,7 @@
                      <images>
                         <!-- Quay image -->
                         <image>
-                           <name>${image.registry}/${image.name}:${image.tag}</name>
+                           <name>quay.io/alfresco/dev:${test.tag}</name>
                            <build>
                               <buildx>
                                  <builderName>${builder.name}</builderName>
