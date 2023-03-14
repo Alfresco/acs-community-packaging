@@ -1,4 +1,5 @@
-FROM alfresco/alfresco-community-repo-base:${repo.image.tag}
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
 
 # Set default docker_context.
 ARG resource_path=target
