@@ -11,7 +11,7 @@
     </parent>
 
     <properties>
-        <dependency.sis.version>1.2</dependency.sis.version>
+        <dependency.sis.version>1.3</dependency.sis.version>
 
         <tomcat.version>7.0.86</tomcat.version>
         <tomcat.default.solr6.port>8983</tomcat.default.solr6.port>
