@@ -119,6 +119,9 @@
                                                 <platform>linux/amd64</platform>
                                                 <platform>linux/arm64</platform>
                                             </platforms>
+                                            <attestations>
+                                                <provenance>false</provenance>
+                                            </attestations>
                                         </buildx>
                                         <dockerFileDir>${project.basedir}</dockerFileDir>
                                         <args>
@@ -185,6 +188,9 @@
                                                 <platform>linux/amd64</platform>
                                                 <platform>linux/arm64</platform>
                                             </platforms>
+                                            <attestations>
+                                                <provenance>false</provenance>
+                                            </attestations>
                                         </buildx>
                                         <dockerFileDir>${project.basedir}</dockerFileDir>
                                         <args>
@@ -255,6 +261,9 @@
                                                         <platform>linux/amd64</platform>
                                                         <platform>linux/arm64</platform>
                                                     </platforms>
+                                                    <attestations>
+                                                        <provenance>false</provenance>
+                                                    </attestations>
                                                 </buildx>
                                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                                 <args>
@@ -284,6 +293,9 @@
                                                         <platform>linux/amd64</platform>
                                                         <platform>linux/arm64</platform>
                                                     </platforms>
+                                                    <attestations>
+                                                        <provenance>false</provenance>
+                                                    </attestations>
                                                 </buildx>
                                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                                 <args>
