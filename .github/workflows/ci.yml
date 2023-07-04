@@ -135,10 +135,9 @@ jobs:
           ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8983/solr"
       - name: "Run tomcat, verify it starts"
         id: tests
-        timeout-minutes: 5
         run: |
           (mvn clean install -Prun -rf dev &)
-          ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8080"
+          ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8080/alfresco/"
 
   docker_latest:
     name: Update latest Docker images
