@@ -63,7 +63,7 @@
                 <artifactId>cargo-maven3-plugin</artifactId>
                 <configuration>
                     <container>
-                        <containerId>tomcat10x</containerId>
+                        <containerId>tomcat9x</containerId>
                         <type>embedded</type>
                         <log>target/cargo.log</log>
                         <systemProperties>
