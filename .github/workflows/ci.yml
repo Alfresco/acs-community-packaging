@@ -138,6 +138,8 @@ jobs:
         run: |
           (mvn clean install -Prun -rf dev &)
           ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8080/alfresco/"
+          curl -Ls -o /dev/null --fail "http://localhost:8080/alfresco"
+          curl -Ls -o /dev/null --fail "http://localhost:8080/share"
 
   docker_latest:
     name: Update latest Docker images
