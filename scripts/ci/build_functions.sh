@@ -163,6 +163,8 @@ function pullAndBuildSameBranchOnUpstream() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
+ $(dirname "${BASH_SOURCE[0]}")/../../jakarta-dependencies/build-dependencies.sh $GIT_HTTP_CREDENTIALS
+
   mvn -B -ntp -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
   mvn -B -ntp -V -q install -DskipTests -f packaging/tests/pom.xml
 
