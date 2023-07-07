@@ -22,7 +22,7 @@ COPY ${resource_path}/amps/* ${TOMCAT_DIR}/amps/
 # Install amps on alfresco.war
 RUN java -jar ${TOMCAT_DIR}/alfresco-mmt/alfresco-mmt*.jar install \
               ${TOMCAT_DIR}/amps \
-              ${TOMCAT_DIR}/webapps/alfresco -directory -nobackup
+              ${TOMCAT_DIR}/webapps/alfresco -directory -nobackup -force
 
 # The standard configuration is to have all Tomcat files owned by root with group GROUPNAME and whilst owner has read/write privileges,
 # group only has restricted permissions and world has no permissions.
