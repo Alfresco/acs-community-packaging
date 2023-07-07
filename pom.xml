@@ -13,8 +13,8 @@
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>23.1.0.155-SNAPSHOT</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-community-share.version>23.1.0.142</dependency.alfresco-community-share.version>
+        <dependency.alfresco-community-repo.version>23.1.0.157-SNAPSHOT</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-share.version>23.1.0.157-SNAPSHOT</dependency.alfresco-community-share.version>
         <dependency.acs-packaging.version>23.1.0-M2</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
