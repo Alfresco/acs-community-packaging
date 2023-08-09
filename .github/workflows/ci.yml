@@ -28,9 +28,9 @@ env:
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
-    # Release version has to start with real version (7.4.1-....) for the docker image to build successfully.
-  RELEASE_VERSION: 7.4.1
-  DEVELOPMENT_VERSION: 7.4.2-A1-SNAPSHOT
+    # Release version has to start with real version (7.4.2-....) for the docker image to build successfully.
+  RELEASE_VERSION: 7.4.2-A1
+  DEVELOPMENT_VERSION: 7.4.2-SNAPSHOT
 
 jobs:
   tas_tests:
