@@ -24,7 +24,7 @@ COPY target/alfresco-governance-services-community-repo-*.amp /usr/local/tomcat/
 # Install amps on alfresco.war
 RUN java -jar /usr/local/tomcat/alfresco-mmt/alfresco-mmt*.jar install \
               /usr/local/tomcat/amps \
-              /usr/local/tomcat/webapps/alfresco -directory -nobackup -force
+              /usr/local/tomcat/webapps/alfresco -directory -nobackup
 
 ### Copy gs-api-explorer war into webapps folder
 COPY --chown=root:Alfresco --from=AGSBUILDER /build/gs-api-explorer /usr/local/tomcat/webapps/gs-api-explorer
