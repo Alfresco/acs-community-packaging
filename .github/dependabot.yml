@@ -28,13 +28,6 @@ updates:
   - dependency-name: org.alfresco.tas:alfresco-community-repo-integration-test:tests
   - dependency-name: org.alfresco.tas:alfresco-community-repo-email-test:tests
   - dependency-name: org.alfresco.tas:alfresco-community-repo-cmis-test:tests
-# Used in dev env - Currently using 7.0.86 but have tried higher versions
-  - dependency-name: org.apache.tomcat.embed
-    versions:
-    - "> 7.0.109"
-  - dependency-name: org.apache.tomcat
-    versions:
-    - "> 7.0.109"
 # Upstream alfresco-enterprise-share artifacts
   - dependency-name: org.alfresco:share:classes
   - dependency-name: org.alfresco:alfresco-wcmqs-web:classes
@@ -43,18 +36,6 @@ updates:
   - dependency-name: org.alfresco:alfresco-content-services-share-distribution
   - dependency-name: org.alfresco:alfresco-share-services
 # Others
-  - dependency-name: io.fabric8:fabric8-maven-plugin
-    versions:
-    - "> 4.4.1"
-  - dependency-name: org.alfresco:api-explorer
-    versions:
-    - "> 6.1.0, < 6.2"
-  - dependency-name: org.alfresco.integrations:alfresco-googledocs-repo-community
-    versions:
-    - "> 3.1.0"
-  - dependency-name: org.alfresco.integrations:alfresco-googledocs-share-community
-    versions:
-    - "> 3.1.0"
   - dependency-name: org.apache.maven.plugins:maven-war-plugin
     versions:
     - ">= 3.a, < 4"
