@@ -77,20 +77,9 @@ fi
 SHARE_UPSTREAM_REPO="github.com/Alfresco/alfresco-community-share.git"
 # Checkout the upstream share project (tag or branch; + build if the latter)
 if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
-  pullAndBuildSameBranchOnUpstream "${SHARE_UPSTREAM_REPO}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER ${REPO_IMAGE}"
+  pullAndBuildSameBranchOnUpstream "${SHARE_UPSTREAM_REPO}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER ${REPO_IMAGE} -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION}"
 else
-    # To handle corresponding problem in acs-packaging https://alfresco.atlassian.net/browse/ACS-5820
-    pullUpstreamTag "${SHARE_UPSTREAM_REPO}" "${SHARE_DEPENDENCY_VERSION}"
-
-    docker images
-
-    git clone -b "${SHARE_DEPENDENCY_VERSION}" --depth=1 "https://${GIT_USERNAME}:${GIT_PASSWORD}@${SHARE_UPSTREAM_REPO}" /tmp/commrepo
-    mvn -f /tmp/commrepo/pom.xml -B -ntp -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${SHARE_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE" -Pags -Dlicense.failOnNotUptodateHeader=true
-
-    docker images
-
-    buildUpstreamTag "${SHARE_UPSTREAM_REPO}" "${SHARE_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER"
-    #pullUpstreamTagAndBuildDockerImage "${SHARE_UPSTREAM_REPO}" "${SHARE_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION}"
+  pullUpstreamTagAndBuildDockerImage "${SHARE_UPSTREAM_REPO}" "${SHARE_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION}"
 fi
 
 # Build the current project
