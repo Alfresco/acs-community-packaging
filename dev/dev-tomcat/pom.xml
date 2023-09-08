@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-dev-community-tomcat-env</artifactId>
-        <version>7.4.1.1-A3</version>
+        <version>7.4.1.1-SNAPSHOT</version>
     </parent>
 
     <properties>
