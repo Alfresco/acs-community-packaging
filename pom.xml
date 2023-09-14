@@ -14,8 +14,8 @@
 
     <properties>
         <dependency.alfresco-community-repo.version>23.1.0.218</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-community-share.version>23.1.0.221</dependency.alfresco-community-share.version>
-        <dependency.acs-packaging.version>23.1.0-A38</dependency.acs-packaging.version> <!-- for Share distribution zip -->
+        <dependency.alfresco-community-share.version>23.1.0.222</dependency.alfresco-community-share.version>
+        <dependency.acs-packaging.version>23.1.0-A39</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
