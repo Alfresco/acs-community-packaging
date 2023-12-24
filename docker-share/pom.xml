@@ -7,6 +7,6 @@
    <parent>
       <groupId>org.alfresco</groupId>
       <artifactId>acs-community-packaging</artifactId>
-      <version>23.2.0-A7-SNAPSHOT</version>
+      <version>23.2.0-A7</version>
    </parent>
 </project>
