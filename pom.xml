@@ -3,18 +3,18 @@
     <artifactId>acs-community-packaging</artifactId>
     <packaging>pom</packaging>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>23.2.0-A18-SNAPSHOT</version>
+    <version>23.3.0-A1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>23.2.0.50</version>
+        <version>23.3.0.1</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>23.2.0.50</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-community-share.version>23.2.0.58</dependency.alfresco-community-share.version>
+        <dependency.alfresco-community-repo.version>23.3.0.1</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-share.version>23.3.0.1</dependency.alfresco-community-share.version>
         <dependency.acs-packaging.version>23.2.0-A18</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
