@@ -29,8 +29,8 @@ env:
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
     # Release version has to start with real version (23.2.0-....) for the docker image to build successfully.
-  RELEASE_VERSION: 23.3.0-A3
-  DEVELOPMENT_VERSION: 23.3.0-A4-SNAPSHOT
+  RELEASE_VERSION: 23.3.0-A4
+  DEVELOPMENT_VERSION: 23.3.0-A5-SNAPSHOT
 
 jobs:
   tas_tests:
