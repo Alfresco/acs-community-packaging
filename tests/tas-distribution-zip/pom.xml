@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.alfresco</groupId>
     <artifactId>content-repository-community-tests</artifactId>
-    <version>7.4.2-A2</version>
+    <version>7.4.2-SNAPSHOT</version>
   </parent>
 
   <properties>
