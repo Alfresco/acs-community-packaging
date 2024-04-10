@@ -162,6 +162,7 @@ jobs:
         ports:
           - 5000:5000
     steps:
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v5.20.0
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
@@ -204,6 +205,7 @@ jobs:
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
     steps:
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v5.20.0
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - name: "Configure AWS credentials"
