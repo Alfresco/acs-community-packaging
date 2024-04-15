@@ -28,9 +28,9 @@ env:
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
-  # Release version has to start with real version (7.4.0-....) for the docker image to build successfully.
-  RELEASE_VERSION: 7.4.0-M2
-  DEVELOPMENT_VERSION: 7.4.0-A12-SNAPSHOT
+    # Release version has to start with real version (23.2.0-....) for the docker image to build successfully.
+  RELEASE_VERSION: 23.3.0-A10
+  DEVELOPMENT_VERSION: 23.3.0-A11-SNAPSHOT
 
 jobs:
   tas_tests:
@@ -116,18 +116,55 @@ jobs:
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
+  community_test_tomcat_deployment:
+    name: "Test Tomcat deployment"
+    runs-on: ubuntu-latest
+    if: >
+      !contains(github.event.head_commit.message, '[skip tests]')
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.35.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+      - name: "Build"
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        run: |
+          bash ./scripts/ci/init.sh
+          bash ./scripts/ci/build.sh
+      - name: "Set up the environment"
+        run: |
+          ${TAS_SCRIPTS}/start-compose.sh ./dev/docker-compose.yml
+          ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8983/solr"
+      - name: "Run tomcat, verify it starts"
+        id: tests
+        run: |
+          (mvn clean install -Prun -rf dev &)
+          ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8080/alfresco/"
+          echo "Test Alfresco Repository availability"
+          curl -Ls -o /dev/null --fail "http://localhost:8080/alfresco"
+          echo "Test Share availability"
+          curl -Ls -o /dev/null --fail "http://localhost:8080/share"
+
   docker_latest:
     name: Update latest Docker images
     runs-on: ubuntu-latest
     needs: [tas_tests, community_zip_tests]
     if: >
-      !failure() &&
+      !(failure() || cancelled()) &&
       !contains(github.event.head_commit.message, '[skip docker_latest]') && 
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -147,15 +184,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [docker_latest]
     if: >
-      !failure() &&
+      !(failure() || cancelled()) &&
       contains(github.event.head_commit.message, '[release]') &&
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -189,7 +232,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [release]
     if: >
-      !failure() &&
+      !(failure() || cancelled()) &&
       contains(github.event.head_commit.message, '[publish]') &&
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
