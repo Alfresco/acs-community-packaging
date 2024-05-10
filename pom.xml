@@ -9,13 +9,13 @@
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>19.8</version>
+        <version>19.17</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>19.8</dependency.alfresco-community-repo.version>
-        <dependency.alfresco-community-share.version>19.5</dependency.alfresco-community-share.version>
-        <dependency.acs-packaging.version>7.3.2-A3</dependency.acs-packaging.version> <!-- for Share distribution zip -->
+        <dependency.alfresco-community-repo.version>19.17</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-share.version>19.8</dependency.alfresco-community-share.version>
+        <dependency.acs-packaging.version>7.3.2-A4</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
