@@ -9,7 +9,7 @@ pushd "$(dirname "${BASH_SOURCE[0]}")/../../"
 #
 
 if [ -z "${RELEASE_VERSION}" ]; then
-  echo "Please provide a RELEASE_VERSION in the format <acs-version>-<additional-info> (7.2.1-EA or 7.2.1-SNAPSHOT)"
+  echo "Please provide a RELEASE_VERSION in the format <acs-version>-<additional-info> (e.g. 7.2.0-A2)"
   exit 1
 fi
 
