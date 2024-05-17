@@ -16,6 +16,7 @@ on:
   workflow_dispatch:
 
 env:
+  JAVA_VERSION: "11"
   GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
   GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
   GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
