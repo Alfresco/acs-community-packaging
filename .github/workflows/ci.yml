@@ -30,7 +30,7 @@ env:
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
   # Release version has to start with real version (7.3.0-....) for the docker image to build successfully.
-  RELEASE_VERSION: 7.2.1
+  RELEASE_VERSION: 7.2.2-A1
   DEVELOPMENT_VERSION: 7.2.2-SNAPSHOT
 
 jobs:
@@ -83,7 +83,7 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
         with:
-          java-version: '11'
+          java-version: ${{ env.JAVA_VERSION }}
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
