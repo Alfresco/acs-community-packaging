@@ -16,13 +16,13 @@ if [ "${COM_DEPENDENCY_VERSION}" != "$(retrievePomParentVersion)" ]; then
 fi
 
 # Prevent merging of any SNAPSHOT dependencies into the master or the release/* branches
-if [[ $(isPullRequestBuild) && "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${TRAVIS_BRANCH}" =~ ^master$|^release/.+$ ]] ; then
+if [[ $(isPullRequestBuild) && "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${BRANCH_NAME}" =~ ^master$|^release/.+$ ]] ; then
   printf "PRs with SNAPSHOT dependencies are not allowed into master or release branches\n"
   exit 1
 fi
 
 # Prevent release jobs from starting when there are SNAPSHOT upstream dependencies
-if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] ; then
+if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${JOB_NAME,,}" = "release" ] ; then
   printf "Cannot release project with SNAPSHOT dependencies!\n"
   exit 1
 fi
@@ -41,19 +41,26 @@ SHARE_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-s
 SHARE_IMAGE=$([[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && echo "-Dshare.image.tag=latest" || echo)
 
 # Prevent merging of any SNAPSHOT dependencies into the master or the release/* branches
-if [[ $(isPullRequestBuild) && "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${TRAVIS_BRANCH}" =~ ^master$|^release/.+$ ]] ; then
+if [[ $(isPullRequestBuild) && "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ && "${BRANCH_NAME}" =~ ^master$|^release/.+$ ]] ; then
   printf "PRs with SNAPSHOT dependencies are not allowed into master or release branches\n"
   exit 1
 fi
 
 # Prevent release jobs from starting when there are SNAPSHOT upstream dependencies
-if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${TRAVIS_BUILD_STAGE_NAME,,}" = "release" ] ; then
+if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] && [ "${JOB_NAME,,}" = "release" ] ; then
   printf "Cannot release project with SNAPSHOT dependencies!\n"
   exit 1
 fi
 
 SHARE_UPSTREAM_REPO="github.com/Alfresco/alfresco-community-share.git"
-
+# Temporarily opening reflective access during compilation for community-share
+# This could be removed once community-share will become Java 17 compliant
+# (Maven plugins included e.g.: maven-war-plugin)
+export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED \
+--add-opens=java.base/java.lang=ALL-UNNAMED \
+--add-opens=java.base/java.lang.reflect=ALL-UNNAMED \
+--add-opens=java.base/java.text=ALL-UNNAMED \
+--add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
 # Checkout the upstream share project (tag or branch; + build if the latter)
 if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
   pullAndBuildSameBranchOnUpstream "${SHARE_UPSTREAM_REPO}" "-Pbuild-docker-images -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER ${REPO_IMAGE} -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION}"
