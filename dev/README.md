@@ -66,9 +66,9 @@ The repository code will need to talk to other ACS components, such as a databas
 The simplest way to create these, is to use the `docker-compose.yml` file in the `dev` directory.
 ~~~
 # The `envUp` alias is the same as the following commands. Run these in a new terminal session, or add a `-d` flag to
-the `docker-compose` command.
+the `docker compose` command.
 cd acs-community-packaging
-docker-compose -f dev/docker-compose.yml up
+docker compose -f dev/docker-compose.yml up
 Creating dev_activemq_1           ... done
 Creating dev_solr6_1              ... done
 Creating dev_postgres_1           ... done
@@ -121,12 +121,12 @@ mvn install -Prun,withShare -rf dev-acs-amps-overlay
 When finished, kill the tomcat instance and stop the Docker instances. You will normally also
 remove the Docker containers, as you will need a clean database if you are going to issue
 another `mvn clean install` command. If you started `docker-compose` in a separate terminal session,
-simply use `^C` or if you used a `-d` flag, use `docker-compose -f dev/docker-compose.yml stop`.
+simply use `^C` or if you used a `-d` flag, use `docker compose -f dev/docker-compose.yml stop`.
 ~~~
 ^C
 ... Stopped 'sysAdmin' subsystem, ID: [sysAdmin, default]
 
-docker-compose -f dev/docker-compose.yml rm
+docker compose -f dev/docker-compose.yml rm
 Going to remove dev_transform-core-aio_1, dev_transform-router_1, dev_solr6_1, dev_postgres_1, dev_activemq_1, dev_shared-file-store_1
 Are you sure? [yN] y
 Removing dev_transform-core-aio_1 ... done
