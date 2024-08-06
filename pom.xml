@@ -13,7 +13,7 @@
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>23.3.0.88</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>23.3.0.90</dependency.alfresco-community-repo.version>
         <dependency.alfresco-community-share.version>23.3.0.79</dependency.alfresco-community-share.version>
         <dependency.acs-packaging.version>23.3.0-A32</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
