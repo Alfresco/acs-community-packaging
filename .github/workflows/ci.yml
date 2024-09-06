@@ -128,6 +128,8 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.35.2
+        with:
+          java-version: "21"
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
