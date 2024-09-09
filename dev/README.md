@@ -41,7 +41,7 @@ upstream projects. To help do this see the `acs-community-packaging` project's `
 sh acs-community-packaging/scripts/dev/linkPoms.sh
 ~~~
 
-## Build the alfresco-community-repo project
+## Build the Repo project
 Build the `alfresco-community-repo` projects, so that your changes are in the community alfresco.war file.
 ~~~bash
 # The `comR` alias includes the following commands:
