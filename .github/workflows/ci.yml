@@ -78,9 +78,9 @@ jobs:
             profiles: all-tas-tests
             compose-file: docker-compose-minimal.yml
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: actions/checkout@v4
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.0.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.0.0
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
@@ -100,9 +100,9 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip tests]')"
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: actions/checkout@v4
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.0.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.0.0
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
@@ -126,10 +126,10 @@ jobs:
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: actions/checkout@v4
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.0.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.0.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.0.0
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
@@ -151,12 +151,12 @@ jobs:
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v1.35.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v1.33.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.0.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v7.0.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v7.0.0
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
@@ -171,7 +171,7 @@ jobs:
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_S3_STAGING_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_S3_STAGING_SECRET_KEY }}
@@ -192,10 +192,10 @@ jobs:
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/')) &&
       github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v1.33.0
+      - uses: actions/checkout@v4
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v7.0.0
       - name: "Configure AWS credentials"
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_S3_RELEASE_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_S3_RELEASE_SECRET_ACCESS_KEY }}
