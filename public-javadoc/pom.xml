@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>25.1.0-A.4</version>
+        <version>25.1.0-A.5-SNAPSHOT</version>
     </parent>
     <packaging>pom</packaging>
 
