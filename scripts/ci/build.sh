@@ -83,7 +83,7 @@ else
 fi
 
 # Build the current project
-mvn -B -ntp -V -q install -DskipTests -Dmaven.javadoc.skip=true -P$BUILD_PROFILE -Pags ${REPO_IMAGE} ${SHARE_IMAGE}
+mvn -B -ntp -V -q install -DskipTests -Dmaven.javadoc.skip=true -Dlicense.skipUpdateLicense -P$BUILD_PROFILE -Pags ${REPO_IMAGE} ${SHARE_IMAGE}
 
 
 popd

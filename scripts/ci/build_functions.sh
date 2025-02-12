@@ -116,7 +116,7 @@ function buildUpstreamTag() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -ntp -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V clean package -DskipTests -Dlicense.skipUpdateLicense -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
 
   popd
 }
@@ -129,8 +129,8 @@ function buildSameBranchOnUpstream() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -ntp -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
-  mvn -B -ntp -V -q install -DskipTests -f packaging/tests/pom.xml
+  mvn -B -ntp -V -q clean install -DskipTests -Dlicense.skipUpdateLicense -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V -q install -DskipTests -Dlicense.skipUpdateLicense -f packaging/tests/pom.xml
 
   popd
 }
@@ -146,7 +146,7 @@ function pullUpstreamTagAndBuildDockerImage() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -ntp -V clean package -DskipTests -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V clean package -DskipTests -Dlicense.skipUpdateLicense -Dmaven.javadoc.skip=true "-Dimage.tag=${TAG}" ${EXTRA_BUILD_ARGUMENTS}
 
   popd
 }
@@ -163,8 +163,8 @@ function pullAndBuildSameBranchOnUpstream() {
 
   cd "$(basename "${UPSTREAM_REPO%.git}")"
 
-  mvn -B -ntp -V -q clean install -DskipTests -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
-  mvn -B -ntp -V -q install -DskipTests -f packaging/tests/pom.xml
+  mvn -B -ntp -V -q clean install -DskipTests -Dlicense.skipUpdateLicense -Dmaven.javadoc.skip=true ${EXTRA_BUILD_ARGUMENTS}
+  mvn -B -ntp -V -q install -DskipTests -Dlicense.skipUpdateLicense -f packaging/tests/pom.xml
 
   popd
 }
