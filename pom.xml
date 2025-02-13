@@ -3,19 +3,19 @@
     <artifactId>acs-community-packaging</artifactId>
     <packaging>pom</packaging>
     <name>Alfresco Content Services Community Packaging</name>
-    <version>23.3.0</version>
+    <version>23.3.3-A1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>alfresco-community-repo</artifactId>
         <relativePath>../alfresco-community-repo/pom.xml</relativePath>
-        <version>23.3.0.98</version>
+        <version>23.3.3.1</version>
     </parent>
 
     <properties>
-        <dependency.alfresco-community-repo.version>23.3.0.98</dependency.alfresco-community-repo.version>
+        <dependency.alfresco-community-repo.version>23.3.3.1</dependency.alfresco-community-repo.version>
         <dependency.alfresco-community-share.version>23.3.0.85</dependency.alfresco-community-share.version>
-        <dependency.acs-packaging.version>23.3.0</dependency.acs-packaging.version> <!-- for Share distribution zip -->
+        <dependency.acs-packaging.version>23.3.3</dependency.acs-packaging.version> <!-- for Share distribution zip -->
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
@@ -25,7 +25,7 @@
         <connection>scm:git:https://github.com/Alfresco/acs-community-packaging.git</connection>
         <developerConnection>scm:git:https://github.com/Alfresco/acs-community-packaging.git</developerConnection>
         <url>https://github.com/Alfresco/acs-community-packaging</url>
-        <tag>23.3.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
