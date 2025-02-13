@@ -91,7 +91,7 @@ jobs:
           ${TAS_SCRIPTS}/start-compose.sh ${TAS_ENVIRONMENT}/${{ matrix.compose-file }}
           ${TAS_SCRIPTS}/wait-for-alfresco-start.sh "http://localhost:8082/alfresco"
       - name: "Test"
-        run: mvn -B install -ntp -f ${{ matrix.pom }} -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false
+        run: mvn -B install -ntp -f ${{ matrix.pom }} -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false -Dlicense.skipUpdateLicense
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
@@ -110,9 +110,9 @@ jobs:
           bash ./scripts/ci/build.sh
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: mvn -B -ntp -V clean install -Pags -DskipTests -Dmaven.javadoc.skip=true
+        run: mvn -B -ntp -V clean install -Pags -DskipTests -Dmaven.javadoc.skip=true -Dlicense.skipUpdateLicense
       - name: "Test"
-        run: mvn -B install -ntp -f tests/tas-distribution-zip/pom.xml -Prun-distribution-zip-contents-check -DrunBugs=false
+        run: mvn -B install -ntp -f tests/tas-distribution-zip/pom.xml -Prun-distribution-zip-contents-check -DrunBugs=false -Dlicense.skipUpdateLicense
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
@@ -175,7 +175,7 @@ jobs:
           bash ./scripts/ci/build.sh -m
       - name: "Push Docker images"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Pags -Ppush-docker-images
+        run: mvn -B -ntp -V clean install -DskipTests -Dmaven.javadoc.skip=true -Dlicense.skipUpdateLicense -Pags -Ppush-docker-images
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
