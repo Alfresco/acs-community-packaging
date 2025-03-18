@@ -25,7 +25,6 @@
  */
 package org.alfresco.distribution;
 
-import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -40,6 +39,7 @@ import java.util.zip.ZipFile;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.testng.annotations.Test;
 
 public class CheckDistributionZipContents
 {
@@ -56,22 +56,20 @@ public class CheckDistributionZipContents
         for (File file : filesList)
         {
             List<String> zipEntries = getZipEntries(file.getAbsolutePath());
-            assertThat(zipEntries).
-                    contains(
-                            "keystore/metadata-keystore/keystore-passwords.properties",
-                            "keystore/metadata-keystore/keystore",
-                            "keystore/generate_keystores.bat",
-                            "keystore/generate_keystores.sh",
-                            "bin/alfresco-mmt.jar",
-                            "bin/apply_amps.bat",
-                            "bin/apply_amps.sh",
-                            "web-server/webapps/ROOT.war",
-                            "web-server/webapps/alfresco.war",
-                            "web-server/webapps/share.war",
-                            "web-server/webapps/_vti_bin.war",
-                            "web-server/conf/Catalina/localhost/alfresco.xml",
-                            "web-server/shared/classes/alfresco/web-extension/share-config-custom.xml"
-                    );
+            assertThat(zipEntries).contains(
+                    "keystore/metadata-keystore/keystore-passwords.properties",
+                    "keystore/metadata-keystore/keystore",
+                    "keystore/generate_keystores.bat",
+                    "keystore/generate_keystores.sh",
+                    "bin/alfresco-mmt.jar",
+                    "bin/apply_amps.bat",
+                    "bin/apply_amps.sh",
+                    "web-server/webapps/ROOT.war",
+                    "web-server/webapps/alfresco.war",
+                    "web-server/webapps/share.war",
+                    "web-server/webapps/_vti_bin.war",
+                    "web-server/conf/Catalina/localhost/alfresco.xml",
+                    "web-server/shared/classes/alfresco/web-extension/share-config-custom.xml");
         }
     }
 
@@ -84,12 +82,10 @@ public class CheckDistributionZipContents
         for (File file : filesList)
         {
             List<String> zipEntries = getZipEntries(file.getAbsolutePath());
-            assertThat(zipEntries).
-                    contains(
-                            "alfresco-governance-services-community-repo-" + repoVersion  + ".amp",
-                            "alfresco-governance-services-community-rest-api-explorer-" + repoVersion + ".war",
-                            "alfresco-governance-services-community-share-" + shareVersion + ".amp"
-                    );
+            assertThat(zipEntries).contains(
+                    "alfresco-governance-services-community-repo-" + repoVersion + ".amp",
+                    "alfresco-governance-services-community-rest-api-explorer-" + repoVersion + ".war",
+                    "alfresco-governance-services-community-share-" + shareVersion + ".amp");
         }
     }
 
