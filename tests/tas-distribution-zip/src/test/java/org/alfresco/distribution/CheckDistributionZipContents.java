@@ -59,8 +59,6 @@ public class CheckDistributionZipContents
             assertThat(zipEntries).contains(
                     "keystore/metadata-keystore/keystore-passwords.properties",
                     "keystore/metadata-keystore/keystore",
-                    "keystore/generate_keystores.bat",
-                    "keystore/generate_keystores.sh",
                     "bin/alfresco-mmt.jar",
                     "bin/apply_amps.bat",
                     "bin/apply_amps.sh",
