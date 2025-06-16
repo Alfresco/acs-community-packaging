@@ -35,12 +35,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.epam.reportportal</groupId>
-            <artifactId>agent-java-testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.alfresco.tas</groupId>
             <artifactId>utility</artifactId>
             <scope>test</scope>
