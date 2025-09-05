@@ -1,6 +1,6 @@
 ### Apply AGS community share AMP to Share image
 ARG BASE_IMAGE
-FROM ${BASE_IMAGE}
+FROM alfresco/alfresco-base-tomcat:tomcat10-jre21-rockylinux9@sha256:ed568167f4c28efc9db4c5bc44a882ee117c475463b526b21ada99e1b6d568dd
 
 LABEL quay.expires-after=${docker.quay-expires.value}
 
