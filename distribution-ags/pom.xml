@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.alfresco</groupId>
         <artifactId>acs-community-packaging</artifactId>
-        <version>25.3.0-A.22</version>
+        <version>25.3.0-A.23-SNAPSHOT</version>
     </parent>
 
     <dependencies>
