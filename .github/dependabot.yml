@@ -12,8 +12,9 @@ updates:
   schedule:
     interval: daily
     time: "22:00"
-    timezone: Africa/Abidjan
-  open-pull-requests-limit: 99
+    timezone: "Europe/London"
+  # disabling versions updates, when set to 0 only security updates will open
+  open-pull-requests-limit: 0
   ignore:
 # Upstream alfresco-community-repo artifacts
   - dependency-name: org.alfresco:alfresco-community-repo
@@ -41,3 +42,11 @@ updates:
     - ">= 3.a, < 4"
   registries:
   - maven-repository-artifacts-alfresco-com-nexus-content-groups-int
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+  groups:
+    github-actions:
+      patterns:
+        - "*"
