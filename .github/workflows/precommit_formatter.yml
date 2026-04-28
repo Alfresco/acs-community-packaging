@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, '[reformat code]')
     steps:
-      - uses: actions/checkout@v4
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v8.16.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v8.16.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.16.0
+      - uses: actions/checkout@v6
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v17.6.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@v17.6.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v17.6.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Set up Python ${{ inputs.python-version }}
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.9"
       - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
@@ -32,7 +32,7 @@ jobs:
           extra_args: --all-files
       - name: Update secrets baseline
         run: pip install detect-secrets && detect-secrets scan --baseline .secrets.baseline
-      - uses: Alfresco/alfresco-build-tools/.github/actions/git-commit-changes@v8.16.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/git-commit-changes@v17.6.1
         with:
           username: ${{ secrets.BOT_GITHUB_USERNAME }}
           add-options: -u
