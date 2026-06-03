@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="REST API tests Elasticsearch with Basic Auth" preserve-order="true" verbose="1">
+  <test name="elasticsearch-basic-auth" verbose="3" preserve-order="true">
+    <packages>
+      <package name="org.alfresco.elasticsearch.basicAuth"/>
+    </packages>
+  </test>
+</suite>

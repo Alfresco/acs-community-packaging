@@ -112,6 +112,73 @@ jobs:
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
 
+  tas_tests_search_api:
+    name: ${{ matrix.testSuite }} | TAS tests (Search API)
+    runs-on: alfrescoPub-ubuntu2204-16G-4CPU
+    if: >
+      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
+      !contains(github.event.head_commit.message, '[skip search]') &&
+      !contains(github.event.head_commit.message, '[skip tests]')
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - testSuite: Elasticsearch postgreSQL
+            profiles: all-tas-tests,elastic
+            search-engine-type: elasticsearch
+            db-type: postgresql
+          - testSuite: Elasticsearch MySQL
+            profiles: all-tas-tests,elastic
+            search-engine-type: elasticsearch
+            db-type: mysql
+          - testSuite: Elasticsearch Maria DB 11.8
+            profiles: all-tas-tests,elastic
+            search-engine-type: elasticsearch
+            db-type: mariadb
+          - testSuite: Opensearch
+            profiles: all-tas-tests,elastic
+            search-engine-type: opensearch
+            db-type: postgresql
+          - testSuite: Elasticsearch Basic Auth postgreSQL
+            profiles: all-tas-tests,elastic-basic-auth
+            search-engine-type: elasticsearch
+            db-type: postgresql
+          - testSuite: Elasticsearch Basic Auth MySQL
+            profiles: all-tas-tests,elastic-basic-auth
+            search-engine-type: elasticsearch
+            db-type: mysql
+          - testSuite: Elasticsearch Basic Auth MariaDB 11.8
+            profiles: all-tas-tests,elastic-basic-auth
+            search-engine-type: elasticsearch
+            db-type: mariadb
+          - testSuite: Opensearch Basic Auth
+            profiles: all-tas-tests,elastic-basic-auth
+            search-engine-type: opensearch
+            db-type: postgresql
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@v12.4.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v12.4.3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: "Build"
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        run: |
+          bash ./scripts/ci/init.sh
+          bash ./scripts/ci/build.sh
+      - name: "Run tests"
+        id: tests
+        timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        run: mvn -B install -ntp -pl ":content-repository-elasticsearch-test" -am -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco-es-indexing-jdbc:latest" -Dreindeximage="alfresco-es-reindexing-jdbc:latest" -Drepoimage="alfresco-repository-databases:latest" "-Dmessaging.broker.username=admin" "-Dmessaging.broker.password=admin" # pragma: allowlist secret
+      - name: "Dump all Docker containers logs"
+        uses: Alfresco/alfresco-build-tools/.github/actions/docker-dump-containers-logs@v12.4.3
+        if: failure() && steps.tests.outcome == 'failure'
+      - name: "Clean Maven cache"
+        run: bash ./scripts/ci/cleanup_cache.sh
+
+
   community_zip_tests:
     name: Community Distribution Zip content tests
     runs-on: ubuntu-latest

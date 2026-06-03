@@ -10,7 +10,9 @@
     </parent>
 
     <modules>
+        <module>testcontainers-env</module>
         <module>tas-restapi</module>
+        <module>tas-elasticsearch</module>
         <module>tas-cmis</module>
         <module>tas-email</module>
         <module>tas-webdav</module>

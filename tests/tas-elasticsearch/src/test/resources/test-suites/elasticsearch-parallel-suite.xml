@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parallel REST API tests for Elasticsearch" verbose="1" parallel="true">
+  <listeners>
+    <listener class-name="org.alfresco.utility.testng.AlphabeticalPriorityInterceptor" />
+    <listener class-name="org.alfresco.elasticsearch.parallel.RetryAnnotationTransformer" />
+  </listeners>
+  <test name="parallel_tests" verbose="3">
+    <packages>
+      <package name="org.alfresco.elasticsearch.parallel"></package>
+    </packages>
+  </test>
+</suite>
