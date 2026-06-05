@@ -48,6 +48,9 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     private SearchQueryService searchQueryService;
 
     private UserModel testUser;
+    private FolderModel testParentFolder;
+    /** Pre-built ANCESTOR clause for the test parent folder. */
+    private String ancestorClause;
     private ContentModel fileWithTermInName;
     private ContentModel fileWithPhraseInContent;
     private ContentModel fileWithTermInTitle;
@@ -61,6 +64,10 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         serverHealth.assertServerIsOnline();
 
+        STEP("Create a dedicated parent folder so all queries can be scoped via ANCESTOR");
+        testParentFolder = createTestParentFolder();
+        ancestorClause = "ANCESTOR:\"" + testParentFolder.getNodeRef() + "\"";
+
         STEP("Create a test user and few files and folders containing searched term in name, title, description, content and tag");
         fileWithTermInName = createFile(SEARCH_TERM + ".txt", "some text");
         fileWithPhraseInContent = createFile(getRandomFile(FileType.TEXT_PLAIN), "Dummy " + SEARCH_TERM + " irrelevant text");
@@ -71,20 +78,23 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
         folderWithTermInName = createFolder(SEARCH_TERM);
 
         testUser = dataUser.createRandomTestUser();
+
+        STEP("Wait for the batch indexer to index all 6 content files under the test parent folder");
+        waitForAllContentToBeIndexed();
     }
 
     @AfterClass
     public void dataCleanup()
     {
-        STEP("Clean up created files, folders and user");
-        dataContent.usingAdmin().usingResource(fileWithTermInName).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithPhraseInContent).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithTermInTitle).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithTermInDescription).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithTermInTag).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithDifferentTermInName).deleteContent();
-        dataContent.usingAdmin().usingResource(folderWithTermInName).deleteContent();
-        dataUser.deleteUser(testUser);
+        STEP("Clean up the test parent folder (cascades to all children) and the test user");
+        if (testParentFolder != null)
+        {
+            dataContent.usingAdmin().usingResource(testParentFolder).deleteContent();
+        }
+        if (testUser != null)
+        {
+            dataUser.deleteUser(testUser);
+        }
     }
 
     @Test(groups = {TestGroup.SEARCH})
@@ -92,7 +102,7 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         STEP("Search for files by name using simple template with one property");
         Map<String, String> templates = Map.of("_NODE", "%cm:name");
-        String query = "TYPE:'cm:content' AND _NODE:" + SEARCH_TERM;
+        String query = ancestorClause + " AND TYPE:'cm:content' AND _NODE:" + SEARCH_TERM;
         SearchRequest request = req("afts", query, templates);
 
         searchQueryService.expectNodeRefsFromQuery(request, testUser, fileWithTermInName.getNodeRef());
@@ -103,7 +113,7 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         STEP("Search for files containing specific phrase using simple template with one property");
         Map<String, String> templates = Map.of("_NODE", "%TEXT");
-        String query = "TYPE:'cm:content' AND _NODE:\"" + SEARCH_TERM + " irrelevant\"";
+        String query = ancestorClause + " AND TYPE:'cm:content' AND _NODE:\"" + SEARCH_TERM + " irrelevant\"";
         SearchRequest request = req("afts", query, templates);
 
         searchQueryService.expectNodeRefsFromQuery(request, testUser, fileWithPhraseInContent.getNodeRef());
@@ -114,7 +124,7 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         STEP("Search for files using template containing multiple properties");
         Map<String, String> templates = Map.of("_NODE", "%(cm:name cm:title)");
-        String query = "TYPE:'cm:content' AND _NODE:" + SEARCH_TERM;
+        String query = ancestorClause + " AND TYPE:'cm:content' AND _NODE:" + SEARCH_TERM;
         SearchRequest request = req("afts", query, templates);
 
         searchQueryService.expectNodeRefsFromQuery(request, testUser, fileWithTermInName.getNodeRef(), fileWithTermInTitle.getNodeRef());
@@ -130,13 +140,13 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
 
         );
         STEP("Search for files using more complex two-level nested template containing multiple properties");
-        String query = "TYPE:'cm:content' AND _NODEX:" + SEARCH_TERM;
+        String query = ancestorClause + " AND TYPE:'cm:content' AND _NODEX:" + SEARCH_TERM;
         SearchRequest request = req("afts", query, templates);
         searchQueryService.expectNodeRefsFromQuery(request, testUser,
                 fileWithTermInName.getNodeRef(), fileWithTermInDescription.getNodeRef(), fileWithTermInTitle.getNodeRef());
 
         STEP("Search for files using three-level nested template containing multiple properties");
-        String queryIncludingTag = "TYPE:'cm:content' AND _NODET:" + SEARCH_TERM;
+        String queryIncludingTag = ancestorClause + " AND TYPE:'cm:content' AND _NODET:" + SEARCH_TERM;
         SearchRequest requestIncludingTag = req("afts", queryIncludingTag, templates);
         searchQueryService.expectNodeRefsFromQuery(requestIncludingTag, testUser,
                 fileWithTermInName.getNodeRef(), fileWithTermInDescription.getNodeRef(), fileWithTermInTitle.getNodeRef(), fileWithTermInTag.getNodeRef());
@@ -147,7 +157,8 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         STEP("Search for files using template containing multiple properties, as a default search field");
         Map<String, String> templates = Map.of("_NODE", "%(cm:name cm:title)");
-        String query = "TYPE:'cm:content' AND " + SEARCH_TERM;
+        // ANCESTOR must be its own clause; only the bare term uses the default field name.
+        String query = ancestorClause + " AND TYPE:'cm:content' AND " + SEARCH_TERM;
         SearchRequest request = req("afts", query, templates);
         request.setDefaults(RestRequestDefaultsModel.builder().defaultFieldName("_NODE").create());
 
@@ -159,7 +170,7 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         STEP("Search for files and folders using template containing multiple properties, including a fixed one");
         Map<String, String> templates = Map.of("_NODE", "%cm:name AND TYPE:'cm:folder'");
-        String query = "_NODE:" + SEARCH_TERM;
+        String query = ancestorClause + " AND _NODE:" + SEARCH_TERM;
         SearchRequest request = req("afts", query, templates);
 
         searchQueryService.expectNodeRefsFromQuery(request, testUser, folderWithTermInName.getNodeRef());
@@ -170,12 +181,12 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         STEP("Search for files using templates and boosts, where second term has higher priority ");
         Map<String, String> templates = Map.of("_NODE", "%cm:name");
-        String query = "TYPE:'cm:content' AND _NODE:" + SEARCH_TERM + "^0.5 OR _NODE:dummy^2";
+        String query = ancestorClause + " AND TYPE:'cm:content' AND (_NODE:" + SEARCH_TERM + "^0.5 OR _NODE:dummy^2)";
         SearchRequest request = req("afts", query, templates);
         searchQueryService.expectResultsInOrder(request, testUser, fileWithDifferentTermInName.getName(), fileWithTermInName.getName());
 
         STEP("Search for files using templates and boosts, where first term has higher priority ");
-        String queryInvertedBoost = "TYPE:'cm:content' AND _NODE:" + SEARCH_TERM + "^2 OR _NODE:dummy^0.5";
+        String queryInvertedBoost = ancestorClause + " AND TYPE:'cm:content' AND (_NODE:" + SEARCH_TERM + "^2 OR _NODE:dummy^0.5)";
         SearchRequest requestInvertedBoost = req("afts", queryInvertedBoost, templates);
         searchQueryService.expectResultsInOrder(requestInvertedBoost, testUser, fileWithTermInName.getName(), fileWithDifferentTermInName.getName());
     }
@@ -184,10 +195,21 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     public void testAftsQuery_expandedTemplate()
     {
         Map<String, String> templates = Map.of("_NODE", "%cm:name");
-        String query = "TYPE:'cm:content' AND ~_NODE:" + SEARCH_TERM;
+        String query = ancestorClause + " AND TYPE:'cm:content' AND ~_NODE:" + SEARCH_TERM;
         SearchRequest request = req("afts", query, templates);
 
         searchQueryService.expectNodeRefsFromQuery(request, testUser, fileWithTermInName.getNodeRef());
+    }
+
+    private FolderModel createTestParentFolder()
+    {
+        ContentModel contentRoot = new ContentModel("-root-");
+        contentRoot.setNodeRef(contentRoot.getName());
+        FolderModel parent = new FolderModel(getRandomName("templateSearchTests-"));
+        return dataContent
+                .usingAdmin()
+                .usingResource(contentRoot)
+                .createFolder(parent);
     }
 
     private ContentModel createRandomFileWithTitle(String title)
@@ -217,15 +239,15 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
 
     private ContentModel createFile(String filename, String content, String title, String description, String tag)
     {
-        ContentModel contentRoot = new ContentModel("-root-");
-        contentRoot.setNodeRef(contentRoot.getName());
         FileModel fileModel = new FileModel(filename, FileType.TEXT_PLAIN, content);
         fileModel.setTitle(title);
         fileModel.setDescription(description);
 
+        // Create inside the dedicated parent folder so queries scoped with ANCESTOR will pick this up
+        // (and so bootstrap / cross-class content does NOT match those queries).
         FileModel file = dataContent
                 .usingAdmin()
-                .usingResource(contentRoot)
+                .usingResource(testParentFolder)
                 .createContent(fileModel);
 
         if (StringUtils.isNotBlank(tag))
@@ -246,13 +268,11 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
 
     private ContentModel createFolder(String folderName, String title, String description, String tag)
     {
-        ContentModel contentRoot = new ContentModel("-root-");
-        contentRoot.setNodeRef(contentRoot.getName());
         FolderModel folderModel = new FolderModel(folderName, title, description);
 
         FolderModel folder = dataContent
                 .usingAdmin()
-                .usingResource(contentRoot)
+                .usingResource(testParentFolder)
                 .createFolder(folderModel);
 
         if (StringUtils.isNotBlank(tag))
@@ -264,5 +284,41 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
         }
 
         return folder;
+    }
+
+    /**
+     * Block until the batch indexer has indexed every content node we just created
+     */
+    private void waitForAllContentToBeIndexed()
+    {
+        SearchRequest probe = req("afts", ancestorClause + " AND TYPE:'cm:content'", Map.of());
+        // 6 files (the folder is excluded by TYPE:'cm:content').
+        String[] expectedRefs = new String[] {
+                fileWithTermInName.getNodeRef(),
+                fileWithPhraseInContent.getNodeRef(),
+                fileWithTermInTitle.getNodeRef(),
+                fileWithTermInDescription.getNodeRef(),
+                fileWithTermInTag.getNodeRef(),
+                fileWithDifferentTermInName.getNodeRef()
+        };
+        AssertionError last = null;
+        for (int attempt = 1; attempt <= 6; attempt++)
+        {
+            try
+            {
+                searchQueryService.expectNodeRefsFromQuery(probe, dataUser.getAdminUser(), expectedRefs);
+                return;
+            }
+            catch (AssertionError e)
+            {
+                last = e;
+                STEP("Indexing barrier attempt " + attempt + " still incomplete; retrying. " + e.getMessage());
+            }
+        }
+        throw new AssertionError(
+                "Batch indexer did not index all " + expectedRefs.length
+                        + " content nodes under test folder " + testParentFolder.getNodeRef()
+                        + " within the barrier timeout. Last error: " + (last == null ? "none" : last.getMessage()),
+                last);
     }
 }

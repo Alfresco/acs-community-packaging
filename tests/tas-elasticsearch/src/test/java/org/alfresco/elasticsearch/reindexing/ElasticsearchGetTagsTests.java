@@ -63,8 +63,8 @@ public class ElasticsearchGetTagsTests extends AbstractTestNGSpringContextTests
         final FileModel document = dataContent.usingAdmin().usingSite(site).createContent(CMISUtil.DocumentType.TEXT_PLAIN);
 
         STEP("Create few tags");
-        apple = restClient.authenticateUser(user).withCoreAPI().usingResource(document)
-                .addTag(RandomData.getRandomName("apple"));
+        apple = restClient.authenticateUser(dataUser.getAdminUser()).withCoreAPI()
+                .createSingleTag(RestTagModel.builder().tag(RandomData.getRandomName("apple")).create());
         banana = restClient.authenticateUser(dataUser.getAdminUser()).withCoreAPI()
                 .createSingleTag(RestTagModel.builder().tag(RandomData.getRandomName("banana")).create());
         pineapple = restClient.authenticateUser(dataUser.getAdminUser()).withCoreAPI()
@@ -77,12 +77,17 @@ public class ElasticsearchGetTagsTests extends AbstractTestNGSpringContextTests
                 .createSingleTag(RestTagModel.builder().tag(RandomData.getRandomName("orange")).create());
 
         STEP("Wait for indexing to complete");
-        Utility.sleep(500, 10000, () -> restClient.authenticateUser(dataUser.getAdminUser())
+        Utility.sleep(500, 60000, () -> restClient.authenticateUser(dataUser.getAdminUser())
                 .withParams("where=(tag MATCHES ('oran*'))")
                 .withCoreAPI()
                 .getTags()
                 .assertThat()
                 .entrySetContains("tag", orange.getTag().toLowerCase()));
+
+        // Step 2: now attach apple to document - tag node is guaranteed to be in ES
+        STEP("Attach apple tag to document");
+        restClient.authenticateUser(user).withCoreAPI().usingResource(document)
+                .addTag(apple.getTag());
     }
 
     @AfterClass

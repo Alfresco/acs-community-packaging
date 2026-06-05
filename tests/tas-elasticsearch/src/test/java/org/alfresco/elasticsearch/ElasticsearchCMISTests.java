@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import static org.alfresco.elasticsearch.SearchQueryService.req;
 import static org.alfresco.tas.TestDataUtility.getAlphabeticUUID;
+import static org.alfresco.utility.report.log.Step.STEP;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -77,6 +78,13 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     private FileModel file0;
     private List<String> fileCreationDates;
     private String file3Name;
+    /** Scoping predicate restricting the result universe to the 4 documents user1 owns in this class.
+     *  Used to AND into negative / open-range queries so they aren't polluted by bootstrap content
+     *  or by files created in other test classes that share the same Spring context. */
+    private String user1FilesScope;
+    /** Scoping predicate restricting to file3 (the only EXIF-bearing image we upload).
+     *  Used to AND into negative / open-range integer queries on exif:pixelXDimension. */
+    private String file3Scope;
 
     /**
      * Data will be prepared using the schema below:
@@ -116,6 +124,12 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
 
         dataContent.usingUser(user1).usingSite(siteModel1).createFolder(new FolderModel(FOLDER_0_NAME));
         dataContent.usingUser(user1).usingSite(siteModel1).createFolder(new FolderModel(FOLDER_1_NAME));
+
+        // Pre-build scoping predicates used by the negative / open-range tests below.
+        user1FilesScope = "cmis:name IN ('" + FILE_0_NAME + "', '" + FILE_1_NAME + "', '" + FILE_2_NAME + "', '" + file3Name + "')";
+        file3Scope = "D.cmis:name = '" + file3Name + "'";
+
+        waitForAllContentToBeIndexed();
     }
 
     @TestRail(description = "Check all documents can be selected when we omit the where clause.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
@@ -215,7 +229,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     @Test(groups = TestGroup.SEARCH)
     public void doesNotMatchDocumentName()
     {
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name <> '" + FILE_0_NAME + "'");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:name <> '" + FILE_0_NAME + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
 
@@ -247,7 +261,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     @Test(groups = TestGroup.SEARCH)
     public void checkNotInSyntax()
     {
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name NOT IN ('" + FILE_0_NAME + "', '" + FILE_1_NAME + "')");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:name NOT IN ('" + FILE_0_NAME + "', '" + FILE_1_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_2_NAME, file3Name);
     }
 
@@ -274,7 +288,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     public void checkBeforeDateSyntax()
     {
         String file2CreationDate = fileCreationDates.get(2);
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate < TIMESTAMP '" + file2CreationDate + "'");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate < TIMESTAMP '" + file2CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME);
     }
 
@@ -283,7 +297,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     public void checkBeforeOrSameDateSyntax()
     {
         String file2CreationDate = fileCreationDates.get(2);
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate <= TIMESTAMP '" + file2CreationDate + "'");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate <= TIMESTAMP '" + file2CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
 
@@ -301,7 +315,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     public void checkDoesNotMatchDateSyntax()
     {
         String file0CreationDate = fileCreationDates.get(0);
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate <> TIMESTAMP '" + file0CreationDate + "'");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate <> TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
 
@@ -321,7 +335,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     {
         String file0CreationDate = fileCreationDates.get(0);
         String file1CreationDate = fileCreationDates.get(1);
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate NOT IN (TIMESTAMP '" + file0CreationDate + "', TIMESTAMP '" + file1CreationDate + "')");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate NOT IN (TIMESTAMP '" + file0CreationDate + "', TIMESTAMP '" + file1CreationDate + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_2_NAME, file3Name);
     }
 
@@ -338,7 +352,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     @Test(groups = TestGroup.SEARCH)
     public void checkDifferentThanIntegerSyntax()
     {
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension <> " + X_DIMENSION);
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension <> " + X_DIMENSION);
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
@@ -348,11 +362,11 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     public void checkGreaterThanIntegerSyntax()
     {
         int lessThanX = X_DIMENSION - 1;
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension > " + lessThanX);
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension > " + lessThanX);
         query.setInclude(List.of("properties"));
         searchQueryService.expectResultsFromQuery(query, user1, file3Name);
 
-        query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension > " + X_DIMENSION);
+        query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension > " + X_DIMENSION);
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
@@ -361,12 +375,12 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     @Test(groups = TestGroup.SEARCH)
     public void checkGreaterThanOrEqualIntegerSyntax()
     {
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension >= " + X_DIMENSION);
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension >= " + X_DIMENSION);
         query.setInclude(List.of("properties"));
         searchQueryService.expectResultsFromQuery(query, user1, file3Name);
 
         int moreThanX = X_DIMENSION + 1;
-        query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension >= " + moreThanX);
+        query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension >= " + moreThanX);
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
@@ -416,11 +430,11 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     @Test(groups = TestGroup.SEARCH)
     public void checkNotInIntegersSyntax()
     {
-        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension NOT IN (" + X_DIMENSION + ", " + 0 + ")");
+        SearchRequest query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension NOT IN (" + X_DIMENSION + ", " + 0 + ")");
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
 
-        query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE E.exif:pixelXDimension NOT IN (" + 0 + ", " + -1 + ")");
+        query = req("cmis", "SELECT * FROM cmis:document AS D JOIN exif:exif AS E ON D.cmis:objectId = E.cmis:objectId WHERE " + file3Scope + " AND E.exif:pixelXDimension NOT IN (" + 0 + ", " + -1 + ")");
         query.setInclude(List.of("properties"));
         searchQueryService.expectResultsFromQuery(query, user1, file3Name);
     }
@@ -600,5 +614,34 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         return dataContent.usingUser(user)
                 .usingSite(site)
                 .uploadDocument(toUpload.getFile());
+    }
+
+    /**
+     * Block until the batch indexer has indexed every content node we just created
+     */
+    private void waitForAllContentToBeIndexed()
+    {
+        SearchRequest probe = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope);
+        // SearchQueryService.expectResultsFromQuery already retries for MAX_TIME (10s). Wrap in a
+        // few extra attempts so the worst-case wait grows linearly when the indexer is busy.
+        AssertionError last = null;
+        for (int attempt = 1; attempt <= 6; attempt++)
+        {
+            try
+            {
+                searchQueryService.expectResultsFromQuery(probe, user1,
+                        FILE_0_NAME, FILE_1_NAME, FILE_2_NAME, file3Name);
+                return;
+            }
+            catch (AssertionError e)
+            {
+                last = e;
+                STEP("Indexing barrier attempt " + attempt + " still incomplete; retrying. " + e.getMessage());
+            }
+        }
+        throw new AssertionError(
+                "Batch indexer did not index all 4 user1 documents within the barrier timeout. "
+                        + "Last error: " + (last == null ? "none" : last.getMessage()),
+                last);
     }
 }

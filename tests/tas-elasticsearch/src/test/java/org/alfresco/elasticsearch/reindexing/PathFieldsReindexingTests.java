@@ -47,6 +47,9 @@ public class PathFieldsReindexingTests extends NodesSecondaryChildrenRelatedTest
         folders.modify(X).add().secondaryContent(folders.get(K));
         folders.modify(L).add().secondaryContent(folders.get(C), folders.get(Y));
         folders.modify(M).add().secondaryContent(folders.get(C));
+
+        STEP("Wait for the batch indexer to index all folders and secondary associations before test methods run.");
+        waitForIndexing();
     }
 
     @Test(groups = TestGroup.SEARCH)
@@ -132,5 +135,35 @@ public class PathFieldsReindexingTests extends NodesSecondaryChildrenRelatedTest
                 folders.get(C).getName(),
                 folders.get(L).getName(),
                 folders.get(M).getName());
+    }
+
+    /** * Barrier that blocks until: * 1. All 9 primary folders are indexed (probed via ANCESTOR on the root of each tree). * 2. At least one secondary association is indexed (probed via PARENT:L which should return C, M, Y). * * Uses a retry loop so the total wait grows linearly (up to ~60 s) without a fixed sleep. */
+    private void waitForIndexing()
+    {
+        // Probe 1: primary tree A->B->C all indexed
+        SearchRequest primaryProbe = req("ANCESTOR:" + folders.get(A).getNodeRef());
+        // Probe 2: secondary associations from L indexed (PARENT:L = M (primary) + C,Y (secondary))
+        SearchRequest secondaryProbe = req("PARENT:" + folders.get(L).getNodeRef());
+
+        AssertionError last = null;
+        for (int attempt = 1; attempt <= 6; attempt++)
+        {
+            try
+            {
+                searchQueryService.expectResultsFromQuery(primaryProbe, testUser,
+                        folders.get(B).getName(), folders.get(C).getName());
+                searchQueryService.expectResultsFromQuery(secondaryProbe, testUser,
+                        folders.get(C).getName(), folders.get(M).getName(), folders.get(Y).getName());
+                return;
+            }
+            catch (AssertionError e)
+            {
+                last = e;
+                STEP("Indexing barrier attempt " + attempt + " incomplete; retrying. " + e.getMessage());
+            }
+        }
+        throw new AssertionError(
+                "Batch indexer did not index all folders/secondary-associations within barrier timeout. "
+                        + "Last: " + (last == null ? "none" : last.getMessage()), last);
     }
 }
