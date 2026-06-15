@@ -112,7 +112,7 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
     public void testAftsQuery_complexTermBoost()
     {
         STEP("Search for files and folders by name or title with higher priority for files by name");
-        String boostedQuery1 = "TYPE:('cm:content'^4 OR 'cm:folder'^0.5)^4 AND (cm:name:" + SEARCH_TERM + "^3.5 OR cm:title:" + SEARCH_TERM + "^0.05)";
+        String boostedQuery1 = "TYPE:('cm:content'^16 OR 'cm:folder'^0.5)^4 AND (cm:name:" + SEARCH_TERM + "^3.5 OR cm:title:" + SEARCH_TERM + "^0.05)";
         SearchRequest searchRequest = req("afts", boostedQuery1);
         searchQueryService.expectResultsInOrder(searchRequest, testUser, fileWithTermInName.getName(), fileWithTermInTitle.getName(), folderWithTermInName.getName(), folderWithTermInTitle.getName());
 
@@ -212,7 +212,7 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         String timeTo = afterCreationTime.format(DateTimeFormatter.ISO_DATE_TIME);
 
         STEP("Search for files and folders by name or creation time range with higher priority for name filter");
-        String boostedQuery = "TYPE:('cm:content'^3 OR 'cm:folder') AND (cm:name:" + SEARCH_TERM + "^4 OR cm:created:['" + timeFrom + "' TO '" + timeTo + "']^0.1)^3";
+        String boostedQuery = "TYPE:('cm:content'^16 OR 'cm:folder'^1) AND (cm:name:" + SEARCH_TERM + "^4 OR cm:created:['" + timeFrom + "' TO '" + timeTo + "']^0.1)^3";
         SearchRequest searchRequest = req("afts", boostedQuery);
         searchQueryService.expectResultsInOrder(searchRequest, testUser, fileWithTermInName.getName(), folderWithTermInName.getName(), fileWithTermInTitle.getName(), folderWithTermInTitle.getName());
 
@@ -228,14 +228,16 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
     @Test(groups = {TestGroup.SEARCH})
     public void testAftsQuery_wordsRangeSearchBoost()
     {
+        String contentPath = "AND PATH:\"/app:company_home//*\"";
+
         STEP("Search for files by name or words in content from given range with higher priority for name filter");
-        String boostedQuery = "TYPE:'cm:content' AND (cm:name:" + SEARCH_TERM + "^3 OR cm:content:" + SEARCH_TERM + "..phrase^0.1)";
+        String boostedQuery = "TYPE:'cm:content' AND (cm:name:" + SEARCH_TERM + "^3 OR cm:content:" + SEARCH_TERM + "..phrase^0.1) " + contentPath;
         SearchRequest searchRequest = req("afts", boostedQuery);
         searchQueryService.expectResultsStartingWithOneOf(searchRequest, testUser, fileWithTermInName.getName());
         searchQueryService.expectResultsFromQuery(searchRequest, testUser, fileWithTermInName.getName(), fileWithPhraseInContent.getName(), fileWithDifferentTermInName.getName());
 
         STEP("Search for files by name or words in content from given range with higher priority for words in content from given range filter");
-        String invertedBoost = "TYPE:'cm:content' AND (cm:name:" + SEARCH_TERM + "^0.1 OR cm:content:" + SEARCH_TERM + "..phrase^3)";
+        String invertedBoost = "TYPE:'cm:content' AND (cm:name:" + SEARCH_TERM + "^0.1 OR cm:content:" + SEARCH_TERM + "..phrase^3) " + contentPath;
         searchRequest = req("afts", invertedBoost);
         searchQueryService.expectResultsStartingWithOneOf(searchRequest, testUser, fileWithPhraseInContent.getName(), fileWithDifferentTermInName.getName());
         searchQueryService.expectResultsFromQuery(searchRequest, testUser, fileWithTermInName.getName(), fileWithPhraseInContent.getName(), fileWithDifferentTermInName.getName());
