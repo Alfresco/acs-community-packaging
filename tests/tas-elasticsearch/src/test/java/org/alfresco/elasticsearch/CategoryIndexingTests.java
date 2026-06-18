@@ -1,4 +1,29 @@
-package org.alfresco.elasticsearch.reindexing;
+/*
+ * #%L
+ * Alfresco Tas Elasticsearch
+ * %%
+ * Copyright (C) 2026 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
+ */
+package org.alfresco.elasticsearch;
 
 import static org.alfresco.elasticsearch.SearchQueryService.req;
 import static org.alfresco.utility.model.FileType.TEXT_PLAIN;
@@ -12,7 +37,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import org.alfresco.elasticsearch.SearchQueryService;
 import org.alfresco.elasticsearch.utility.ElasticsearchRESTHelper;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.rest.model.RestCategoryLinkBodyModel;
@@ -34,7 +58,7 @@ import org.alfresco.utility.report.log.Step;
 /**
  * Tests to verify batch indexing of category using Elasticsearch.
  */
-@SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert"}) // these are TAS E2E tests and use searchQueryService.expectResultsFromQuery for assertion
+@SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert"})
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
 public class CategoryIndexingTests extends AbstractTestNGSpringContextTests

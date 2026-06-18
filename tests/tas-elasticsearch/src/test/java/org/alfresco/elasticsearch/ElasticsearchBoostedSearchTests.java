@@ -1,3 +1,28 @@
+/*
+ * #%L
+ * Alfresco Tas Elasticsearch
+ * %%
+ * Copyright (C) 2026 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
+ */
 package org.alfresco.elasticsearch;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -61,6 +86,7 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
     private ContentModel fileWithTermInTitle;
     private ContentModel folderWithTermInName;
     private ContentModel folderWithTermInTitle;
+    private ContentModel testFolder;
     private LocalDateTime creationTime;
     private LocalDateTime afterCreationTime;
 
@@ -71,13 +97,14 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
 
         STEP("Create a test user and few files and folders containing searched term in name, title and content");
         testUser = dataUser.createRandomTestUser();
-        fileWithTermInName = createFile(SEARCH_TERM + ".txt", "dummy content");
-        fileWithDifferentTermInName = createFile(DIFFERENT_SEARCH_TERM + ".txt", "dummy other content");
-        fileWithPhraseInContent = createFile(getRandomFile(FileType.TEXT_PLAIN), "content with " + SEARCH_TERM + " searched phrase");
-        folderWithTermInName = createFolder(SEARCH_TERM);
+        testFolder = createFolder(getRandomName("folder"));
+        fileWithTermInName = createFile(testFolder, SEARCH_TERM + ".txt", "dummy content");
+        fileWithDifferentTermInName = createFile(testFolder, DIFFERENT_SEARCH_TERM + ".txt", "dummy other content");
+        fileWithPhraseInContent = createFile(testFolder, getRandomFile(FileType.TEXT_PLAIN), "content with " + SEARCH_TERM + " searched phrase");
+        folderWithTermInName = createFolder(testFolder, SEARCH_TERM);
         creationTime = ZonedDateTime.now(Clock.system(ZoneOffset.UTC)).toLocalDateTime();
-        fileWithTermInTitle = createRandomFileWithTitle(SEARCH_TERM);
-        folderWithTermInTitle = createRandomFolderWithTitle(SEARCH_TERM);
+        fileWithTermInTitle = createRandomFileWithTitle(testFolder, SEARCH_TERM);
+        folderWithTermInTitle = createRandomFolderWithTitle(testFolder, SEARCH_TERM);
         afterCreationTime = ZonedDateTime.now(Clock.system(ZoneOffset.UTC)).toLocalDateTime();
     }
 
@@ -85,12 +112,7 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
     public void dataCleanup()
     {
         STEP("Clean up created files, folders and user");
-        dataContent.usingAdmin().usingResource(fileWithTermInName).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithDifferentTermInName).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithPhraseInContent).deleteContent();
-        dataContent.usingAdmin().usingResource(folderWithTermInName).deleteContent();
-        dataContent.usingAdmin().usingResource(fileWithTermInTitle).deleteContent();
-        dataContent.usingAdmin().usingResource(folderWithTermInTitle).deleteContent();
+        dataContent.usingAdmin().usingResource(testFolder).deleteContent();
         dataUser.deleteUser(testUser);
     }
 
@@ -112,22 +134,22 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
     public void testAftsQuery_complexTermBoost()
     {
         STEP("Search for files and folders by name or title with higher priority for files by name");
-        String boostedQuery1 = "TYPE:('cm:content'^16 OR 'cm:folder'^0.5)^4 AND (cm:name:" + SEARCH_TERM + "^3.5 OR cm:title:" + SEARCH_TERM + "^0.05)";
+        String boostedQuery1 = "TYPE:('cm:content'^4 OR 'cm:folder'^0.5)^6 AND (cm:name:" + SEARCH_TERM + "^1.5 OR cm:title:" + SEARCH_TERM + "^0.5)";
         SearchRequest searchRequest = req("afts", boostedQuery1);
         searchQueryService.expectResultsInOrder(searchRequest, testUser, fileWithTermInName.getName(), fileWithTermInTitle.getName(), folderWithTermInName.getName(), folderWithTermInTitle.getName());
 
         STEP("Search for files and folders by name or title with higher priority for folders by name");
-        String boostedQuery2 = "TYPE:('cm:content'^0.5 OR 'cm:folder'^4)^4 AND (cm:name:" + SEARCH_TERM + "^3.5 OR cm:title:" + SEARCH_TERM + "^0.05)";
+        String boostedQuery2 = "TYPE:('cm:content'^0.5 OR 'cm:folder'^4)^6 AND (cm:name:" + SEARCH_TERM + "^1.5 OR cm:title:" + SEARCH_TERM + "^0.5)";
         searchRequest = req("afts", boostedQuery2);
         searchQueryService.expectResultsInOrder(searchRequest, testUser, folderWithTermInName.getName(), folderWithTermInTitle.getName(), fileWithTermInName.getName(), fileWithTermInTitle.getName());
 
         STEP("Search for files and folders by name or title with higher priority for files by title");
-        String boostedQuery3 = "TYPE:('cm:content'^4 OR 'cm:folder'^0.5)^6 AND (cm:name:" + SEARCH_TERM + "^0.05 OR cm:title:" + SEARCH_TERM + "^3.5)";
+        String boostedQuery3 = "TYPE:('cm:content'^4 OR 'cm:folder'^0.5)^6 AND (cm:name:" + SEARCH_TERM + "^0.5 OR cm:title:" + SEARCH_TERM + "^1.5)";
         searchRequest = req("afts", boostedQuery3);
         searchQueryService.expectResultsInOrder(searchRequest, testUser, fileWithTermInTitle.getName(), fileWithTermInName.getName(), folderWithTermInTitle.getName(), folderWithTermInName.getName());
 
         STEP("Search for files and folders by name or title with higher priority for folders by title");
-        String boostedQuery4 = "TYPE:('cm:content'^0.5 OR 'cm:folder'^4)^6 AND (cm:name:" + SEARCH_TERM + "^0.05 OR cm:title:" + SEARCH_TERM + "^3.5)";
+        String boostedQuery4 = "TYPE:('cm:content'^0.5 OR 'cm:folder'^4)^6 AND (cm:name:" + SEARCH_TERM + "^0.5 OR cm:title:" + SEARCH_TERM + "^1.5)";
         searchRequest = req("afts", boostedQuery4);
         searchQueryService.expectResultsInOrder(searchRequest, testUser, folderWithTermInTitle.getName(), folderWithTermInName.getName(), fileWithTermInTitle.getName(), fileWithTermInName.getName());
     }
@@ -228,7 +250,7 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
     @Test(groups = {TestGroup.SEARCH})
     public void testAftsQuery_wordsRangeSearchBoost()
     {
-        String contentPath = "AND PATH:\"/app:company_home//*\"";
+        String contentPath = "AND PATH:\"/app:company_home/cm:" + testFolder.getName() + "//*\"";
 
         STEP("Search for files by name or words in content from given range with higher priority for name filter");
         String boostedQuery = "TYPE:'cm:content' AND (cm:name:" + SEARCH_TERM + "^3 OR cm:content:" + SEARCH_TERM + "..phrase^0.1) " + contentPath;
@@ -270,9 +292,19 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         searchQueryService.expectErrorFromQuery(searchRequest, testUser, HttpStatus.INTERNAL_SERVER_ERROR, EMPTY);
     }
 
+    private ContentModel createRandomFileWithTitle(ContentModel parent, String title)
+    {
+        return createRandomFile(parent, title, null, null);
+    }
+
     private ContentModel createRandomFileWithTitle(String title)
     {
         return createRandomFile(title, null, null);
+    }
+
+    private ContentModel createRandomFile(ContentModel parent, String title, String description, String tag)
+    {
+        return createFile(parent, getRandomFile(FileType.TEXT_PLAIN), "dummy content", title, description, tag);
     }
 
     private ContentModel createRandomFile(String title, String description, String tag)
@@ -280,22 +312,25 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         return createFile(getRandomFile(FileType.TEXT_PLAIN), "dummy content", title, description, tag);
     }
 
+    private ContentModel createFile(ContentModel parent, String filename, String content)
+    {
+        return createFile(parent, filename, content, null, null, null);
+    }
+
     private ContentModel createFile(String filename, String content)
     {
         return createFile(filename, content, null, null, null);
     }
 
-    private ContentModel createFile(String filename, String content, String title, String description, String tag)
+    private ContentModel createFile(ContentModel parent, String filename, String content, String title, String description, String tag)
     {
-        ContentModel contentRoot = new ContentModel("-root-");
-        contentRoot.setNodeRef(contentRoot.getName());
         FileModel fileModel = new FileModel(filename, FileType.TEXT_PLAIN, content);
         fileModel.setTitle(title);
         fileModel.setDescription(description);
 
         FileModel file = dataContent
                 .usingAdmin()
-                .usingResource(contentRoot)
+                .usingResource(parent)
                 .createContent(fileModel);
 
         if (StringUtils.isNotBlank(tag))
@@ -309,9 +344,26 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         return file;
     }
 
+    private ContentModel createFile(String filename, String content, String title, String description, String tag)
+    {
+        ContentModel contentRoot = new ContentModel("-root-");
+        contentRoot.setNodeRef(contentRoot.getName());
+        return createFile(contentRoot, filename, content, title, description, tag);
+    }
+
+    private ContentModel createRandomFolderWithTitle(ContentModel parent, String title)
+    {
+        return createFolder(parent, getRandomName("folder"), title, null, null);
+    }
+
     private ContentModel createRandomFolderWithTitle(String title)
     {
         return createFolder(getRandomName("folder"), title, null, null);
+    }
+
+    private ContentModel createFolder(ContentModel parent, String folderName)
+    {
+        return createFolder(parent, folderName, null, null, null);
     }
 
     private ContentModel createFolder(String folderName)
@@ -319,15 +371,13 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         return createFolder(folderName, null, null, null);
     }
 
-    private ContentModel createFolder(String folderName, String title, String description, String tag)
+    private ContentModel createFolder(ContentModel parent, String folderName, String title, String description, String tag)
     {
-        ContentModel contentRoot = new ContentModel("-root-");
-        contentRoot.setNodeRef(contentRoot.getName());
         FolderModel folderModel = new FolderModel(folderName, title, description);
 
         FolderModel folder = dataContent
                 .usingAdmin()
-                .usingResource(contentRoot)
+                .usingResource(parent)
                 .createFolder(folderModel);
 
         if (StringUtils.isNotBlank(tag))
@@ -339,5 +389,12 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         }
 
         return folder;
+    }
+
+    private ContentModel createFolder(String folderName, String title, String description, String tag)
+    {
+        ContentModel contentRoot = new ContentModel("-root-");
+        contentRoot.setNodeRef(contentRoot.getName());
+        return createFolder(contentRoot, folderName, title, description, tag);
     }
 }

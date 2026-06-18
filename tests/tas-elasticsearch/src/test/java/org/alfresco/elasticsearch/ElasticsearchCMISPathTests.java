@@ -1,4 +1,4 @@
-package org.alfresco.elasticsearch.reindexing;
+package org.alfresco.elasticsearch;
 
 import static org.alfresco.elasticsearch.SearchQueryService.req;
 import static org.alfresco.tas.TestDataUtility.getAlphabeticUUID;
@@ -9,7 +9,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import org.alfresco.elasticsearch.SearchQueryService;
 import org.alfresco.rest.search.SearchRequest;
 import org.alfresco.tas.AlfrescoStackInitializer;
 import org.alfresco.utility.data.DataContent;
@@ -22,7 +21,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
-import org.alfresco.utility.report.log.Step;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
 

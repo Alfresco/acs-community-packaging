@@ -1,3 +1,28 @@
+/*
+ * #%L
+ * Alfresco Testcontainers Environment
+ * %%
+ * Copyright (C) 2026 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
+ */
 package org.alfresco.tas;
 
 import static org.alfresco.tas.SystemPropertyHelper.getSystemProperty;
@@ -161,7 +186,7 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
         return new GenericContainer<>(getImagesConfig().getBatchIndexingImage())
                 .withNetwork(network)
                 .withNetworkAliases("batch-indexer")
-                .withEnv("JAVA_OPTS", "-Xms512m -Xmx1536m")
+                .withEnv("JAVA_OPTS", "-Xms512m -Xmx1536m -agentlib:jdwp=transport=dt_socket,address=*:5005,server=y,suspend=n")
                 .withEnv("SPRING_DATASOURCE_URL", databaseType.getUrl())
                 .withEnv("SPRING_DATASOURCE_USERNAME", databaseType.getUsername())
                 .withEnv("SPRING_DATASOURCE_PASSWORD", databaseType.getPassword())
@@ -172,9 +197,10 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
                 .withEnv("ALFRESCO_CONTENT_TRANSFORM_SHAREDSECRET", "secret")
                 .withEnv("ALFRESCO_REINDEX_BATCHSIZE", "1000")
                 .withEnv("ALFRESCO_REINDEX_PAGESIZE", "1000")
-                .withEnv("ALFRESCO_REINDEX_CONTINUOUS_POLLINGINTERVAL", "1s")        // was 30s default
+                .withEnv("ALFRESCO_REINDEX_CONTINUOUS_POLLINGINTERVAL", "1s")
                 .withEnv("ALFRESCO_REINDEX_CONTINUOUS_CATCHUPPOLLINGINTERVAL", "100ms")
-                .withFileSystemBind(driverJarPath, "/opt/db-drivers/" + driverJarName, BindMode.READ_ONLY);
+                .withFileSystemBind(driverJarPath, "/opt/db-drivers/" + driverJarName, BindMode.READ_ONLY)
+                .withExposedPorts(5005);
     }
 
     private static String resolveDriverJarPath(String driverClassName)
@@ -443,7 +469,7 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
         @Override
         public String getBatchIndexingImage()
         {
-            return getSystemProperty("indeximage", "alfresco-elasticsearch-batch-indexing:5.6.0-A.5");
+            return getSystemProperty("indeximage", "alfresco-elasticsearch-batch-indexing:local");
         }
 
         @Override

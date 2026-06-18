@@ -1,6 +1,6 @@
 /*
  * #%L
- * Alfresco Testcontainers Environment
+ * Alfresco Tas Elasticsearch
  * %%
  * Copyright (C) 2026 Alfresco Software Limited
  * %%
@@ -23,31 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  */
-package org.alfresco.tas;
+package org.alfresco.elasticsearch.retry;
 
-import java.util.Arrays;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
-public enum SearchEngineType
+import org.testng.IAnnotationTransformer;
+import org.testng.annotations.ITestAnnotation;
+
+/**
+ * Add the {@link RetryAnalyzer} to each test.
+ */
+public class RetryAnnotationTransformer implements IAnnotationTransformer
 {
-    OPENSEARCH_ENGINE("opensearch"), ELASTICSEARCH_ENGINE("elasticsearch");
-
-    private final String type;
-
-    SearchEngineType(String type)
+    @Override
+    public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod)
     {
-        this.type = type;
-    }
-
-    public String getType()
-    {
-        return this.type;
-    }
-
-    public static SearchEngineType from(String type)
-    {
-        return Arrays.stream(SearchEngineType.values())
-                .filter(engine -> engine.getType().equals(type.toLowerCase()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Search engine of type + '" + type + "' not defined."));
+        annotation.setRetryAnalyzer(RetryAnalyzer.class);
     }
 }

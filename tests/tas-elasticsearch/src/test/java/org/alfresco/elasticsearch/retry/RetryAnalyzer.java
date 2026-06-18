@@ -1,4 +1,29 @@
-package org.alfresco.elasticsearch.parallel;
+/*
+ * #%L
+ * Alfresco Tas Elasticsearch
+ * %%
+ * Copyright (C) 2026 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
+ */
+package org.alfresco.elasticsearch.retry;
 
 import java.util.ConcurrentModificationException;
 
@@ -7,20 +32,10 @@ import org.slf4j.LoggerFactory;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-/**
- * Sometimes REST tests fail when run in parallel with:
- * 
- * <pre>
- *     java.lang.IllegalStateException: Invalid use of BasicClientConnManager: connection still allocated.
- *     Make sure to release the connection before allocating another one.
- * </pre>
- * 
- * Other times restassured fails with <code>java.util.ConcurrentModificationException</code>. If we detect a test failed due to these timing issues then we rerun it up to three times.
- */
 public class RetryAnalyzer implements IRetryAnalyzer
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RetryAnalyzer.class);
-    private static final int RETRY_LIMIT = 1;
+    private static final int RETRY_LIMIT = 3;
     private int retryNumber = 0;
 
     @Override

@@ -29,6 +29,7 @@ env:
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
   TAS_ENVIRONMENT: ./tests/environment
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
+  INDEXING_IMAGE_TAG: 5.7.0-A.1
     # Release version has to start with real version (23.2.0-....) for the docker image to build successfully.
   RELEASE_VERSION: 26.2.0-A.20
   DEVELOPMENT_VERSION: 26.2.0-A.21-SNAPSHOT
@@ -114,7 +115,7 @@ jobs:
 
   tas_tests_search_api:
     name: ${{ matrix.testSuite }} | TAS tests (Search API)
-    runs-on: alfrescoPub-ubuntu2204-16G-4CPU
+    runs-on: ubuntu-latest
     if: >
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
       !contains(github.event.head_commit.message, '[skip search]') &&
@@ -171,7 +172,7 @@ jobs:
       - name: "Run tests"
         id: tests
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: mvn -B install -ntp -pl ":content-repository-elasticsearch-test" -am -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco-es-indexing-jdbc:latest" -Dreindeximage="alfresco-es-reindexing-jdbc:latest" -Drepoimage="alfresco-repository-databases:latest" "-Dmessaging.broker.username=admin" "-Dmessaging.broker.password=admin" # pragma: allowlist secret
+        run: mvn -B install -ntp -pl ":content-repository-community-elasticsearch-test" -am -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco-elasticsearch-batch-indexing:${{ env.INDEXING_IMAGE_TAG }}"
       - name: "Dump all Docker containers logs"
         uses: Alfresco/alfresco-build-tools/.github/actions/docker-dump-containers-logs@v12.4.3
         if: failure() && steps.tests.outcome == 'failure'
