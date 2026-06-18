@@ -316,7 +316,8 @@ public class NodesSecondaryAncestorIndexingTests extends NodesSecondaryChildrenR
      * </pre>
      */
     @Test(groups = TestGroup.SEARCH)
-    public void testSecondaryAncestorWithCopiedSecondaryParentNode() throws InterruptedException {
+    public void testSecondaryAncestorWithCopiedSecondaryParentNode() throws InterruptedException
+    {
         // given
         STEP("Create nested folders (G and H) inside folderS and folderT in Document Library. Make folderP a secondary child of folderG.");
         FolderModel folderG = folders.modify(S).add().randomFolder("G").create();

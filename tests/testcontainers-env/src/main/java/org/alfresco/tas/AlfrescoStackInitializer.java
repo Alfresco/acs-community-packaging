@@ -30,7 +30,6 @@ import static org.alfresco.tas.SystemPropertyHelper.getSystemProperty;
 import java.net.URI;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -132,7 +131,6 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
         startOrFail(alfresco);
 
         alfresco.followOutput(LOG_CONSUMER);
-
 
         batchIndexer = createBatchIndexingContainer();
 

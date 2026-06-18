@@ -103,12 +103,13 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
     private FileModel file0;
     private List<String> fileCreationDates;
     private String file3Name;
-    /** Scoping predicate restricting the result universe to the 4 documents user1 owns in this class.
-     *  Used to AND into negative / open-range queries so they aren't polluted by bootstrap content
-     *  or by files created in other test classes that share the same Spring context. */
+    /**
+     * Scoping predicate restricting the result universe to the 4 documents user1 owns in this class. Used to AND into negative / open-range queries so they aren't polluted by bootstrap content or by files created in other test classes that share the same Spring context.
+     */
     private String user1FilesScope;
-    /** Scoping predicate restricting to file3 (the only EXIF-bearing image we upload).
-     *  Used to AND into negative / open-range integer queries on exif:pixelXDimension. */
+    /**
+     * Scoping predicate restricting to file3 (the only EXIF-bearing image we upload). Used to AND into negative / open-range integer queries on exif:pixelXDimension.
+     */
     private String file3Scope;
 
     /**

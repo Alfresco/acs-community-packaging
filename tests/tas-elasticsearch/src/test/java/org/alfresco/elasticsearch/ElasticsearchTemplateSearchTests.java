@@ -318,7 +318,7 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
     {
         SearchRequest probe = req("afts", ancestorClause + " AND TYPE:'cm:content'", Map.of());
         // 6 files (the folder is excluded by TYPE:'cm:content').
-        String[] expectedRefs = new String[] {
+        String[] expectedRefs = new String[]{
                 fileWithTermInName.getNodeRef(),
                 fileWithPhraseInContent.getNodeRef(),
                 fileWithTermInTitle.getNodeRef(),

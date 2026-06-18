@@ -40,7 +40,7 @@ public class AlfrescoStackInitializerESBasicAuth extends AlfrescoStackInitialize
 
     // Default Elasticsearch credentials
     private static final String SEARCH_ENGINE_USERNAME = "elastic";
-    private static final String SEARCH_ENGINE_PASSWORD = "bob123";
+    private static final String SEARCH_ENGINE_PASSWORD = "bob123"; // // pragma: allowlist secret
     private static final String OPENSEARCH_TEST_ROLE = "test_role";
 
     @Override

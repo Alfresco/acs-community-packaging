@@ -164,4 +164,3 @@ public class ElasticsearchRESTHelper
         client.authenticateUser(user).withCoreAPI().usingNode(node).unlinkFromCategory(linkedToCategory.getId());
     }
 }
-

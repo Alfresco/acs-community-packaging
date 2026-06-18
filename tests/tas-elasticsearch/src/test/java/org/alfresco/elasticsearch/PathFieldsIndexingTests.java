@@ -188,6 +188,7 @@ public class PathFieldsIndexingTests extends NodesSecondaryChildrenRelatedTests
         }
         throw new AssertionError(
                 "Batch indexer did not index all folders/secondary-associations within barrier timeout. "
-                        + "Last: " + (last == null ? "none" : last.getMessage()), last);
+                        + "Last: " + (last == null ? "none" : last.getMessage()),
+                last);
     }
 }

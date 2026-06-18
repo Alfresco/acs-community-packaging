@@ -25,6 +25,21 @@
  */
 package org.alfresco.elasticsearch;
 
+import static org.springframework.http.HttpStatus.OK;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import static org.alfresco.elasticsearch.SearchQueryService.req;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import org.alfresco.dataprep.AlfrescoHttpClientFactory;
 import org.alfresco.rest.core.RestWrapper;
 import org.alfresco.rest.model.RestTagModel;
@@ -37,19 +52,6 @@ import org.alfresco.utility.network.ServerHealth;
 import org.alfresco.utility.report.log.Step;
 import org.alfresco.utility.testrail.ExecutionType;
 import org.alfresco.utility.testrail.annotation.TestRail;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.alfresco.elasticsearch.SearchQueryService.req;
-import static org.springframework.http.HttpStatus.OK;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
