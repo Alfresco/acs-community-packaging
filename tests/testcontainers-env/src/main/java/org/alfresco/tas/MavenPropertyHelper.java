@@ -52,7 +52,7 @@ public class MavenPropertyHelper
     public static String getMavenProperty(String key)
     {
         String value = loadMavenProperties().getProperty(key);
-        // If Maven filtering hasn't run (e.g. running directly from IDE), the value will be an
+        // If Maven filtering hasn't run, the value will be an
         // unresolved placeholder like "${database.type}". Fall back to the JVM system property instead.
         if (value != null && value.startsWith("${") && value.endsWith("}"))
         {

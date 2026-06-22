@@ -48,6 +48,6 @@ public enum SearchEngineType
         return Arrays.stream(SearchEngineType.values())
                 .filter(engine -> engine.getType().equals(type.toLowerCase()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Search engine of type + '" + type + "' not defined."));
+                .orElseThrow(() -> new IllegalArgumentException("Search engine of type '" + type + "' not defined."));
     }
 }

@@ -161,7 +161,6 @@ public class PathFieldsIndexingTests extends NodesSecondaryChildrenRelatedTests
                 folders.get(M).getName());
     }
 
-    /** * Barrier that blocks until: * 1. All 9 primary folders are indexed (probed via ANCESTOR on the root of each tree). * 2. At least one secondary association is indexed (probed via PARENT:L which should return C, M, Y). * * Uses a retry loop so the total wait grows linearly (up to ~60 s) without a fixed sleep. */
     private void waitForIndexing()
     {
         // Probe 1: primary tree A->B->C all indexed
