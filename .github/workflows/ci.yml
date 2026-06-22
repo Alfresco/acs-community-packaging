@@ -31,8 +31,8 @@ env:
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
   INDEXING_IMAGE_TAG: 5.7.0-A.1
     # Release version has to start with real version (23.2.0-....) for the docker image to build successfully.
-  RELEASE_VERSION: 26.2.0-A.20
-  DEVELOPMENT_VERSION: 26.2.0-A.21-SNAPSHOT
+  RELEASE_VERSION: 26.2.0-A.21
+  DEVELOPMENT_VERSION: 26.2.0-A.22-SNAPSHOT
 
 jobs:
   precommit:
