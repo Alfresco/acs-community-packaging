@@ -467,7 +467,7 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
         @Override
         public String getBatchIndexingImage()
         {
-            return getSystemProperty("indeximage", "alfresco-elasticsearch-batch-indexing:local");
+            return getSystemProperty("indeximage", "alfresco/alfresco-elasticsearch-batch-indexing:local");
         }
 
         @Override

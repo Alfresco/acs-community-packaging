@@ -356,11 +356,6 @@ public class ElasticsearchBoostedSearchTests extends AbstractTestNGSpringContext
         return createFolder(parent, getRandomName("folder"), title, null, null);
     }
 
-    private ContentModel createRandomFolderWithTitle(String title)
-    {
-        return createFolder(getRandomName("folder"), title, null, null);
-    }
-
     private ContentModel createFolder(ContentModel parent, String folderName)
     {
         return createFolder(parent, folderName, null, null, null);

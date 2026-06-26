@@ -46,6 +46,7 @@ import org.testng.annotations.Test;
 
 import org.alfresco.rest.search.SearchRequest;
 import org.alfresco.tas.AlfrescoStackInitializer;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.constants.UserRole;
 import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataSite;
@@ -120,7 +121,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
      * Site2: - Users: user2, userMultiSite - Documents: USER_2_FILE_NAME (owner: user2)
      */
     @BeforeClass(alwaysRun = true)
-    public void dataPreparation() throws IOException
+    public void dataPreparation() throws IOException, InterruptedException
     {
         serverHealth.assertServerIsOnline();
 
@@ -155,7 +156,9 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         user1FilesScope = "cmis:name IN ('" + FILE_0_NAME + "', '" + FILE_1_NAME + "', '" + FILE_2_NAME + "', '" + file3Name + "')";
         file3Scope = "D.cmis:name = '" + file3Name + "'";
 
-        waitForAllContentToBeIndexed();
+        STEP("Wait for batch indexer to index the last-created node (FOLDER_1_NAME)");
+        SearchRequest probe = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:name = '" + FOLDER_1_NAME + "'");
+        Utility.sleep(500, 60000, () -> searchQueryService.expectResultsFromQuery(probe, user1, FOLDER_1_NAME));
     }
 
     @TestRail(description = "Check all documents can be selected when we omit the where clause.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
@@ -640,34 +643,5 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         return dataContent.usingUser(user)
                 .usingSite(site)
                 .uploadDocument(toUpload.getFile());
-    }
-
-    /**
-     * Block until the batch indexer has indexed every content node we just created
-     */
-    private void waitForAllContentToBeIndexed()
-    {
-        SearchRequest probe = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope);
-        // SearchQueryService.expectResultsFromQuery already retries for MAX_TIME (10s). Wrap in a
-        // few extra attempts so the worst-case wait grows linearly when the indexer is busy.
-        AssertionError last = null;
-        for (int attempt = 1; attempt <= 6; attempt++)
-        {
-            try
-            {
-                searchQueryService.expectResultsFromQuery(probe, user1,
-                        FILE_0_NAME, FILE_1_NAME, FILE_2_NAME, file3Name);
-                return;
-            }
-            catch (AssertionError e)
-            {
-                last = e;
-                STEP("Indexing barrier attempt " + attempt + " still incomplete; retrying. " + e.getMessage());
-            }
-        }
-        throw new AssertionError(
-                "Batch indexer did not index all 4 user1 documents within the barrier timeout. "
-                        + "Last error: " + (last == null ? "none" : last.getMessage()),
-                last);
     }
 }

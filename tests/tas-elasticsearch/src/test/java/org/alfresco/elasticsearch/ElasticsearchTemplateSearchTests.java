@@ -44,6 +44,7 @@ import org.alfresco.rest.model.RestTagModel;
 import org.alfresco.rest.search.RestRequestDefaultsModel;
 import org.alfresco.rest.search.SearchRequest;
 import org.alfresco.tas.AlfrescoStackInitializer;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.data.DataContent;
 import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.model.ContentModel;
@@ -104,8 +105,10 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
 
         testUser = dataUser.createRandomTestUser();
 
-        STEP("Wait for the batch indexer to index all 6 content files under the test parent folder");
-        waitForAllContentToBeIndexed();
+        STEP("Wait for the batch indexer to index the last-created node under the test parent folder");
+        SearchRequest probe = req("afts", ancestorClause + " AND TYPE:'cm:folder'", Map.of());
+        Utility.sleep(500, 60000, () -> searchQueryService.expectNodeRefsFromQuery(
+                probe, dataUser.getAdminUser(), folderWithTermInName.getNodeRef()));
     }
 
     @AfterClass
@@ -309,41 +312,5 @@ public class ElasticsearchTemplateSearchTests extends AbstractTestNGSpringContex
         }
 
         return folder;
-    }
-
-    /**
-     * Block until the batch indexer has indexed every content node we just created
-     */
-    private void waitForAllContentToBeIndexed()
-    {
-        SearchRequest probe = req("afts", ancestorClause + " AND TYPE:'cm:content'", Map.of());
-        // 6 files (the folder is excluded by TYPE:'cm:content').
-        String[] expectedRefs = new String[]{
-                fileWithTermInName.getNodeRef(),
-                fileWithPhraseInContent.getNodeRef(),
-                fileWithTermInTitle.getNodeRef(),
-                fileWithTermInDescription.getNodeRef(),
-                fileWithTermInTag.getNodeRef(),
-                fileWithDifferentTermInName.getNodeRef()
-        };
-        AssertionError last = null;
-        for (int attempt = 1; attempt <= 6; attempt++)
-        {
-            try
-            {
-                searchQueryService.expectNodeRefsFromQuery(probe, dataUser.getAdminUser(), expectedRefs);
-                return;
-            }
-            catch (AssertionError e)
-            {
-                last = e;
-                STEP("Indexing barrier attempt " + attempt + " still incomplete; retrying. " + e.getMessage());
-            }
-        }
-        throw new AssertionError(
-                "Batch indexer did not index all " + expectedRefs.length
-                        + " content nodes under test folder " + testParentFolder.getNodeRef()
-                        + " within the barrier timeout. Last error: " + (last == null ? "none" : last.getMessage()),
-                last);
     }
 }

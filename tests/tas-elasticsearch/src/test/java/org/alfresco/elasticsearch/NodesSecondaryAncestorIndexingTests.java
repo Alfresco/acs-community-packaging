@@ -32,6 +32,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import org.alfresco.rest.search.SearchRequest;
+import org.alfresco.utility.Utility;
 import org.alfresco.utility.model.FileModel;
 import org.alfresco.utility.model.FolderModel;
 import org.alfresco.utility.model.TestGroup;
@@ -325,17 +326,15 @@ public class NodesSecondaryAncestorIndexingTests extends NodesSecondaryChildrenR
         FolderModel folderT = folders.add().randomFolder("T").create();
         folders.modify(folderG).add().secondaryContent(folders.get(P));
 
-        Thread.sleep(30_000);
-
         STEP("Verify that searching by ANCESTOR and folderS will find its descendant nodes: folderG, folderH, folderP and file in P.");
         SearchRequest queryAncestorS = req("ANCESTOR:" + folders.get(S).getNodeRef());
-        searchQueryService.expectResultsFromQuery(queryAncestorS, testUser,
+        Utility.sleep(500, 60000, () -> searchQueryService.expectResultsFromQuery(queryAncestorS, testUser,
                 // primary descendants
                 folderG.getName(),
                 folderH.getName(),
                 // secondary descendants
                 folders.get(P).getName(),
-                fileInP.getName());
+                fileInP.getName()));
         STEP("Verify that searching by ANCESTOR and folderT will not find any nodes.");
         SearchRequest queryAncestorT = req("ANCESTOR:" + folderT.getNodeRef());
         searchQueryService.expectNoResultsFromQuery(queryAncestorT, testUser);
