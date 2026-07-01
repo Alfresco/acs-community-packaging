@@ -48,8 +48,6 @@ import org.alfresco.utility.model.FileType;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
@@ -103,9 +101,6 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
 
         testUser = dataUser.createRandomTestUser();
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.TAGS}, executionType = ExecutionType.REGRESSION,
-            description = "Verify proximity queries with AFTS syntax work correctly")
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingAFTSSyntax()
     {
@@ -129,9 +124,6 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
         assertAFTS(format(AFTS, contentA, "(3)", contentD), file_NameA_ContentABCD);
         assertAFTS(format(AFTS, contentA, "", contentD), file_NameA_ContentABCD);
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.TAGS}, executionType = ExecutionType.REGRESSION,
-            description = "Verify proximity queries with AFTS syntax work correctly for specific property")
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingAFTSSyntaxForSpecificProperty()
     {
@@ -155,9 +147,6 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
         assertAFTS(format(AFTS, nameA, "(3)", nameD), file_NameABCD_ContentA);
         assertAFTS(format(AFTS, nameA, "", nameD), file_NameABCD_ContentA);
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.TAGS}, executionType = ExecutionType.REGRESSION,
-            description = "Verify proximity queries with Lucene syntax work correctly")
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingLuceneSyntax()
     {
@@ -178,9 +167,6 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
         assertLucene(format(lucene, contentA, contentD, 2), file_NameA_ContentABCD);
         assertLucene(format(lucene, contentA, contentD, 3), file_NameA_ContentABCD);
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.TAGS}, executionType = ExecutionType.REGRESSION,
-            description = "Verify proximity queries with Lucene syntax work correctly for specific property")
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingLuceneSyntaxForSpecificProperty()
     {

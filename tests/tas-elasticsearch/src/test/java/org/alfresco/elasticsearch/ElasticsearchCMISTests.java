@@ -58,8 +58,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
@@ -160,24 +158,18 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest probe = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:name = '" + FOLDER_1_NAME + "'");
         Utility.sleep(500, 60000, () -> searchQueryService.expectResultsFromQuery(probe, user1, FOLDER_1_NAME));
     }
-
-    @TestRail(description = "Check all documents can be selected when we omit the where clause.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void basicQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document");
         searchQueryService.expectResultsInclude(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
-
-    @TestRail(description = "Check documents can be selected using cmis:objectId.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void objectIdQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:objectId = '" + file0.getNodeRef() + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
-
-    @TestRail(description = "Check folders can be selected using cmis:objectTypeId.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void objectTypeIdQuery()
     {
@@ -187,48 +179,36 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query2 = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:objectTypeId = 'F:st:site'");
         searchQueryService.expectResultsInclude(query2, user1, siteModel1.getId());
     }
-
-    @TestRail(description = "Check folders can be selected using cmis:baseTypeId.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void baseTypeIdQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:baseTypeId = 'cmis:folder'");
         searchQueryService.expectResultsInclude(query, user1, "documentLibrary", FOLDER_0_NAME, FOLDER_1_NAME, user1.getUsername(), siteModel1.getId());
     }
-
-    @TestRail(description = "Check folders can be selected using cmis:description is null.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void isNullQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:description IS NULL");
         searchQueryService.expectResultsInclude(query, user1, "documentLibrary", FOLDER_0_NAME, FOLDER_1_NAME, user1.getUsername());
     }
-
-    @TestRail(description = "Check folders can be selected using cmis:description is not null.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void isNotNullQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:description IS NOT NULL");
         searchQueryService.expectResultsInclude(query, user1, siteModel1.getId());
     }
-
-    @TestRail(description = "Check we can use the CMIS LIKE syntax to match a prefix.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void matchNamesLikePrefix()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + PREFIX + "%'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
-
-    @TestRail(description = "Check we can use the CMIS LIKE syntax to match a suffix.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void matchNamesLikeSuffix()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name LIKE '%" + SUFFIX + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
-
-    @TestRail(description = "Check we can use the CMIS CONTAINS syntax.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void matchContentOfFile()
     {
@@ -236,8 +216,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE CONTAINS('" + UNIQUE_WORD + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
-
-    @TestRail(description = "Check users can access documents they created even if they are in a site they don't have access to.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkPermissionForUser2()
     {
@@ -245,32 +223,24 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + PREFIX + "%'");
         searchQueryService.expectResultsFromQuery(query, user2, FILE_2_NAME, USER_2_FILE_NAME);
     }
-
-    @TestRail(description = "Check that we can match a document's name. Needs exact term search to be enabled to pass.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void matchDocumentName()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name = '" + FILE_0_NAME + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
-
-    @TestRail(description = "Check that we can search by document name not matching. Needs exact term search to be enabled to pass.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void doesNotMatchDocumentName()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:name <> '" + FILE_0_NAME + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
-
-    @TestRail(description = "Check ORDER BY syntax works as expected for ASCENDING order", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkOrderByAscSyntax()
     {
         SearchRequest query = req("cmis", "SELECT cmis:name FROM cmis:document WHERE cmis:name IN('" + FILE_0_NAME + "','" + FILE_1_NAME + "','" + FILE_2_NAME + "') ORDER BY cmis:name ASC");
         searchQueryService.expectResultsInOrder(query, user1, true, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
-
-    @TestRail(description = "Check ORDER BY syntax works as expected for DESCENDING order", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkOrderByDescSyntax()
     {
@@ -278,7 +248,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectResultsInOrder(query, user1, false, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
 
-    @TestRail(description = "Check IN('value1','value2') syntax works. Needs exact term search to be enabled to pass.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkInSyntax()
     {
@@ -286,15 +255,12 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME);
     }
 
-    @TestRail(description = "Check NOT IN('value1','value2') syntax works. Needs exact term search to be enabled to pass.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkNotInSyntax()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:name NOT IN ('" + FILE_0_NAME + "', '" + FILE_1_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_2_NAME, file3Name);
     }
-
-    @TestRail(description = "Check > TIMESTAMP 'some-date' syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkAfterDateSyntax()
     {
@@ -302,8 +268,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate > TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
-
-    @TestRail(description = "Check >= TIMESTAMP 'some-date' syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkAfterOrSameDateSyntax()
     {
@@ -311,8 +275,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate >= TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
-
-    @TestRail(description = "Check < TIMESTAMP 'some-date' syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkBeforeDateSyntax()
     {
@@ -320,8 +282,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate < TIMESTAMP '" + file2CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME);
     }
-
-    @TestRail(description = "Check <= TIMESTAMP 'some-date' syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkBeforeOrSameDateSyntax()
     {
@@ -329,8 +289,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate <= TIMESTAMP '" + file2CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
-
-    @TestRail(description = "Check = TIMESTAMP 'some-date' syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkMatchesDateSyntax()
     {
@@ -338,8 +296,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate = TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
-
-    @TestRail(description = "Check <> TIMESTAMP 'some-date' syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkDoesNotMatchDateSyntax()
     {
@@ -348,7 +304,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
 
-    @TestRail(description = "Check IN (TIMESTAMP 'some-date', TIMESTAMP 'some-other-date') syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkInDatesSyntax()
     {
@@ -358,7 +313,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME);
     }
 
-    @TestRail(description = "Check NOT IN (TIMESTAMP 'some-date', TIMESTAMP 'some-other-date') syntax works.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkNotInDatesSyntax()
     {
@@ -367,8 +321,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate NOT IN (TIMESTAMP '" + file0CreationDate + "', TIMESTAMP '" + file1CreationDate + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_2_NAME, file3Name);
     }
-
-    @TestRail(description = "Check = works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkEqualIntegerSyntax()
     {
@@ -376,8 +328,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectResultsFromQuery(query, user1, file3Name);
     }
-
-    @TestRail(description = "Check <> works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkDifferentThanIntegerSyntax()
     {
@@ -385,8 +335,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
-
-    @TestRail(description = "Check > works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkGreaterThanIntegerSyntax()
     {
@@ -399,8 +347,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
-
-    @TestRail(description = "Check >= works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkGreaterThanOrEqualIntegerSyntax()
     {
@@ -413,8 +359,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
-
-    @TestRail(description = "Check < works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkLessThanIntegerSyntax()
     {
@@ -427,8 +371,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
-
-    @TestRail(description = "Check <= works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkLessThanOrEqualIntegerSyntax()
     {
@@ -442,7 +384,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
 
-    @TestRail(description = "Check IN (x, y) works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkInIntegersSyntax()
     {
@@ -455,7 +396,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
 
-    @TestRail(description = "Check NOT IN (x, y) works for integer values.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void checkNotInIntegersSyntax()
     {
@@ -533,7 +473,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "Unknown property: {http://www.alfresco.org/model/content/1.0}cmis");
     }
 
-    @TestRail(description = "Check all folders can be selected (including sites/doc libs).", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void selectFolders()
     {
@@ -546,8 +485,6 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
                 // and the user home for the user performing the query.
                 user1.getUsername());
     }
-
-    @TestRail(description = "Check that cmis:item is equivalent to all files and folders.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void selectItems()
     {
@@ -555,56 +492,42 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         // This error is consistent with the way the DB and Solr handle the request.
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "Type is not queryable cmis:item");
     }
-
-    @TestRail(description = "Check that cm:cmobject includes both files and folders.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void selectObjects()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cm:cmobject WHERE cmis:name IN ('" + FILE_0_NAME + "', '" + FOLDER_0_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FOLDER_0_NAME);
     }
-
-    @TestRail(description = "Check that CMIS queries for cm:person returns people.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void selectPeople()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cm:person");
         searchQueryService.expectNodeTypesFromQuery(query, user1, "cm:person");
     }
-
-    @TestRail(description = "Check that we can use aliases in CMIS queries.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void tableAlias()
     {
         SearchRequest query = req("cmis", "SELECT d.cmis:name FROM cmis:document d WHERE d.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
-
-    @TestRail(description = "Check that we can use aliases with the AS keyword in CMIS queries.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void tableAliasWithAs()
     {
         SearchRequest query = req("cmis", "SELECT d.cmis:name FROM cmis:document AS d WHERE d.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
-
-    @TestRail(description = "Negative test for mismatched aliases in CMIS select clause.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void tableAlias_mismatchedAliasInSelect()
     {
         SearchRequest query = req("cmis", "SELECT z.cmis:name FROM cmis:document d WHERE d.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "No selector for z");
     }
-
-    @TestRail(description = "Negative test for mismatched aliases in CMIS where clause.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void tableAlias_mismatchedAliasInWhere()
     {
         SearchRequest query = req("cmis", "SELECT d.cmis:name FROM cmis:document d WHERE z.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "No selector for z");
     }
-
-    @TestRail(description = "Check that we can join two tables in CMIS queries.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void tableJoin()
     {

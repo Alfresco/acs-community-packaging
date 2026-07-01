@@ -47,8 +47,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml", initializers = AlfrescoStackInitializer.class)
 /**
@@ -93,8 +91,6 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
             createContent(PREFIX + i + ".txt", "Document " + i, siteModel1, userSite1);
         }
     }
-
-    @TestRail(section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION, description = "Total hit tracking unset should use default behaviour")
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsLimitDefaultValue()
     {
@@ -103,8 +99,6 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
         // Without setting limits, we should get all up to 10k
         searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
     }
-
-    @TestRail(section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION, description = "Total hit tracking with 0 should use default behaviour")
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsLimitZeroShouldDefault()
     {
@@ -114,8 +108,6 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
         request.setLimits(new RestRequestLimitsModel(null, null, 0));
         searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
     }
-
-    @TestRail(section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION, description = "Total hit tracking set should use the defined limit")
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsLimit()
     {
@@ -125,8 +117,6 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
         request.setLimits(new RestRequestLimitsModel(null, null, 10));
         searchQueryService.expectTotalHitsFromQuery(request, userSite1, 10);
     }
-
-    @TestRail(section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION, description = "Total hit tracking with -1 should count all docs")
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsUnlimited()
     {

@@ -65,8 +65,6 @@ import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
 import org.alfresco.utility.report.log.Step;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
@@ -125,9 +123,6 @@ public class ElasticsearchSiteIndexingTests extends AbstractTestNGSpringContextT
                 .usingResource(contentRoot())
                 .createFolder(new FolderModel(unique("FOLDER")));
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.SITES}, executionType = ExecutionType.REGRESSION,
-            description = "Verify the SITE queries work correctly")
     @Test(groups = {TestGroup.SEARCH, TestGroup.SITES, TestGroup.REGRESSION})
     public void testSiteUseCasesForCreateModifyDeleteSite()
     {
@@ -269,9 +264,6 @@ public class ElasticsearchSiteIndexingTests extends AbstractTestNGSpringContextT
         assertSiteQueryResult(ALL_SITES, List.of());
         assertSiteQueryResult(EVERYTHING, "AND", FILE_CONTENT_CONDITION, List.of(fileNotInSite));
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.SITES}, executionType = ExecutionType.REGRESSION,
-            description = "Verify the SITE content manipulation works correctly.")
     @Test(groups = {TestGroup.SEARCH, TestGroup.SITES, TestGroup.REGRESSION})
     public void manipulatingFilesAndContentBetweenSites()
     {

@@ -50,8 +50,6 @@ import org.alfresco.utility.data.DataUser;
 import org.alfresco.utility.model.*;
 import org.alfresco.utility.network.ServerHealth;
 import org.alfresco.utility.report.log.Step;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
@@ -91,9 +89,6 @@ public class ElasticsearchTagIndexingTests extends AbstractTestNGSpringContextTe
                 .usingResource(contentRoot())
                 .createFolder(new FolderModel(unique("FOLDER")));
     }
-
-    @TestRail(section = {TestGroup.SEARCH, TestGroup.TAGS}, executionType = ExecutionType.REGRESSION,
-            description = "Verify the TAG queries work correctly")
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testTAGUseCases()
     {

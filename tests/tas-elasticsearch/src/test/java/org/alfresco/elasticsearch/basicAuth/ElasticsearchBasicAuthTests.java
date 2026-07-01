@@ -43,8 +43,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 /**
  * Basic test for Elasticsearch server with Basic Authentication. The aim of this class is to test that Basic Authentication is working as expected.
@@ -85,12 +83,9 @@ public class ElasticsearchBasicAuthTests extends AbstractTestNGSpringContextTest
                 .createContent(fileModel);
     }
 
-    @TestRail(section = TestGroup.SEARCH,
-            executionType = ExecutionType.REGRESSION,
-            description = "Verify that the simpler Elasticsearch search works as expected.")
     @Test(groups = TestGroup.SEARCH)
     public void searchCanFindAFile()
     {
-        searchQueryService.expectResultsFromQuery(req("first"), userSite1, FILE_0_NAME);
+        searchQueryService.expectResultsFromQuery(req("first AND SITE:\"" + siteModel1.getId() + "\""), userSite1, FILE_0_NAME);
     }
 }

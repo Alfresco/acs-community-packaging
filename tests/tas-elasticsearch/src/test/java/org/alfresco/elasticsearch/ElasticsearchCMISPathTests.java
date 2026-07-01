@@ -46,8 +46,6 @@ import org.alfresco.utility.model.SiteModel;
 import org.alfresco.utility.model.TestGroup;
 import org.alfresco.utility.model.UserModel;
 import org.alfresco.utility.network.ServerHealth;
-import org.alfresco.utility.testrail.ExecutionType;
-import org.alfresco.utility.testrail.annotation.TestRail;
 
 @ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml",
         initializers = AlfrescoStackInitializer.class)
@@ -124,16 +122,12 @@ public class ElasticsearchCMISPathTests extends AbstractTestNGSpringContextTests
         document01 = createContent(DOC_01_NAME, "This is document 01", folder0, user);
         document10 = createContent(DOC_10_NAME, "This is document 10", folder1, user);
     }
-
-    @TestRail(description = "Check that we can select subfolders using IN_TREE with Elasticsearch.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void inTreeQuery_selectSubfolders()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE IN_TREE('" + folder0.getNodeRef() + "')");
         searchQueryService.expectResultsFromQuery(query, user, FOLDER_00_NAME, FOLDER_000_NAME);
     }
-
-    @TestRail(description = "Check that we can select documents using IN_TREE with Elasticsearch.", section = TestGroup.SEARCH, executionType = ExecutionType.REGRESSION)
     @Test(groups = TestGroup.SEARCH)
     public void inTreeQuery_selectDocuments()
     {
