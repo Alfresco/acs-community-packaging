@@ -188,7 +188,7 @@ public class ElasticsearchGetTagsTests extends AbstractTestNGSpringContextTests
     @Test(groups = {TestGroup.REST_API, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testGetTags_withExactNameAndAlikeFilters()
     {
-        STEP("Get tags with names filter using EQUALS and MATCHES and expect four items in result");
+        STEP("Get tags with names filter using EQUALS and MATCHES and expect three items in result");
         final RestTagModelsCollection returnedCollection = restClient.authenticateUser(user)
                 .withParams("where=(tag='" + orange.getTag() + "' OR tag MATCHES ('*grape*'))")
                 .withCoreAPI()
@@ -205,7 +205,7 @@ public class ElasticsearchGetTagsTests extends AbstractTestNGSpringContextTests
     @Test(groups = {TestGroup.REST_API, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testGetTags_withTwoAlikeFilters()
     {
-        STEP("Get tags applying names filter using MATCHES twice and expect four items in result");
+        STEP("Get tags applying names filter using MATCHES twice and expect three items in result");
         final RestTagModelsCollection returnedCollection = restClient.authenticateUser(user)
                 .withParams("where=(tag MATCHES ('*apple*') OR tag MATCHES ('grape*'))")
                 .withCoreAPI()
