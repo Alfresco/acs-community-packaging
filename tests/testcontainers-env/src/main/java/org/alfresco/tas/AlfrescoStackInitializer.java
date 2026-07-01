@@ -101,11 +101,7 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
 
         JdbcDatabaseContainer database = createDatabaseContainer();
 
-        GenericContainer transformRouter = createTransformRouterContainer();
-
         GenericContainer transformCore = createTransformCoreContainer();
-
-        GenericContainer sfs = createSfsContainer();
 
         GenericContainer activemq = createAMQContainer();
 
@@ -117,9 +113,9 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
 
         startOrFail(database);
 
-        startOrFail(activemq, sfs);
+        startOrFail(activemq);
 
-        startOrFail(transformCore, transformRouter);
+        startOrFail(transformCore);
 
         // We don't want Kibana to run on our CI, but it can be useful when investigating issues locally.
         if (getSystemProperty("kibana", "false").equals("true"))
@@ -311,19 +307,6 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
 
     }
 
-    private GenericContainer createSfsContainer()
-    {
-        return new GenericContainer(getImagesConfig().getSharedFileStoreImage())
-                .withNetwork(network)
-                .withNetworkAliases("shared-file-store")
-                .withEnv("JAVA_OPTS", "-Xms256m -Xmx512m")
-                .withEnv("scheduler.content.age.millis", "86400000")
-                .withEnv("scheduler.cleanup.interval", "86400000")
-                .withExposedPorts(8099)
-                .waitingFor(Wait.forListeningPort())
-                .withStartupTimeout(Duration.ofMinutes(2));
-    }
-
     private GenericContainer createTransformCoreContainer()
     {
         return new GenericContainer(getImagesConfig().getTransformCoreAIOImage())
@@ -335,22 +318,6 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
                 .withEnv("ACTIVEMQ_PASSWORD", "admin")
                 .withEnv("FILE_STORE_URL", "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file")
                 .withExposedPorts(8090)
-                .waitingFor(Wait.forListeningPort())
-                .withStartupTimeout(Duration.ofMinutes(2));
-    }
-
-    private GenericContainer createTransformRouterContainer()
-    {
-        return new GenericContainer(getImagesConfig().getTransformRouterImage())
-                .withNetwork(network)
-                .withNetworkAliases("transform-router")
-                .withEnv("JAVA_OPTS", "-Xms256m -Xmx512m")
-                .withEnv("ACTIVEMQ_URL", "nio://activemq:61616")
-                .withEnv("ACTIVEMQ_USER", "admin")
-                .withEnv("ACTIVEMQ_PASSWORD", "admin")
-                .withEnv("CORE_AIO_URL", "http://transform-core-aio:8090")
-                .withEnv("FILE_STORE_URL", "http://shared-file-store:8099/alfresco/api/-default-/private/sfs/versions/1/file")
-                .withExposedPorts(8095)
                 .waitingFor(Wait.forListeningPort())
                 .withStartupTimeout(Duration.ofMinutes(2));
     }
@@ -439,11 +406,7 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
 
         String getActiveMqImage();
 
-        String getTransformRouterImage();
-
         String getTransformCoreAIOImage();
-
-        String getSharedFileStoreImage();
 
         String getPostgreSQLImage();
 
@@ -495,21 +458,9 @@ public class AlfrescoStackInitializer implements ApplicationContextInitializer<C
         }
 
         @Override
-        public String getTransformRouterImage()
-        {
-            return "quay.io/alfresco/alfresco-transform-router:" + mavenProperties.apply("dependency.alfresco-transform-service.version");
-        }
-
-        @Override
         public String getTransformCoreAIOImage()
         {
             return "alfresco/alfresco-transform-core-aio:" + mavenProperties.apply("dependency.alfresco-transform-core.version");
-        }
-
-        @Override
-        public String getSharedFileStoreImage()
-        {
-            return "quay.io/alfresco/alfresco-shared-file-store:" + mavenProperties.apply("dependency.alfresco-transform-service.version");
         }
 
         @Override

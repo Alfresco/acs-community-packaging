@@ -85,6 +85,16 @@ fi
 # Build the current project
 mvn -B -ntp -V -q install -DskipTests -Dmaven.javadoc.skip=true -P$BUILD_PROFILE -Pags ${REPO_IMAGE} ${SHARE_IMAGE}
 
+# Build alfresco image with jdbc drivers (used by search API tests for MariaDB/MySQL)
+MYSQL_JDBC_TAG=$(mvn help:evaluate -Dexpression=dependency.mysql.version -q -DforceStdout)
+mvn dependency:copy -Dartifact=mysql:mysql-connector-java:${MYSQL_JDBC_TAG}:jar -DoutputDirectory=tests/environment/alfresco-with-jdbc-drivers
+
+MARIADB_JDBC_TAG=$(mvn help:evaluate -Dexpression=dependency.mariadb.version -q -DforceStdout)
+mvn dependency:copy -Dartifact=org.mariadb.jdbc:mariadb-java-client:${MARIADB_JDBC_TAG}:jar -DoutputDirectory=tests/environment/alfresco-with-jdbc-drivers
+
+REPO_LATEST_IMAGE=$(docker images --format='{{.Repository}}:{{.Tag}}' | grep "alfresco-content-repository-community:latest")
+docker build -t alfresco-repository-databases:latest -f tests/environment/alfresco-with-jdbc-drivers/alfresco.Dockerfile . --build-arg BASE_IMAGE=${REPO_LATEST_IMAGE}
+
 
 popd
 set +vex
