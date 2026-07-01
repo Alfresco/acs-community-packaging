@@ -124,6 +124,7 @@ public class AlfrescoStackInitializerESBasicAuth extends AlfrescoStackInitialize
                 "  index_permissions:\n" +
                 "    - index_patterns:\n" +
                 "      - \"" + indexName + "\"\n" +
+                "      - \"alfresco-reindex-state\"\n" +
                 "      allowed_actions:\n" +
                 "        - \"*\"\n";
     }
