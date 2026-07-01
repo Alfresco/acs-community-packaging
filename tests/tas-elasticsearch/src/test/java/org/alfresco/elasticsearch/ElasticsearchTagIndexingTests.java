@@ -89,6 +89,7 @@ public class ElasticsearchTagIndexingTests extends AbstractTestNGSpringContextTe
                 .usingResource(contentRoot())
                 .createFolder(new FolderModel(unique("FOLDER")));
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testTAGUseCases()
     {

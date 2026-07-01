@@ -123,6 +123,7 @@ public class ElasticsearchSiteIndexingTests extends AbstractTestNGSpringContextT
                 .usingResource(contentRoot())
                 .createFolder(new FolderModel(unique("FOLDER")));
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.SITES, TestGroup.REGRESSION})
     public void testSiteUseCasesForCreateModifyDeleteSite()
     {
@@ -264,6 +265,7 @@ public class ElasticsearchSiteIndexingTests extends AbstractTestNGSpringContextT
         assertSiteQueryResult(ALL_SITES, List.of());
         assertSiteQueryResult(EVERYTHING, "AND", FILE_CONTENT_CONDITION, List.of(fileNotInSite));
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.SITES, TestGroup.REGRESSION})
     public void manipulatingFilesAndContentBetweenSites()
     {

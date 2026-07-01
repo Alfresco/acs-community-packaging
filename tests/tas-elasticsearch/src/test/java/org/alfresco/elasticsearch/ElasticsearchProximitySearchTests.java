@@ -101,6 +101,7 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
 
         testUser = dataUser.createRandomTestUser();
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingAFTSSyntax()
     {
@@ -124,6 +125,7 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
         assertAFTS(format(AFTS, contentA, "(3)", contentD), file_NameA_ContentABCD);
         assertAFTS(format(AFTS, contentA, "", contentD), file_NameA_ContentABCD);
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingAFTSSyntaxForSpecificProperty()
     {
@@ -147,6 +149,7 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
         assertAFTS(format(AFTS, nameA, "(3)", nameD), file_NameABCD_ContentA);
         assertAFTS(format(AFTS, nameA, "", nameD), file_NameABCD_ContentA);
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingLuceneSyntax()
     {
@@ -167,6 +170,7 @@ public class ElasticsearchProximitySearchTests extends AbstractTestNGSpringConte
         assertLucene(format(lucene, contentA, contentD, 2), file_NameA_ContentABCD);
         assertLucene(format(lucene, contentA, contentD, 3), file_NameA_ContentABCD);
     }
+
     @Test(groups = {TestGroup.SEARCH, TestGroup.TAGS, TestGroup.REGRESSION})
     public void testProximitySearchUsingLuceneSyntaxForSpecificProperty()
     {

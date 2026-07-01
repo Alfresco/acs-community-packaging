@@ -128,6 +128,7 @@ public class ElasticsearchLiveIndexingTests extends AbstractTestNGSpringContextT
         // remove the user from site, but he keeps ownership on FILE_3_NAME
         dataUser.removeUserFromSite(userSite2, siteModel1);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchCanFindAFileUsingIncludeParameter()
     {
@@ -160,6 +161,7 @@ public class ElasticsearchLiveIndexingTests extends AbstractTestNGSpringContextT
                 && searchNodeModel.isLink() != null;
         searchQueryService.expectAllResultsFromQuery(queryWithIncludes, userSite1, noFieldsNull);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchCanFindAFile()
     {
@@ -167,46 +169,55 @@ public class ElasticsearchLiveIndexingTests extends AbstractTestNGSpringContextT
         // only one contains the unique word.
         searchQueryService.expectResultsFromQuery(req(UNIQUE_WORD), userSite1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchCanFindFilesOnASite()
     {
         searchQueryService.expectResultsFromQuery(req(PREFIX), userSite1, FILE_0_NAME, FILE_1_NAME, FILE_3_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchCanFindAFileOnMultipleSitesWithOwner()
     {
         searchQueryService.expectResultsFromQuery(req(PREFIX), userSite2, FILE_3_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchCanFindAFileOnMultipleSites()
     {
         searchQueryService.expectResultsFromQuery(req(PREFIX), userMultiSite, FILE_0_NAME, FILE_1_NAME, FILE_3_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void wildcardWorksInsideQuotes()
     {
         searchQueryService.expectResultsFromQuery(req("cm:name:\"" + PREFIX + "user1*\""), userMultiSite, FILE_2_NAME, FILE_3_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void wildcardWorksWithoutQuotes()
     {
         searchQueryService.expectResultsFromQuery(req("cm:name:" + PREFIX + "user1*"), userMultiSite, FILE_2_NAME, FILE_3_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH, enabled = false) // Test should be re-enabled within: ACS-6068
     public void wildcardNodeRefQuery()
     {
         searchQueryService.expectResultsFromQuery(req("ANCESTOR:\"" + siteModel2.getGuid().substring(0, 10) + "*\""), userMultiSite, "documentLibrary", FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void findFileWithRangeQuery()
     {
         searchQueryService.expectResultsFromQuery(req("cm:created:[NOW-1YEAR TO MAX] AND name:" + FILE_0_NAME), userSite1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void omitFileWithRangeQuery()
     {
         searchQueryService.expectNoResultsFromQuery(req("cm:created:[MIN TO NOW-2YEARS] AND name:" + FILE_0_NAME), userSite1);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void indexAndSearchForDateBefore1970()
     {

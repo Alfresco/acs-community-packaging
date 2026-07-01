@@ -158,18 +158,21 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest probe = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:name = '" + FOLDER_1_NAME + "'");
         Utility.sleep(500, 60000, () -> searchQueryService.expectResultsFromQuery(probe, user1, FOLDER_1_NAME));
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void basicQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document");
         searchQueryService.expectResultsInclude(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void objectIdQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:objectId = '" + file0.getNodeRef() + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void objectTypeIdQuery()
     {
@@ -179,36 +182,42 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query2 = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:objectTypeId = 'F:st:site'");
         searchQueryService.expectResultsInclude(query2, user1, siteModel1.getId());
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void baseTypeIdQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:baseTypeId = 'cmis:folder'");
         searchQueryService.expectResultsInclude(query, user1, "documentLibrary", FOLDER_0_NAME, FOLDER_1_NAME, user1.getUsername(), siteModel1.getId());
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void isNullQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:description IS NULL");
         searchQueryService.expectResultsInclude(query, user1, "documentLibrary", FOLDER_0_NAME, FOLDER_1_NAME, user1.getUsername());
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void isNotNullQuery()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:folder WHERE cmis:description IS NOT NULL");
         searchQueryService.expectResultsInclude(query, user1, siteModel1.getId());
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void matchNamesLikePrefix()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + PREFIX + "%'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void matchNamesLikeSuffix()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name LIKE '%" + SUFFIX + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void matchContentOfFile()
     {
@@ -216,6 +225,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE CONTAINS('" + UNIQUE_WORD + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkPermissionForUser2()
     {
@@ -223,24 +233,28 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + PREFIX + "%'");
         searchQueryService.expectResultsFromQuery(query, user2, FILE_2_NAME, USER_2_FILE_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void matchDocumentName()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:name = '" + FILE_0_NAME + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void doesNotMatchDocumentName()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:name <> '" + FILE_0_NAME + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkOrderByAscSyntax()
     {
         SearchRequest query = req("cmis", "SELECT cmis:name FROM cmis:document WHERE cmis:name IN('" + FILE_0_NAME + "','" + FILE_1_NAME + "','" + FILE_2_NAME + "') ORDER BY cmis:name ASC");
         searchQueryService.expectResultsInOrder(query, user1, true, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkOrderByDescSyntax()
     {
@@ -261,6 +275,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:name NOT IN ('" + FILE_0_NAME + "', '" + FILE_1_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_2_NAME, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkAfterDateSyntax()
     {
@@ -268,6 +283,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate > TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkAfterOrSameDateSyntax()
     {
@@ -275,6 +291,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate >= TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkBeforeDateSyntax()
     {
@@ -282,6 +299,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate < TIMESTAMP '" + file2CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkBeforeOrSameDateSyntax()
     {
@@ -289,6 +307,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate <= TIMESTAMP '" + file2CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FILE_1_NAME, FILE_2_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkMatchesDateSyntax()
     {
@@ -296,6 +315,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE cmis:creationDate = TIMESTAMP '" + file0CreationDate + "'");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkDoesNotMatchDateSyntax()
     {
@@ -321,6 +341,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         SearchRequest query = req("cmis", "SELECT * FROM cmis:document WHERE " + user1FilesScope + " AND cmis:creationDate NOT IN (TIMESTAMP '" + file0CreationDate + "', TIMESTAMP '" + file1CreationDate + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_2_NAME, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkEqualIntegerSyntax()
     {
@@ -328,6 +349,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectResultsFromQuery(query, user1, file3Name);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkDifferentThanIntegerSyntax()
     {
@@ -335,6 +357,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkGreaterThanIntegerSyntax()
     {
@@ -347,6 +370,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkGreaterThanOrEqualIntegerSyntax()
     {
@@ -359,6 +383,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkLessThanIntegerSyntax()
     {
@@ -371,6 +396,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         query.setInclude(List.of("properties"));
         searchQueryService.expectNoResultsFromQuery(query, user1);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void checkLessThanOrEqualIntegerSyntax()
     {
@@ -485,6 +511,7 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
                 // and the user home for the user performing the query.
                 user1.getUsername());
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void selectItems()
     {
@@ -492,42 +519,49 @@ public class ElasticsearchCMISTests extends AbstractTestNGSpringContextTests
         // This error is consistent with the way the DB and Solr handle the request.
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "Type is not queryable cmis:item");
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void selectObjects()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cm:cmobject WHERE cmis:name IN ('" + FILE_0_NAME + "', '" + FOLDER_0_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME, FOLDER_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void selectPeople()
     {
         SearchRequest query = req("cmis", "SELECT * FROM cm:person");
         searchQueryService.expectNodeTypesFromQuery(query, user1, "cm:person");
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void tableAlias()
     {
         SearchRequest query = req("cmis", "SELECT d.cmis:name FROM cmis:document d WHERE d.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void tableAliasWithAs()
     {
         SearchRequest query = req("cmis", "SELECT d.cmis:name FROM cmis:document AS d WHERE d.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectResultsFromQuery(query, user1, FILE_0_NAME);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void tableAlias_mismatchedAliasInSelect()
     {
         SearchRequest query = req("cmis", "SELECT z.cmis:name FROM cmis:document d WHERE d.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "No selector for z");
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void tableAlias_mismatchedAliasInWhere()
     {
         SearchRequest query = req("cmis", "SELECT d.cmis:name FROM cmis:document d WHERE z.cmis:name IN ('" + FILE_0_NAME + "')");
         searchQueryService.expectErrorFromQuery(query, user1, HttpStatus.INTERNAL_SERVER_ERROR, "No selector for z");
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void tableJoin()
     {

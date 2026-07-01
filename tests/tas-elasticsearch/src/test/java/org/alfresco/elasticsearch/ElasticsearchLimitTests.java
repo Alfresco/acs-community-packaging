@@ -91,6 +91,7 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
             createContent(PREFIX + i + ".txt", "Document " + i, siteModel1, userSite1);
         }
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsLimitDefaultValue()
     {
@@ -99,6 +100,7 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
         // Without setting limits, we should get all up to 10k
         searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsLimitZeroShouldDefault()
     {
@@ -108,6 +110,7 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
         request.setLimits(new RestRequestLimitsModel(null, null, 0));
         searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsLimit()
     {
@@ -117,6 +120,7 @@ public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
         request.setLimits(new RestRequestLimitsModel(null, null, 10));
         searchQueryService.expectTotalHitsFromQuery(request, userSite1, 10);
     }
+
     @Test(groups = TestGroup.SEARCH)
     public void searchUsingTotalHitsUnlimited()
     {
