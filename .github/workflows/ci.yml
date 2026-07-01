@@ -168,15 +168,16 @@ jobs:
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
-      - name: "Load image tags from .env"
-        run: cat ${TAS_ENVIRONMENT}/.env >> "$GITHUB_ENV"
       - name: "Run tests"
         id: tests
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         run: |
+          set -a
+          source ${TAS_ENVIRONMENT}/.env
+          set +a
           mvn -B -ntp -q install -N -f tests/pom.xml
           mvn -B -ntp -q install -DskipTests -f tests/testcontainers-env/pom.xml
-          mvn -B install -ntp -f tests/tas-elasticsearch/pom.xml -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco/alfresco-elasticsearch-batch-indexing:${{ env.BATCH_INDEXING_TAG }}"
+          mvn -B install -ntp -f tests/tas-elasticsearch/pom.xml -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco/alfresco-elasticsearch-batch-indexing:${BATCH_INDEXING_TAG}"
       - name: "Dump all Docker containers logs"
         uses: Alfresco/alfresco-build-tools/.github/actions/docker-dump-containers-logs@v12.4.3
         if: failure() && steps.tests.outcome == 'failure'
