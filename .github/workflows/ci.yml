@@ -176,7 +176,7 @@ jobs:
         run: |
           mvn -B -ntp -q install -N -f tests/pom.xml
           mvn -B -ntp -q install -DskipTests -f tests/testcontainers-env/pom.xml
-          mvn -B install -ntp -f tests/tas-elasticsearch/pom.xml -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco-elasticsearch-batch-indexing:${{ env.BATCH_INDEXING_TAG }}"
+          mvn -B install -ntp -f tests/tas-elasticsearch/pom.xml -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco/alfresco-elasticsearch-batch-indexing:${{ env.BATCH_INDEXING_TAG }}"
       - name: "Dump all Docker containers logs"
         uses: Alfresco/alfresco-build-tools/.github/actions/docker-dump-containers-logs@v12.4.3
         if: failure() && steps.tests.outcome == 'failure'
