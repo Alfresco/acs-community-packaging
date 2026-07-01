@@ -54,9 +54,9 @@ UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
 # Search, checkout and build the same branch on the upstream project in case of SNAPSHOT dependencies
 # Otherwise, checkout the upstream tag and build its Docker image (use just "mvn package", without "mvn install")
 if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
-  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-Pags -Pall-tas-tests -Dlicense.failOnNotUptodateHeader=true"
+  pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true"
 else
-  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${COM_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Pall-tas-tests -Dlicense.failOnNotUptodateHeader=true"
+  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${COM_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true"
 fi
 
 SHARE_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-share.version")"
@@ -83,7 +83,7 @@ else
 fi
 
 # Build the current project
-mvn -B -ntp -V -q install -DskipTests -Dmaven.javadoc.skip=true -P$BUILD_PROFILE -Pags -Pall-tas-tests ${REPO_IMAGE} ${SHARE_IMAGE}
+mvn -B -ntp -V -q install -DskipTests -Dmaven.javadoc.skip=true -P$BUILD_PROFILE -Pags ${REPO_IMAGE} ${SHARE_IMAGE}
 
 
 popd
