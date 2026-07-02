@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parallel REST API tests for Elasticsearch" verbose="1" parallel="false">
+   <listeners>
+      <listener class-name="org.alfresco.elasticsearch.retry.RetryAnnotationTransformer" />
+   </listeners>
+   <suite-files>
+      <suite-file path="elasticsearch-suite.xml" />
+   </suite-files>
+</suite>

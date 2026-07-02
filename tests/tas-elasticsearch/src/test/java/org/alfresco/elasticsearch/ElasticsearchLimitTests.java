@@ -1,0 +1,139 @@
+/*
+ * #%L
+ * Alfresco Tas Elasticsearch
+ * %%
+ * Copyright (C) 2026 Alfresco Software Limited
+ * %%
+ * This file is part of the Alfresco software.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * Alfresco is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Alfresco is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ * #L%
+ */
+package org.alfresco.elasticsearch;
+
+import static org.alfresco.elasticsearch.SearchQueryService.req;
+import static org.alfresco.tas.TestDataUtility.getAlphabeticUUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import org.alfresco.rest.search.RestRequestLimitsModel;
+import org.alfresco.rest.search.SearchRequest;
+import org.alfresco.tas.AlfrescoStackInitializer;
+import org.alfresco.utility.constants.UserRole;
+import org.alfresco.utility.data.DataContent;
+import org.alfresco.utility.data.DataSite;
+import org.alfresco.utility.data.DataUser;
+import org.alfresco.utility.model.FileModel;
+import org.alfresco.utility.model.FileType;
+import org.alfresco.utility.model.SiteModel;
+import org.alfresco.utility.model.TestGroup;
+import org.alfresco.utility.model.UserModel;
+import org.alfresco.utility.network.ServerHealth;
+
+@ContextConfiguration(locations = "classpath:alfresco-elasticsearch-context.xml", initializers = AlfrescoStackInitializer.class)
+/**
+ * In this test we are verifying the Track Total Hits feature
+ */
+public class ElasticsearchLimitTests extends AbstractTestNGSpringContextTests
+{
+    private static final String PREFIX = getAlphabeticUUID() + "_";
+    private static final int TOTAL_DOCUMENT_COUNT = 20;
+
+    @Autowired
+    private DataUser dataUser;
+
+    @Autowired
+    private DataContent dataContent;
+
+    @Autowired
+    private DataSite dataSite;
+
+    @Autowired
+    private ServerHealth serverHealth;
+
+    @Autowired
+    protected SearchQueryService searchQueryService;
+
+    private UserModel userSite1;
+    private SiteModel siteModel1;
+
+    @BeforeClass(alwaysRun = true)
+    public void dataPreparation()
+    {
+        serverHealth.assertServerIsOnline();
+
+        userSite1 = dataUser.createRandomTestUser();
+
+        siteModel1 = dataSite.usingUser(userSite1).createPrivateRandomSite();
+
+        dataUser.addUserToSite(userSite1, siteModel1, UserRole.SiteContributor);
+
+        for (int i = 0; i < TOTAL_DOCUMENT_COUNT; i++)
+        {
+            createContent(PREFIX + i + ".txt", "Document " + i, siteModel1, userSite1);
+        }
+    }
+
+    @Test(groups = TestGroup.SEARCH)
+    public void searchUsingTotalHitsLimitDefaultValue()
+    {
+        SearchRequest request = req("cm:name:" + PREFIX + "*.txt");
+
+        // Without setting limits, we should get all up to 10k
+        searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
+    }
+
+    @Test(groups = TestGroup.SEARCH)
+    public void searchUsingTotalHitsLimitZeroShouldDefault()
+    {
+        SearchRequest request = req("cm:name:" + PREFIX + "*.txt");
+
+        // Setting trackTotalHitsLimit to 0 should behave as not setting it, counting all up to 10k
+        request.setLimits(new RestRequestLimitsModel(null, null, 0));
+        searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
+    }
+
+    @Test(groups = TestGroup.SEARCH)
+    public void searchUsingTotalHitsLimit()
+    {
+        SearchRequest request = req("cm:name:" + PREFIX + "*.txt");
+
+        // Setting trackTotalHitsLimit to 10 should only count up to 10
+        request.setLimits(new RestRequestLimitsModel(null, null, 10));
+        searchQueryService.expectTotalHitsFromQuery(request, userSite1, 10);
+    }
+
+    @Test(groups = TestGroup.SEARCH)
+    public void searchUsingTotalHitsUnlimited()
+    {
+        SearchRequest request = req("cm:name:" + PREFIX + "*.txt");
+
+        // Setting trackTotalHitsLimit to -1 should only count up to max int
+        request.setLimits(new RestRequestLimitsModel(null, null, -1));
+        searchQueryService.expectTotalHitsFromQuery(request, userSite1, TOTAL_DOCUMENT_COUNT);
+    }
+
+    private FileModel createContent(String filename, String content, SiteModel site, UserModel user)
+    {
+        FileModel fileModel = new FileModel(filename, FileType.TEXT_PLAIN, content);
+        return dataContent.usingUser(user).usingSite(site).createContent(fileModel);
+    }
+}

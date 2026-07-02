@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.alfresco.tas</groupId>
+  <artifactId>content-repository-community-elasticsearch-test</artifactId>
+  <name>Elasticsearch test</name>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.alfresco</groupId>
+    <artifactId>content-repository-community-tests</artifactId>
+    <version>26.2.0-A.24-SNAPSHOT</version>
+  </parent>
+
+  <profiles>
+    <profile>
+      <id>elastic</id>
+      <properties>
+        <suiteXmlFile>${project.basedir}/src/test/resources/test-suites/standard-elasticsearch-suites.xml</suiteXmlFile>
+        <search.engine.type />
+        <database.type />
+      </properties>
+    </profile>
+    <profile>
+      <id>elastic-basic-auth</id>
+      <properties>
+        <suiteXmlFile>${project.basedir}/src/test/resources/test-suites/elasticsearch-basic-auth-suite.xml</suiteXmlFile>
+        <search.engine.type />
+        <database.type />
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.alfresco.tas</groupId>
+      <artifactId>content-repository-community-testcontainers</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>test</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.alfresco.tas</groupId>
+      <artifactId>restapi</artifactId>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.alfresco.tas</groupId>
+      <artifactId>restapi</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.parsson</groupId>
+      <artifactId>parsson</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opensearch.client</groupId>
+      <artifactId>opensearch-java</artifactId>
+      <version>${dependency.opensearch.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse</groupId>
+          <artifactId>yasson</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <scope>test</scope>
+    </dependency>
+      <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <redirectTestOutputToFile>false</redirectTestOutputToFile>
+          <suiteXmlFiles>
+            <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+          </suiteXmlFiles>
+          <!-- Keeping illegal-access=warn for Java 11 compatibility, even though it has no effect on JDK 21 -->
+          <argLine>
+            --illegal-access=warn
+            --add-opens=java.base/java.lang=ALL-UNNAMED
+          </argLine>
+        </configuration>
+      </plugin>
+      <!-- Build only test jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
