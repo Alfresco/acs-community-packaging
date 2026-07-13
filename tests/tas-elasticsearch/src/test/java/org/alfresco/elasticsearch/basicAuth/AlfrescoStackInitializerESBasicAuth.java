@@ -125,6 +125,7 @@ public class AlfrescoStackInitializerESBasicAuth extends AlfrescoStackInitialize
                 "    - index_patterns:\n" +
                 "      - \"" + indexName + "\"\n" +
                 "      - \"alfresco-reindex-state\"\n" +
+                "      - \"alfresco-reindex-dead-letter\"\n" +
                 "      allowed_actions:\n" +
                 "        - \"*\"\n";
     }
@@ -143,6 +144,7 @@ public class AlfrescoStackInitializerESBasicAuth extends AlfrescoStackInitialize
         GenericContainer container = super.createBatchIndexingContainer();
         container.withEnv("SPRING_ELASTICSEARCH_REST_USERNAME", SEARCH_ENGINE_USERNAME);
         container.withEnv("SPRING_ELASTICSEARCH_REST_PASSWORD", SEARCH_ENGINE_PASSWORD);
+        container.withEnv("ALFRESCO_REINDEX_CONTINUOUS_ALFRESCOINDEXNAME", CUSTOM_ALFRESCO_INDEX);
         return container;
     }
 
