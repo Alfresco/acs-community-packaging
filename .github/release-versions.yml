@@ -1,5 +1,5 @@
 env:
   global:
     # Release version has to start with real version (23.2.0-....) for the docker image to build successfully.
-    - RELEASE_VERSION=26.3.0-A.4
-    - DEVELOPMENT_VERSION=26.3.0-A.5-SNAPSHOT
+    - RELEASE_VERSION=26.3.0-A.5
+    - DEVELOPMENT_VERSION=26.3.0-A.6-SNAPSHOT
