@@ -17,9 +17,6 @@ on:
 
 env:
   JAVA_VERSION: "21"
-  GIT_USERNAME: ${{ secrets.BOT_GITHUB_USERNAME }}
-  GIT_EMAIL: ${{ secrets.BOT_GITHUB_EMAIL }}
-  GIT_PASSWORD: ${{ secrets.BOT_GITHUB_TOKEN }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 60
@@ -90,13 +87,25 @@ jobs:
             profiles: all-tas-tests
             compose-file: docker-compose-minimal.yml
     steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-community-repo,alfresco-community-share,acs-community-packaging
       - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -153,15 +162,25 @@ jobs:
             search-engine-type: opensearch
             db-type: postgresql
     steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-community-repo,alfresco-community-share,acs-community-packaging
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -188,13 +207,25 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip tests]')"
     steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-community-repo,alfresco-community-share,acs-community-packaging
       - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -212,9 +243,17 @@ jobs:
     if: >
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-community-repo,alfresco-community-share,acs-community-packaging
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
@@ -222,6 +261,8 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -254,7 +295,17 @@ jobs:
         ports:
           - 5000:5000
     steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-community-repo,alfresco-community-share,acs-community-packaging
       - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
@@ -264,6 +315,8 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh -m
@@ -288,9 +341,20 @@ jobs:
         ports:
           - 5000:5000
     steps:
+      - name: "Generate GitHub App token"
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.GH_APP_ENGINEERING_CONTRIB_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_ENGINEERING_CONTRIB_PRIVATE_KEY }}
+          owner: Alfresco
+          repositories: alfresco-community-repo,alfresco-community-share,acs-community-packaging
+          permission-contents: write
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
+      - name: "Create local release branch"
+        run: git checkout -B "${{ github.ref_name }}"
       - uses: Alfresco/alfresco-build-tools/.github/actions/env-load-from-yaml@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           yml_path: .github/release-versions.yml
@@ -303,15 +367,24 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh -m
+      - name: "Verify release version"
+        run: bash scripts/ci/verify_release_tag.sh
       - name: "Release"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        run: |
-          bash scripts/ci/verify_release_tag.sh
-          bash scripts/ci/maven_release.sh
-          source scripts/ci/prepare_staging_deploy.sh
+        uses: Alfresco/alfresco-build-tools/.github/actions/maven-release-slim@30c1953fd4ad6e52062d7eba444298fe1701d1df # v18.22.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          release-version: ${{ env.RELEASE_VERSION }}
+          development-version: ${{ env.DEVELOPMENT_VERSION }}
+          release-profile: "release,all-tas-tests,ags"
+          maven-args: "-Darguments=-Prelease,all-tas-tests -Pags -DskipTests -Dbuild-number=${{ env.BUILD_NUMBER }}"
+      - name: "Prepare staging artifacts"
+        run: bash scripts/ci/prepare_staging_deploy.sh
       - name: "Clean Maven cache"
         run: bash ./scripts/ci/cleanup_cache.sh
       - name: "Configure AWS credentials"
