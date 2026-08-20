@@ -105,7 +105,7 @@ jobs:
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          AUTH: x-access-token:${{ steps.app-token.outputs.token }}@
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -180,7 +180,7 @@ jobs:
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          AUTH: x-access-token:${{ steps.app-token.outputs.token }}@
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -225,7 +225,7 @@ jobs:
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          AUTH: x-access-token:${{ steps.app-token.outputs.token }}@
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -262,7 +262,7 @@ jobs:
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          AUTH: x-access-token:${{ steps.app-token.outputs.token }}@
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh
@@ -316,7 +316,7 @@ jobs:
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          AUTH: x-access-token:${{ steps.app-token.outputs.token }}@
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh -m
@@ -368,7 +368,7 @@ jobs:
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          AUTH: x-access-token:${{ steps.app-token.outputs.token }}@
         run: |
           bash ./scripts/ci/init.sh
           bash ./scripts/ci/build.sh -m

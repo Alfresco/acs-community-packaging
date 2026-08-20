@@ -20,10 +20,7 @@ function cloneRepo() {
 
   rm -rf "$(basename "${REPO%.git}")"
 
-  { set +x; } 2>/dev/null
-  local AUTH="x-access-token:${APP_TOKEN}@"
   git clone -b "${TAG_OR_BRANCH}" --depth=1 "https://${AUTH}${REPO}"
-  { set -x; } 2>/dev/null
 
   popd >/dev/null
 }
@@ -79,11 +76,8 @@ function remoteBranchExists() {
   local REMOTE_REPO="${1}"
   local BRANCH="${2}"
 
-  local AUTH="x-access-token:${APP_TOKEN}@"
-  { set +x; } 2>/dev/null
   git ls-remote --exit-code --heads "https://${AUTH}${REMOTE_REPO}" "${BRANCH}" &>/dev/null
-  local RESULT=$?
-  { set -x; } 2>/dev/null
+
   return "${RESULT}"
 }
 
@@ -184,7 +178,7 @@ function retieveLatestTag() {
   local LOCAL_PATH="/tmp/$(basename "${REPO%.git}")"
 
   { set +x; } 2>/dev/null
-  git clone -q -b "${BRANCH}" "https://x-access-token:${APP_TOKEN}@${REPO}" "${LOCAL_PATH}"
+  git clone -q -b "${BRANCH}" "https://${AUTH}${REPO}" "${LOCAL_PATH}"
   { set -x; } 2>/dev/null
 
   pushd "${LOCAL_PATH}" >/dev/null
