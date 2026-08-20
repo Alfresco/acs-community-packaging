@@ -177,9 +177,7 @@ function retieveLatestTag() {
 
   local LOCAL_PATH="/tmp/$(basename "${REPO%.git}")"
 
-  { set +x; } 2>/dev/null
   git clone -q -b "${BRANCH}" "https://${AUTH}${REPO}" "${LOCAL_PATH}"
-  { set -x; } 2>/dev/null
 
   pushd "${LOCAL_PATH}" >/dev/null
   git describe --abbrev=0 --tags
