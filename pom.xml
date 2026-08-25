@@ -42,7 +42,7 @@
     <repositories>
         <repository>
             <id>alfresco-public</id>
-            <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+            <url>https://nexus-archive2.opsexp.alfresco.com/nexus/content/groups/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -52,7 +52,7 @@
         </repository>
         <repository>
             <id>alfresco-public-snapshots</id>
-            <url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
+            <url>https://nexus-archive2.opsexp.alfresco.com/nexus/content/groups/public-snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
