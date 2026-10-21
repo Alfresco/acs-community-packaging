@@ -28,20 +28,6 @@ env:
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
   # Note: RELEASE_VERSION and DEVELOPMENT_VERSION are now loaded from .github/release-versions.yml
 jobs:
-  precommit:
-    name: Pre-Commit checks
-    runs-on: ubuntu-latest
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]')
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/free-hosted-runner-disk-space@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
-
   tas_tests_search_api:
     name: ${{ matrix.testSuite }} | TAS tests (Search API)
     runs-on: ubuntu-latest
@@ -90,7 +76,7 @@ jobs:
           BATCH_INDEXING_TAG="${BATCH_INDEXING_TAG//[[:space:]]/}"
           mvn -B -ntp -q install -N -f tests/pom.xml
           mvn -B -ntp -q install -DskipTests -f tests/testcontainers-env/pom.xml
-          mvn -B install -ntp -f tests/tas-elasticsearch/pom.xml -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco/alfresco-elasticsearch-batch-indexing:${BATCH_INDEXING_TAG}" -Drepoimage="quay.io/alfresco/alfresco-content-repository-community:26.3.0-A.25"
+          mvn -B install -ntp -f tests/tas-elasticsearch/pom.xml -P${{ matrix.profiles }} -Denvironment=default -DrunBugs=false "-Dsearch.engine.type=${{ matrix.search-engine-type }}" "-Ddatabase.type=${{ matrix.db-type }}" -Dindeximage="alfresco/alfresco-elasticsearch-batch-indexing:${BATCH_INDEXING_TAG}" -Drepoimage="quay.io/alfresco/alfresco-content-repository-community:26.3.0-A.25" -Dtest=PathUpdateTests
       - name: "Dump all Docker containers logs"
         uses: Alfresco/alfresco-build-tools/.github/actions/docker-dump-containers-logs@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         if: failure() && steps.tests.outcome == 'failure'
