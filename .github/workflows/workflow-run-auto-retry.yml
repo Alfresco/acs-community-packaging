@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ["ACS Community Packaging CI"]
     types: [completed]
-    branches: ["master", "release/23.7", "release/23.N", "release/25.5", "release/25.N", "release/26.2"]
+    branches: ["master"]
 
 permissions:
   actions: write    # re-run the failed jobs
