@@ -41,9 +41,10 @@ jobs:
           SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
           set -euo pipefail
+          # A failed lookup must not skip the Teams card, so fall through to Unknown.
           VERSIONS=$(gh api \
             "repos/$REPOSITORY/contents/.github/release-versions.yml?ref=$SHA" \
-            --jq '.content' | base64 -d)
+            --jq '.content' | base64 -d) || VERSIONS=""
           FOUND=$(printf '%s' "$VERSIONS" | sed -n \
             's|^[[:space:]]*-[[:space:]]*RELEASE_VERSION=[[:space:]]*\(.*[^[:space:]]\)[[:space:]]*$|\1|p')
           # A card saying Unknown is better than one quietly missing the row.
