@@ -1,34 +1,21 @@
 <settings>
-    <profiles>
-        <profile>
-            <id>alfresco-internal</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <repositories>
-                <repository>
-                    <id>alfresco-internal</id>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                    <name>Alfresco Internal Repository</name>
-                    <url>https://artifacts.alfresco.com/nexus/content/groups/internal</url>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>alfresco-internal</id>
-                    <name>Alfresco Internal Repository</name>
-                    <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-    </profiles>
+    <mirrors>
+        <mirror>
+            <id>cic-ext-pull-through</id>
+            <name>Maven Central</name>
+            <url>https://artifacts.hyland.dev/basic/cic-ext-pull-through/maven/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
 
     <servers>
+        <!-- Exported by the cloudsmith-auth action -->
+        <server>
+            <id>cic-ext-pull-through</id>
+            <username>${env.CLOUDSMITH_USERNAME}</username>
+            <password>${env.CLOUDSMITH_API_KEY}</password>
+        </server>
+        <!-- keep the existing deploy servers until Phase 2 -->
         <server>
             <id>alfresco-internal</id>
             <username>${env.MAVEN_USERNAME}</username>

@@ -1,11 +1,4 @@
 version: 2
-registries:
-  maven-repository-artifacts-alfresco-com-nexus-content-groups-int:
-    type: maven-repository
-    url: https://artifacts.alfresco.com/nexus/content/groups/internal
-    username: ${{secrets.NEXUS_USERNAME}}
-    password: ${{secrets.NEXUS_PASSWORD}}
-
 updates:
 - package-ecosystem: maven
   directory: "/"
@@ -40,8 +33,6 @@ updates:
   - dependency-name: org.apache.maven.plugins:maven-war-plugin
     versions:
     - ">= 3.a, < 4"
-  registries:
-  - maven-repository-artifacts-alfresco-com-nexus-content-groups-int
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:

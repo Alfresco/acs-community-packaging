@@ -20,8 +20,6 @@ env:
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   GITHUB_ACTIONS_DEPLOY_TIMEOUT: 60
-  MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-  MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
   QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
   QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
   TAS_ENVIRONMENT: ./tests/environment
@@ -31,6 +29,9 @@ jobs:
   precommit:
     name: Pre-Commit checks
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
@@ -40,11 +41,17 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
 
   tas_tests:
     name: ${{ matrix.testSuite }} TAS tests
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ !contains(github.event.head_commit.message, '[skip tas]') && !contains(github.event.head_commit.message, '[skip tests]') }}
     strategy:
       fail-fast: false
@@ -102,6 +109,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
@@ -121,6 +131,9 @@ jobs:
   tas_tests_search_api:
     name: ${{ matrix.testSuite }} | TAS tests (Search API)
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
       !contains(github.event.head_commit.message, '[skip search]') &&
@@ -177,6 +190,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
@@ -205,6 +221,9 @@ jobs:
   community_zip_tests:
     name: Community Distribution Zip content tests
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: "!contains(github.event.head_commit.message, '[skip tests]')"
     steps:
       - name: "Generate GitHub App token"
@@ -222,6 +241,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: "Init"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
@@ -240,6 +262,9 @@ jobs:
   community_test_tomcat_deployment:
     name: "Test Tomcat deployment"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: >
       !contains(github.event.head_commit.message, '[skip tests]')
     steps:
@@ -259,6 +284,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: "Build"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
         env:
@@ -283,6 +311,9 @@ jobs:
   docker_latest:
     name: Update latest Docker images
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: [tas_tests, community_zip_tests]
     if: >
       !(failure() || cancelled()) &&
@@ -311,6 +342,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
       - name: "Init"
@@ -333,6 +367,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    # Deploy still goes to the old repository until Phase 2 (Push)
+    env:
+      MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
     if: >
       !(failure() || cancelled()) &&
       contains(github.event.head_commit.message, '[release]') &&
@@ -366,6 +404,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
       - name: "Init"
