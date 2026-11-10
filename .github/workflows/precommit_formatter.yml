@@ -7,13 +7,14 @@ on:
 
 env:
   JAVA_VERSION: "21"
-  MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-  MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
 
 jobs:
   format-code:
     name: "Reformat code"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     if: contains(github.event.head_commit.message, '[reformat code]')
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +23,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@v8.16.0
         with:
           java-version: ${{ env.JAVA_VERSION }}
+      - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
+        with:
+          oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
       - name: Set up Python ${{ inputs.python-version }}
         uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
