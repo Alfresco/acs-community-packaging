@@ -15,11 +15,10 @@
             <username>${env.CLOUDSMITH_USERNAME}</username>
             <password>${env.CLOUDSMITH_API_KEY}</password>
         </server>
-        <!-- keep the existing deploy servers until Phase 2 -->
         <server>
-            <id>alfresco-internal</id>
-            <username>${env.MAVEN_USERNAME}</username>
-            <password>${env.MAVEN_PASSWORD}</password>
+            <id>alfresco-releases</id>
+            <username>${env.CLOUDSMITH_USERNAME}</username>
+            <password>${env.CLOUDSMITH_API_KEY}</password>
         </server>
     </servers>
 </settings>
