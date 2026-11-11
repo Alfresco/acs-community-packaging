@@ -87,6 +87,9 @@ jobs:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-java-build@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+          # Own cache: this job finishes first and would otherwise save its almost empty Maven repository under the key of
+          # the test jobs (the cache is only saved when its key is new), so that they would download everything again
+          cache-key-prefix: 'pre-commit-maven'
       - uses: Alfresco/alfresco-build-tools/.github/actions/cloudsmith-auth@2fb68b82ad8ffd30088b5977da32d011af40f6ef # v19.13.1
         with:
           oidc-namespace: ${{ vars.CLOUDSMITH_NAMESPACE }}
