@@ -35,14 +35,48 @@ env:
   TAS_SCRIPTS: ../alfresco-community-repo/packaging/tests/scripts
   # Note: RELEASE_VERSION and DEVELOPMENT_VERSION are now loaded from .github/release-versions.yml
 jobs:
+  commit_parser:
+    name: "Parse commit metadata"
+    runs-on: ubuntu-latest
+    outputs:
+      title: ${{ steps.get-commit.outputs.COMMIT_MESSAGE }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/get-commit-message@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
+        id: get-commit
+        with:
+          header-only: "true"
+
+  # Tests run for master, release/* and pull requests (not for pushes to feature/fix branches, which have a pull request run),
+  # or for any push with [run tests] in the commit title; never with [skip tests]
+  test_run_check:
+    name: "Test run check"
+    runs-on: ubuntu-latest
+    needs: [commit_parser]
+    outputs:
+      tests: ${{ steps.check.outputs.tests }}
+    steps:
+      - id: check
+        run: |
+          echo "tests=true" >> "$GITHUB_OUTPUT"
+        if: >
+          (
+            (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
+            !contains(needs.commit_parser.outputs.title, '[skip tests]')
+          ) ||
+          contains(needs.commit_parser.outputs.title, '[run tests]')
+
   precommit:
     name: Pre-Commit checks
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    needs: [commit_parser]
     if: >
-      !contains(github.event.head_commit.message, '[skip tests]')
+      !contains(needs.commit_parser.outputs.title, '[skip tests]')
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/get-build-info@ac0009fd55b474dbf50864caa4f9da36a41e5ffe # v18.21.2
@@ -64,7 +98,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: ${{ !contains(github.event.head_commit.message, '[skip tas]') && !contains(github.event.head_commit.message, '[skip tests]') }}
+    needs: [commit_parser, test_run_check]
+    if: needs.test_run_check.outputs.tests == 'true' && !contains(needs.commit_parser.outputs.title, '[skip tas]')
     strategy:
       fail-fast: false
       matrix:
@@ -81,17 +116,29 @@ jobs:
             pom: tests/tas-restapi/pom.xml
             profiles: all-tas-tests,run-restapi-part3
             compose-file: docker-compose-minimal+transforms.yml
-          - testSuite: CMIS (BROWSER binding)
+          - testSuite: CMIS (BROWSER binding) part1
             pom: tests/tas-cmis/pom.xml
-            profiles: all-tas-tests,run-cmis-browser
+            profiles: all-tas-tests,run-cmis-browser,cmis-part1
             compose-file: docker-compose-minimal+transforms.yml
-          - testSuite: CMIS (ATOM binding)
+          - testSuite: CMIS (BROWSER binding) part2
             pom: tests/tas-cmis/pom.xml
-            profiles: all-tas-tests,run-cmis-atom
+            profiles: all-tas-tests,run-cmis-browser,cmis-part2
             compose-file: docker-compose-minimal+transforms.yml
-          - testSuite: CMIS (WEBSERVICES binding)
+          - testSuite: CMIS (ATOM binding) part1
             pom: tests/tas-cmis/pom.xml
-            profiles: all-tas-tests,run-cmis-webservices
+            profiles: all-tas-tests,run-cmis-atom,cmis-part1
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: CMIS (ATOM binding) part2
+            pom: tests/tas-cmis/pom.xml
+            profiles: all-tas-tests,run-cmis-atom,cmis-part2
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: CMIS (WEBSERVICES binding) part1
+            pom: tests/tas-cmis/pom.xml
+            profiles: all-tas-tests,run-cmis-webservices,cmis-part1
+            compose-file: docker-compose-minimal+transforms.yml
+          - testSuite: CMIS (WEBSERVICES binding) part2
+            pom: tests/tas-cmis/pom.xml
+            profiles: all-tas-tests,run-cmis-webservices,cmis-part2
             compose-file: docker-compose-minimal+transforms.yml
           - testSuite: Email
             pom: tests/tas-email/pom.xml
@@ -146,10 +193,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: >
-      (github.ref_name == 'master' || startsWith(github.ref_name, 'release/') || github.event_name == 'pull_request') &&
-      !contains(github.event.head_commit.message, '[skip search]') &&
-      !contains(github.event.head_commit.message, '[skip tests]')
+    needs: [commit_parser, test_run_check]
+    if: needs.test_run_check.outputs.tests == 'true' && !contains(needs.commit_parser.outputs.title, '[skip search]')
     strategy:
       fail-fast: false
       matrix:
@@ -236,7 +281,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: "!contains(github.event.head_commit.message, '[skip tests]')"
+    needs: [test_run_check]
+    if: needs.test_run_check.outputs.tests == 'true'
     steps:
       - name: "Generate GitHub App token"
         id: app-token
@@ -277,8 +323,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    if: >
-      !contains(github.event.head_commit.message, '[skip tests]')
+    needs: [test_run_check]
+    if: needs.test_run_check.outputs.tests == 'true'
     steps:
       - name: "Generate GitHub App token"
         id: app-token

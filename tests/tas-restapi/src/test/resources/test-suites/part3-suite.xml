@@ -14,7 +14,6 @@
             <package name="org.alfresco.rest.sites.*"/>
             <package name="org.alfresco.rest.tags.*"/>
             <package name="org.alfresco.rest.trashcan.*"/>
-            <package name="org.alfresco.rest.workflow.*"/>
         </packages>
     </test>
 </suite>

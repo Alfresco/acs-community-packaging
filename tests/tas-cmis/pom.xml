@@ -53,6 +53,21 @@
                 <excludedGroups>not_supported_on_cmis_atom|renditions|bug-atom.*</excludedGroups>
             </properties>
         </profile>
+
+        <!-- cmis-suite.xml in two halves of similar duration (CI runs each binding in two jobs) -->
+        <profile>
+            <id>cmis-part1</id>
+            <properties>
+                <suiteXmlFile>${project.basedir}/src/test/resources/cmis-part1-suite.xml</suiteXmlFile>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>cmis-part2</id>
+            <properties>
+                <suiteXmlFile>${project.basedir}/src/test/resources/cmis-part2-suite.xml</suiteXmlFile>
+            </properties>
+        </profile>
     </profiles>
 
     <dependencies>
