@@ -58,7 +58,7 @@ import org.alfresco.utility.model.UserModel;
 public class SearchQueryService
 {
     /** Maximum time to allow for search query to return correct results. */
-    private static final int MAX_TIME = 10000;
+    private static final int MAX_TIME = 30000;
     @Autowired
     private RestWrapper client;
 

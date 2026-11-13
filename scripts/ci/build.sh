@@ -56,7 +56,9 @@ UPSTREAM_REPO="github.com/Alfresco/alfresco-community-repo.git"
 if [[ "${COM_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
   pullAndBuildSameBranchOnUpstream "${UPSTREAM_REPO}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true"
 else
-  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${COM_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true"
+  # Only the image module (alfresco/alfresco-community-repo-base, the only image of this build used here): the other
+  # modules of a released version are downloaded from the Maven repository instead of being built again
+  pullUpstreamTagAndBuildDockerImage "${UPSTREAM_REPO}" "${COM_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -pl :alfresco-community-repo-docker"
 fi
 
 SHARE_DEPENDENCY_VERSION="$(retrievePomProperty "dependency.alfresco-community-share.version")"
@@ -79,7 +81,11 @@ SHARE_UPSTREAM_REPO="github.com/Alfresco/alfresco-community-share.git"
 if [[ "${SHARE_DEPENDENCY_VERSION}" =~ ^.+-SNAPSHOT$ ]] ; then
   pullAndBuildSameBranchOnUpstream "${SHARE_UPSTREAM_REPO}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER ${REPO_IMAGE} -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION}"
 else
-  pullUpstreamTagAndBuildDockerImage "${SHARE_UPSTREAM_REPO}" "${SHARE_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION}"
+  # Only the Share WAR and the image module (alfresco/alfresco-share-base, the only image of this build used here). The
+  # WAR is rebuilt on purpose with the community repo version of this project, so that the image ships the same repo
+  # libraries as ACS and conflicts with them show up here. The other modules of a released version are downloaded from
+  # the Maven repository instead of being built again
+  pullUpstreamTagAndBuildDockerImage "${SHARE_UPSTREAM_REPO}" "${SHARE_DEPENDENCY_VERSION}" "-P$BUILD_PROFILE -Pags -Dlicense.failOnNotUptodateHeader=true -Ddocker.quay-expires.value=NEVER -Ddependency.alfresco-community-repo.version=${COM_DEPENDENCY_VERSION} -pl :share,:share-docker"
 fi
 
 # Build the current project
