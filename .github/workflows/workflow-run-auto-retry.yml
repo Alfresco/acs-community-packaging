@@ -7,8 +7,9 @@ on:
     branches: ["master"]
 
 permissions:
-  actions: write    # re-run the failed jobs
-  contents: read    # read the branch tip
+  actions: write       # re-run the failed jobs
+  contents: read       # read the branch tip
+  pull-requests: read  # match the commits in range to their pull requests
 
 jobs:
   retry:
@@ -21,7 +22,7 @@ jobs:
       HAS_TEAMS_WEBHOOK: ${{ secrets.TEAMS_NOTIFICATION_ACS_BACKEND_ALERTS_WEBHOOK != '' }}
     steps:
       - id: retry
-        uses: Alfresco/alfresco-build-tools/.github/actions/workflow-run-auto-retry@482401ef42e6503cfa54d5873f1a768a0ecb3e0e # v19.11.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/workflow-run-auto-retry@74d5f71b8cac71b5c056c8e53d51ba660b0f59fd # v19.14.1
         with:
           # These publish or propagate, so repeating them is not safe.
           non-retryable-jobs: |
@@ -29,6 +30,55 @@ jobs:
             Copy to S3 Release Bucket
             Update latest Docker images
           max-attempts: 3
+
+      # A release only happens on a [release] commit, so the last green run is usually not
+      # one. The commit a release leaves behind is, and it is the one that carries the tag.
+      - name: Find the last released commit
+        id: baseline
+        if: steps.retry.outputs.decision == 'escalate'
+        # Names are a nicety; losing them must not cost us the card.
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          LAST=$(gh api "repos/$REPOSITORY/commits?sha=$HEAD_SHA&per_page=100" \
+            --jq 'first(.[] | select(.commit.message | startswith("[skip ci] Release version")) | .sha)')
+          echo "last-release=$LAST" >> "$GITHUB_OUTPUT"
+
+      # Who to name on the card: whoever's pull requests landed since the last release.
+      - id: authors
+        if: steps.retry.outputs.decision == 'escalate' && steps.baseline.outputs.last-release != ''
+        # Same here: a card with no names beats no card at all.
+        continue-on-error: true
+        uses: Alfresco/alfresco-build-tools/.github/actions/github-list-pr-authors@74d5f71b8cac71b5c056c8e53d51ba660b0f59fd # v19.14.1
+        with:
+          from-ref: ${{ steps.baseline.outputs.last-release }}
+          to-ref: ${{ github.event.workflow_run.head_sha }}
+          mention-email-domain: hyland.com
+
+      # Upstream names ride along in the version-bump commit, so the card can show them
+      # without this repository reading another one.
+      - name: Collect inherited authors
+        id: cc
+        if: steps.retry.outputs.decision == 'escalate' && steps.baseline.outputs.last-release != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          FROM_REF: ${{ steps.baseline.outputs.last-release }}
+          TO_REF: ${{ github.event.workflow_run.head_sha }}
+          OWN_CC: ${{ steps.authors.outputs.cc }}
+        run: |
+          set -euo pipefail
+          # A failed lookup must not cost us the names we already have.
+          INHERITED=$(gh api "repos/$REPOSITORY/compare/$FROM_REF...$TO_REF" \
+            --jq '.commits[].commit.message' \
+            | sed -n 's/^Authors:[[:space:]]*//p') || INHERITED=""
+          CC=$(printf '%s\n%s\n' "$OWN_CC" "$INHERITED" | tr ',' '\n' \
+            | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | sed '/^$/d' | paste -sd, -)
+          echo "cc=$CC" >> "$GITHUB_OUTPUT"
 
       # This repo releases the version pinned in release-versions.yml rather than
       # one derived from the pom, so the card has to read it from there.
@@ -53,11 +103,12 @@ jobs:
 
       - name: Report to Teams
         if: steps.retry.outputs.decision == 'escalate' && env.HAS_TEAMS_WEBHOOK == 'true'
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-teams-workflow-run-notification@482401ef42e6503cfa54d5873f1a768a0ecb3e0e # v19.11.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-teams-workflow-run-notification@74d5f71b8cac71b5c056c8e53d51ba660b0f59fd # v19.14.1
         with:
           webhook-url: ${{ secrets.TEAMS_NOTIFICATION_ACS_BACKEND_ALERTS_WEBHOOK }}
           reason-code: ${{ steps.retry.outputs.reason-code }}
           failed-jobs: ${{ steps.retry.outputs.failed-jobs }}
+          cc: ${{ steps.cc.outputs.cc }}
           max-attempts: ${{ steps.retry.outputs.max-attempts }}
           title: Release chain blocked
           subtitle: Hop 5 of 5 - acs-community-packaging
@@ -65,7 +116,7 @@ jobs:
             This is the last hop in the release chain, so nothing further is waiting on it.
           facts: |
             Release version|${{ steps.version.outputs.release }}
-          footer: "cc: release duty - please pick this up."
+          footer: "Release duty - please pick this up."
 
       # A missing webhook must not turn a blocked release into a green run.
       - name: Fail visibly when no Teams webhook is configured
