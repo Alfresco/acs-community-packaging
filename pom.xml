@@ -19,9 +19,6 @@
 
         <repo.image.tag>${dependency.alfresco-community-repo.version}</repo.image.tag>
         <share.image.tag>${dependency.alfresco-community-share.version}</share.image.tag>
-
-        <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
-        <maven.releases.url>https://maven.cloudsmith.io/hyland/alfresco-community-releases/</maven.releases.url>
     </properties>
 
     <scm>
@@ -35,7 +32,8 @@
         <repository>
             <id>alfresco-releases</id>
             <name>Alfresco Community Releases</name>
-            <url>${maven.releases.url}</url>
+            <!-- TODO: switch to maven.artifacts.hyland.dev once its DNS record exists -->
+            <url>https://maven.cloudsmith.io/hyland/alfresco-community-releases/</url>
         </repository>
     </distributionManagement>
 
@@ -89,13 +87,6 @@
     </modules>
 
     <profiles>
-        <profile>
-            <id>prerelease</id>
-            <properties>
-                <!-- Alpha versions must not reach the GA repository -->
-                <maven.releases.url>https://maven.cloudsmith.io/hyland/alfresco-internal-releases/</maven.releases.url>
-            </properties>
-        </profile>
         <profile>
             <id>ags</id>
             <modules>
