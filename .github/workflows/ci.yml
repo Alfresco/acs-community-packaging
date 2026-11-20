@@ -480,13 +480,12 @@ jobs:
         run: bash scripts/ci/verify_release_tag.sh
       - name: "Release"
         timeout-minutes: ${{ fromJSON(env.GITHUB_ACTIONS_DEPLOY_TIMEOUT) }}
-        uses: Alfresco/alfresco-build-tools/.github/actions/maven-release-slim@837a4dfd80d15ec3bc05b9168b97e0864aa3066c # v19.14.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/maven-release-slim@30c1953fd4ad6e52062d7eba444298fe1701d1df # v18.22.0
         with:
           token: ${{ steps.app-token.outputs.token }}
           release-version: ${{ env.RELEASE_VERSION }}
           development-version: ${{ env.DEVELOPMENT_VERSION }}
           release-profile: "release,all-tas-tests,ags"
-          prerelease-profile: prerelease
           maven-args: "-Darguments=-Prelease,all-tas-tests -Pags -DskipTests -Dbuild-number=${{ env.BUILD_NUMBER }}"
       - name: "Prepare staging artifacts"
         run: bash scripts/ci/prepare_staging_deploy.sh
