@@ -17,11 +17,6 @@
                 <exclude>META-INF/**</exclude>
             </excludes>
         </fileSet>
-        <!-- Licenses -->
-        <fileSet>
-            <directory>${highest.basedir}/installer/bitrock/licenses</directory>
-            <outputDirectory>licenses</outputDirectory>
-        </fileSet>
         <!-- keystore -->
         <fileSet>
             <directory>target/dependency/alfresco/keystore</directory>

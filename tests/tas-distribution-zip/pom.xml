@@ -13,7 +13,6 @@
   </parent>
 
   <properties>
-    <dependency.assertj-core.version>3.13.2</dependency.assertj-core.version>
     <suiteXmlFile>${project.basedir}/src/test/resources/distribution-suite.xml</suiteXmlFile>
   </properties>
 
@@ -36,15 +35,6 @@
     </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>run-distribution-zip-contents-check</id>
-      <properties>
-        <suiteXmlFile>${project.basedir}/src/test/resources/distribution-suite.xml</suiteXmlFile>
-      </properties>
-    </profile>
-  </profiles>
-
   <build>
     <plugins>
       <plugin>
@@ -54,9 +44,6 @@
           <suiteXmlFiles>
             <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
           </suiteXmlFiles>
-          <argLine>
-            --illegal-access=warn
-          </argLine>
         </configuration>
       </plugin>
       <!-- Build only test jar -->

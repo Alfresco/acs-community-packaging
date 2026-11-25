@@ -12,15 +12,6 @@
         <version>26.3.0-A.35-SNAPSHOT</version>
     </parent>
 
-    <developers>
-        <developer>
-            <name>Paul Brodner</name>
-            <roles>
-                <role>Test Automation Architect</role>
-            </roles>
-        </developer>
-    </developers>
-
     <properties>
         <suiteXmlFile>${project.basedir}/src/test/resources/integration-suite.xml</suiteXmlFile>
         <dependency.groovy.version>3.0.22</dependency.groovy.version>
@@ -114,9 +105,7 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <!-- Keeping illegal-access=warn for Java 11 compatibility, even though it has no effect on JDK 21 -->
                     <argLine>
-                        --illegal-access=warn
                         --add-opens=java.base/java.lang=ALL-UNNAMED
                     </argLine>
                 </configuration>

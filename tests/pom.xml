@@ -19,8 +19,4 @@
         <module>tas-integration</module>
         <module>tas-distribution-zip</module>
     </modules>
-
-    <properties>
-        <dependency.org-json.version>20170516</dependency.org-json.version>
-    </properties>
 </project>

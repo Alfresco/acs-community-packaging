@@ -10,4 +10,3 @@ echo Cleaning temporary Alfresco files from Tomcat...
 rmdir /S /Q "%CATALINA_HOME%\temp\Alfresco" "%CATALINA_HOME%\work\Catalina\localhost\alfresco"
 rmdir /S /Q "%CATALINA_HOME%\work\Catalina\localhost\share"
 rmdir /S /Q "%CATALINA_HOME%\work\Catalina\localhost\awe"
-rmdir /S /Q "%CATALINA_HOME%\work\Catalina\localhost\wcmqs"

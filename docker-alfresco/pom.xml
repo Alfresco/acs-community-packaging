@@ -12,7 +12,6 @@
 
     <properties>
         <image.name>alfresco/alfresco-content-repository-community</image.name>
-        <docker.quay-expires.value>NEVER</docker.quay-expires.value>
         <base.image>alfresco/alfresco-community-repo-base:${repo.image.tag}</base.image>
         <scripts.directory>${project.parent.basedir}/scripts/dev</scripts.directory>
     </properties>

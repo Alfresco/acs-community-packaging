@@ -12,15 +12,6 @@
         <version>26.3.0-A.35-SNAPSHOT</version>
     </parent>
 
-    <developers>
-        <developer>
-            <name>Paul Brodner</name>
-            <roles>
-                <role>Test Automation Architect</role>
-            </roles>
-        </developer>
-    </developers>
-
     <properties>
         <suiteXmlFile>${project.basedir}/src/test/resources/cmis-suite.xml</suiteXmlFile>
         <cmis.binding>browser</cmis.binding>
@@ -97,9 +88,6 @@
                         <cmis.binding>${cmis.binding}</cmis.binding>
                         <cmis.basePath>${cmis.basePath}</cmis.basePath>
                     </systemProperties>
-                    <argLine>
-                        --illegal-access=warn
-                    </argLine>
                 </configuration>
             </plugin>
             <!-- Build only test jar -->
