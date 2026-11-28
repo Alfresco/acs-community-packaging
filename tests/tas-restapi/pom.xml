@@ -12,15 +12,6 @@
         <version>27.1.0-A.1-SNAPSHOT</version>
     </parent>
 
-    <developers>
-        <developer>
-            <name>Paul Brodner</name>
-            <roles>
-                <role>Test Automation Architect</role>
-            </roles>
-        </developer>
-    </developers>
-
     <properties>
         <suiteXmlFile>${project.basedir}/src/test/resources/restapi-suite.xml</suiteXmlFile>
     </properties>
@@ -90,9 +81,7 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <!-- Keeping illegal-access=warn for Java 11 compatibility, even though it has no effect on JDK 21 -->
                     <argLine>
-                        --illegal-access=warn
                         --add-opens=java.base/java.lang=ALL-UNNAMED
                     </argLine>
                 </configuration>

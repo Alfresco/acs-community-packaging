@@ -17,6 +17,8 @@
         <runtime.data.folder>${project.build.directory}/dev-instance/runtime</runtime.data.folder>
         <runtime.tomcat.conf.folder>${project.build.directory}/dev-instance/tomcat</runtime.tomcat.conf.folder>
         <alfresco.properties.file>${runtime.tomcat.conf.folder}/shared/classes/alfresco-global.properties</alfresco.properties.file>
+        <!-- Nothing downloads the dev WARs; -Prun builds them in the same reactor. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <modules>

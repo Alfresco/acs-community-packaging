@@ -11,10 +11,8 @@ updates:
   ignore:
 # Upstream alfresco-community-repo artifacts
   - dependency-name: org.alfresco:alfresco-community-repo
-  - dependency-name: org.alfresco:alfresco-core
   - dependency-name: org.alfresco:alfresco-data-model
   - dependency-name: org.alfresco:alfresco-repository
-  - dependency-name: org.alfresco:alfresco-remote-api
   - dependency-name: org.alfresco:content-services-community
   - dependency-name: org.alfresco:alfresco-community-repo-distribution
   - dependency-name: org.alfresco.tas:alfresco-community-repo-webdav-test:tests
@@ -24,8 +22,6 @@ updates:
   - dependency-name: org.alfresco.tas:alfresco-community-repo-cmis-test:tests
 # Upstream alfresco-enterprise-share artifacts
   - dependency-name: org.alfresco:share:classes
-  - dependency-name: org.alfresco:alfresco-wcmqs-web:classes
-  - dependency-name: org.alfresco:alfresco-wcmqs-distribution
   - dependency-name: org.alfresco:share
   - dependency-name: org.alfresco:alfresco-content-services-share-distribution
   - dependency-name: org.alfresco:alfresco-share-services

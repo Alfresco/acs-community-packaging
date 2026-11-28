@@ -12,15 +12,6 @@
         <version>27.1.0-A.1-SNAPSHOT</version>
     </parent>
 
-    <developers>
-        <developer>
-            <name>Paul Brodner</name>
-            <roles>
-                <role>Test Automation Architect</role>
-            </roles>
-        </developer>
-    </developers>
-
     <properties>
         <suiteXmlFile>${project.basedir}/src/test/resources/email-suite.xml</suiteXmlFile>
     </properties>
@@ -49,9 +40,6 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <argLine>
-                        --illegal-access=warn
-                    </argLine>
                 </configuration>
             </plugin>
             <!-- Build only test jar -->
